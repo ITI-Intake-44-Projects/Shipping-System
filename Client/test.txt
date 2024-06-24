@@ -1,0 +1,3 @@
+this file is here until i create the angular project
+
+the code first folder should be in the same level of the client side folder
