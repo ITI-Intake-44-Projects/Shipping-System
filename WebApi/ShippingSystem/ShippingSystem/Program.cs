@@ -23,7 +23,7 @@ namespace ShippingSystem
 
             builder.Services.AddDbContext<ShippingContext>(op => op.UseSqlServer(builder.Configuration.GetConnectionString("con")).UseLazyLoadingProxies()) ;
 
-            builder.Services.AddIdentity<Employee, IdentityRole>(options =>
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
@@ -31,23 +31,7 @@ namespace ShippingSystem
                 options.Password.RequiredLength = 5;
             }).AddEntityFrameworkStores<ShippingContext>();
 
-
-            builder.Services.AddIdentity<Merchant, IdentityRole>(options =>
-            {
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequiredLength = 5;
-            }).AddEntityFrameworkStores<ShippingContext>();
-
-
-            builder.Services.AddIdentity<Representative, IdentityRole>(options =>
-            {
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequiredLength = 5;
-            }).AddEntityFrameworkStores<ShippingContext>();
+         
 
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
