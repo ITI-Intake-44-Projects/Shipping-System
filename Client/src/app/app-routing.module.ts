@@ -8,6 +8,10 @@ const routes: Routes = [
   { path: 'auth', loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule), canActivate: [authGuard]  },
   
   { path: '**', loadChildren: () => import('./shared/modules/shared.module').then(m => m.SharedModule) }
+  { path: '', loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule) },
+  {path:'governate',loadChildren:()=>import('./features/governate/governate.module').then(m=>m.GovernateModule)},
+  {path:'city',loadChildren:()=>import('./features/city/city.module').then(m=>m.CityModule)},
+
 ];
 
 @NgModule({
