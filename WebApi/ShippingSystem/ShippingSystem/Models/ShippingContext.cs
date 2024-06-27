@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ShippingSystem.Models
 {
-    public class ShippingContext : IdentityDbContext<ApplicationUser,Privilege,string> 
+    public class ShippingContext : IdentityDbContext<ApplicationUser,Group,string> 
     {
         public DbSet<Employee>? Employees { get; set; }
 
@@ -49,6 +49,8 @@ namespace ShippingSystem.Models
         {
             builder.Entity<RepresentativeGovernate>().HasKey("Representative_Id", "Governate_Id");
 
+            builder.Entity<GroupPrivilege>().HasKey("Group_Id", "Privelege_Id");
+
             builder.Entity<Employee>(entity => { entity.ToTable("Employees"); });
 
             //builder.Entity<IdentityRole>(entity => { entity.ToTable("Privileges"); });
@@ -56,7 +58,6 @@ namespace ShippingSystem.Models
             builder.Entity<Merchant>(entity => { entity.ToTable("Merchants"); });
 
             builder.Entity<Representative>(entity => { entity.ToTable("Representatives"); });
-
 
             base.OnModelCreating(builder);
         }
