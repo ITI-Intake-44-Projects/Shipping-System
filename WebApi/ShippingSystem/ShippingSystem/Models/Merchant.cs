@@ -25,7 +25,7 @@ namespace ShippingSystem.Models
 
         public virtual Branch? Branch { get; set; }
 
-        public virtual ICollection<Privilege>? Privileges { get; set; } = new List<Privilege>();
+        //public virtual ICollection<Privilege>? Privileges { get; set; } = new List<Privilege>();
 
         public virtual ICollection<SpecialPrice>? SpecialPrices { get; set; } = new List<SpecialPrice>();
 

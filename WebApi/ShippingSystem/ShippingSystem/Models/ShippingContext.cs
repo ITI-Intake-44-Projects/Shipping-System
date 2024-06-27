@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ShippingSystem.Models
 {
-    public class ShippingContext : IdentityDbContext<ApplicationUser,Privilege,string> 
+    public class ShippingContext : IdentityDbContext<ApplicationUser,Group,string> 
     {
         public DbSet<Employee>? Employees { get; set; }
 
@@ -48,6 +48,8 @@ namespace ShippingSystem.Models
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<RepresentativeGovernate>().HasKey("Representative_Id", "Governate_Id");
+
+            builder.Entity<GroupPrivilege>().HasKey("Group_Id", "Privelege_Id");
 
             builder.Entity<Employee>(entity => { entity.ToTable("Employees"); });
 

@@ -2,9 +2,13 @@
 
 namespace ShippingSystem.Models
 {
-    public class Privilege : IdentityRole
+    public class Privilege 
     {
-        
+
+        public int ? Id { get; set; }
+
+        public string ? Name { get; set; }
+
         public bool? Add { get; set; }
 
         public bool? Update { get; set; }
@@ -13,11 +17,8 @@ namespace ShippingSystem.Models
 
         public bool? Delete { get; set; }
 
-        public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
+        public virtual ICollection<GroupPrivilege> Privileges { get; set; } = new List<GroupPrivilege>();
 
-        public virtual ICollection<Merchant> Merchants { get; set; } = new List<Merchant>();
-
-        public virtual ICollection<Representative> Representatives { get; set; } = new List<Representative>();
 
     }
 }
