@@ -1,4 +1,4 @@
-﻿namespace ShippingSystem.UnitOfWork
+﻿namespace ShippingSystem.UnitOfWorks
 {
     public interface IUnitOfWork
     {

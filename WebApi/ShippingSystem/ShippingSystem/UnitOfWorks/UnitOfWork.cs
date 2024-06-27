@@ -1,12 +1,12 @@
 ﻿using ShippingSystem.Models;
 
-namespace ShippingSystem.UnitOfWork
+namespace ShippingSystem.UnitOfWorks
 {
-    public class unitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly ShippingContext dbContext;
 
-        public unitOfWork(ShippingContext dbContext)
+        public UnitOfWork(ShippingContext dbContext)
         {
             this.dbContext = dbContext;
         }
