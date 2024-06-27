@@ -23,7 +23,7 @@ namespace ShippingSystem
 
             builder.Services.AddDbContext<ShippingContext>(op => op.UseSqlServer(builder.Configuration.GetConnectionString("con")).UseLazyLoadingProxies()) ;
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            builder.Services.AddIdentity<ApplicationUser,Group>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
