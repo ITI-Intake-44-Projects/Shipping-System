@@ -4,20 +4,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from './features/auth/auth.module';
 import { SharedModule } from './shared/modules/shared.module';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, 
-    AuthModule, SharedModule,
+    BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, ReactiveFormsModule, AuthModule, SharedModule,
   ],
   providers: [
     provideClientHydration(),
-    { provide: 'apiUrl', useValue: environment.apiUrl }
+    { provide: 'apiUrl', useValue: environment.apiUrl },
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })
