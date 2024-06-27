@@ -51,12 +51,9 @@ namespace ShippingSystem.Models
 
             builder.Entity<Employee>(entity => { entity.ToTable("Employees"); });
 
-            //builder.Entity<IdentityRole>(entity => { entity.ToTable("Privileges"); });
-
             builder.Entity<Merchant>(entity => { entity.ToTable("Merchants"); });
 
             builder.Entity<Representative>(entity => { entity.ToTable("Representatives"); });
-
 
             base.OnModelCreating(builder);
         }
