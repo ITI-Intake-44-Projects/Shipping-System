@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ShippingSystem</name>
+    </assembly>
+    <members>
+        <member name="T:ShippingSystem.Migrations.yousefv1">
+            <inheritdoc />
+        </member>
+        <member name="M:ShippingSystem.Migrations.yousefv1.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ShippingSystem.Migrations.yousefv1.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ShippingSystem.Migrations.yousefv1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

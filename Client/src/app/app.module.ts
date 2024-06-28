@@ -6,9 +6,10 @@ import { SharedModule } from './shared/modules/shared/shared.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from './features/auth/auth.module';
 import { SharedModule } from './shared/modules/shared.module';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 @NgModule({
@@ -16,12 +17,12 @@ import { SharedModule } from './shared/modules/shared.module';
   imports: [BrowserModule, AppRoutingModule, SharedModule],
   providers: [provideClientHydration(), provideAnimationsAsync()],
   imports: [
-    BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, 
-    AuthModule, SharedModule,
+    BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, ReactiveFormsModule, AuthModule, SharedModule,
   ],
   providers: [
     provideClientHydration(),
-    { provide: 'apiUrl', useValue: environment.apiUrl }
+    { provide: 'apiUrl', useValue: environment.apiUrl },
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })
