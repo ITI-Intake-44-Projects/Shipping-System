@@ -126,11 +126,10 @@ namespace ShippingSystem.Services
                     Message = "No user with the provided email"
                 };
             }
+
             var token = await userManager.GeneratePasswordResetTokenAsync(user);
 
-            var apiURL = configuration.GetSection("JwtSettings").GetSection("ValidAudience").Value!;
-
-            var resetLink = $"{apiURL}/ResetPassword?email={user.Email}&token={WebUtility.UrlEncode(token)}";
+            var resetLink = $"https://localhost:4200/ResetPassword";
 
             var client = new RestClient("https://send.api.mailtrap.io/api/send");
 
@@ -146,7 +145,12 @@ namespace ShippingSystem.Services
                 from = new { email = "mailtrap@demomailtrap.com" },
                 to = new[] { new { email = user.Email } },
                 template_uuid = "bf9d7420-ed87-467e-9ad1-d6bd0c0193b3",
-                template_variables = new { user_email = user.Email, pass_reset_link = resetLink }
+                template_variables = new
+                {
+                    user_email = user.Email,
+                    pass_reset_link = resetLink,
+                    token = token
+                }
             });
 
             var response = client.Execute(request);
@@ -163,7 +167,6 @@ namespace ShippingSystem.Services
                 return new AuthResponseDTO
                 {
                     isSuccess = false,
-                    // Message = "Failed to send email to your inbox. Please, try again later :)",
                     Message = response.Content!.ToString()
                 };
             }
@@ -171,31 +174,31 @@ namespace ShippingSystem.Services
 
         public async Task<AuthResponseDTO> ResetPassword(ResetPasswordDTO resetPasswordDTO)
         {
-            ApplicationUser? user = await userManager.FindByEmailAsync(resetPasswordDTO.Email);
-            if (user is null)
+            var user = await userManager.FindByEmailAsync(resetPasswordDTO.Email);
+            if (user == null)
             {
                 return new AuthResponseDTO
                 {
                     isSuccess = false,
-                    Message = "No user with the provided email"
+                    Message = "Invalid email address"
                 };
             }
 
-            var resetPasswordResult = await userManager.ResetPasswordAsync(user, resetPasswordDTO.Token, resetPasswordDTO.NewPassword);
-            if (!resetPasswordResult.Succeeded)
+            var resetPassResult = await userManager.ResetPasswordAsync(user, resetPasswordDTO.Token, resetPasswordDTO.NewPassword);
+            if (!resetPassResult.Succeeded)
             {
                 return new AuthResponseDTO
                 {
                     isSuccess = false,
-                    //Message = "Failed to reset password"
-                    Message = string.Join("; ", resetPasswordResult.Errors.Select(e => e.Description))
-                };
+                    //Message = "Password reset failed",
+                    Message = string.Join(" - ", resetPassResult.Errors.Select(e => e.Description).ToList())
+            };
             }
 
             return new AuthResponseDTO
             {
                 isSuccess = true,
-                Message = "Password reset successful"
+                Message = "Password has been reset successfully"
             };
         }
 
@@ -254,7 +257,7 @@ namespace ShippingSystem.Services
                 return new AuthResponseDTO
                 {
                     isSuccess = false,
-                    Message = string.Join("; ", result.Errors.Select(e => e.Description))
+                    Message = string.Join(" - ", result.Errors.Select(e => e.Description))
                 };
             }
             var role = "admin";

@@ -6,6 +6,7 @@ import { Observable, map } from 'rxjs';
 import { ResponseDTO } from './interfaces/response-dto';
 import { ForgetPasswordDTO } from './interfaces/forget-password-dto';
 import { Router } from '@angular/router';
+import { ResetPasswordDTO } from './interfaces/reset-password-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,10 @@ export class AuthService {
   }
 
   forgetPassword(credentials:ForgetPasswordDTO): Observable<ResponseDTO> {
-    return this.http.post<ResponseDTO>(`${this.apiURL}Account/forget-password`, { credentials },  this.httpOptions);
+    return this.http.post<ResponseDTO>(`${this.apiURL}Account/ForgetPassword`, { credentials },  this.httpOptions);
+  }
+
+  resetPassword(data: ResetPasswordDTO): Observable<ResponseDTO> {
+    return this.http.post<ResponseDTO>(`${this.apiURL}/account/resetPassword`, data);
   }
 }

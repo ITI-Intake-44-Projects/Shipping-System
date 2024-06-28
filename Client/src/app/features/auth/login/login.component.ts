@@ -12,13 +12,14 @@ import { LoginDTO } from '../interfaces/login-dto';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup = new FormGroup({});
   showPassword: boolean = false;
-  
+
   constructor(private authService: AuthService, private router: Router, private fb: FormBuilder) {}
 
   ngOnInit() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      rememberMe: [false] 
     });
   }
 
@@ -28,6 +29,10 @@ export class LoginComponent implements OnInit {
 
   get password() {
     return this.loginForm.get('password');
+  }
+
+  get rememberMe() {
+    return this.loginForm.get('rememberMe');
   }
 
   togglePasswordVisibility() {
@@ -50,12 +55,13 @@ export class LoginComponent implements OnInit {
       const loginCredentials: LoginDTO = {
         email: this.email?.value,
         password: this.password?.value,
-        rememberMe: false 
+        rememberMe: this.rememberMe?.value 
       };
       this.authService.login(loginCredentials)
         .subscribe({
           next: (response) => {
             console.log("Login done successfully as " + response.role + ":)");
+            console.log(`login credentials ${JSON.stringify(loginCredentials)}`)
             localStorage.setItem('token', response.token);
             localStorage.setItem('role', response.role);
             this.redirectUser(response.role);
@@ -87,5 +93,9 @@ export class LoginComponent implements OnInit {
     } else if (role === 'supportive') {
       this.router.navigate(['/supportive-dashboard']);
     }
+  }
+
+  forgetPassword(){
+    
   }
 }
