@@ -87,13 +87,14 @@ namespace ShippingSystem
             });
 
             //> Add CORS Policies
-            string Policies = "";
+            //string Policies = "";
             builder.Services.AddCors(options => {
-                options.AddPolicy(Policies,
+                options.AddPolicy("AllowSpecificOrigin",
                 builder => {
-                    builder.AllowAnyOrigin();
-                    builder.AllowAnyMethod();
-                    builder.AllowAnyHeader();
+                    builder.WithOrigins("http://localhost:4200")
+                           .AllowAnyMethod()
+                           .AllowAnyHeader()
+                           .AllowCredentials();
                 });
             });
 
@@ -144,7 +145,8 @@ namespace ShippingSystem
             app.UseAuthorization();
 
             //> middleware to use the cors policy
-            app.UseCors(Policies);
+           // app.UseCors(Policies);
+            app.UseCors("AllowSpecificOrigin");
 
             app.MapControllers();
 

@@ -6,9 +6,9 @@ import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AuthModule } from './features/auth/auth.module';
-import { SharedModule } from './shared/modules/shared.module';
-import { SharedModule } from './shared/modules/shared/shared.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { SharedModule } from './shared/modules/shared.module';
+
 
 
 @NgModule({
@@ -19,10 +19,9 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
   ],
   providers: [
     provideClientHydration(),
+    provideAnimationsAsync(),
     { provide: 'apiUrl', useValue: environment.apiUrl }
   ],
-  imports: [BrowserModule, AppRoutingModule, SharedModule],
-  providers: [provideClientHydration(), provideAnimationsAsync()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
