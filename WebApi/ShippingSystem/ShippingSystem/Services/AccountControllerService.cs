@@ -30,6 +30,10 @@ namespace ShippingSystem.Services
             this.configuration = configuration;
         }
 
+        private Task<string> GetUserRole(ApplicationUser applicationUser) 
+        {
+            return Task.FromResult(userManager.GetRolesAsync(applicationUser).Result.FirstOrDefault() ?? "");
+        }
         private Task<string> GenerateToken(ApplicationUser applicationUser, bool? rememberMe)
         {
             List<Claim> claims = new List<Claim>
@@ -92,11 +96,13 @@ namespace ShippingSystem.Services
             }
 
             string token = await GenerateToken(user, loginDTO.RememberMe);
+            string role = await GetUserRole(user);
             return new AuthResponseDTO
             {
                 isSuccess = true,
                 Token = token,
-                Message = "Login successful"
+                Message = "Login successful",
+                Role = role
             };
         }
 
@@ -251,12 +257,13 @@ namespace ShippingSystem.Services
                     Message = string.Join("; ", result.Errors.Select(e => e.Description))
                 };
             }
-
-            // await userManager.AddToRoleAsync(admin, "admin");
+            var role = "admin";
+            await userManager.AddToRoleAsync(admin, role);
             return new AuthResponseDTO
             {
                 isSuccess = true,
-                Message = $"{admin.FullName} becomes Admin :)"
+                Message = $"{admin.FullName} becomes Admin :)",
+                Role = role,
             };
 
         }

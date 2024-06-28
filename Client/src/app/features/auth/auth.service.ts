@@ -1,33 +1,51 @@
+import { LoginDTO } from './interfaces/login-dto';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
+import { ResponseDTO } from './interfaces/response-dto';
+import { ForgetPasswordDTO } from './interfaces/forget-password-dto';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private apiURL = environment.apiUrl;
-  constructor(private http:HttpClient) { }
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    })
+  };
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiURL}login`, { username, password })
-    .pipe(map(response=>{
+  constructor(private http:HttpClient, private router: Router) { }
+
+  login(loginCredentials:LoginDTO): Observable<ResponseDTO> {
+    return this.http.post<ResponseDTO>(`${this.apiURL}Account/Login`, loginCredentials, this.httpOptions).pipe(map(response=>{
       localStorage.setItem('token', response.token);
+      localStorage.setItem('role', response.role);
       return response;
     }));
   }
 
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    this.router.navigate(['/login'])
+  }
+
+  getRole(): string | null {
+    if(this.isLoggedIn())
+      return localStorage.getItem('role');
+    return "";
   }
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
 
-  forgetPassword(email:string): Observable<any> {
-    return this.http.post<any>(`${this.apiURL}forget-password`, { email })
+  forgetPassword(credentials:ForgetPasswordDTO): Observable<ResponseDTO> {
+    return this.http.post<ResponseDTO>(`${this.apiURL}Account/forget-password`, { credentials },  this.httpOptions);
   }
-
 }

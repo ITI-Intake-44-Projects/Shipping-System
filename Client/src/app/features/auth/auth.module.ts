@@ -9,6 +9,6 @@ import { AuthRoutingModule } from './auth-routing.module';
 @NgModule({
   declarations: [ LoginComponent, LogoutComponent, ForgetPasswordComponent ],
   imports: [ CommonModule, ReactiveFormsModule, FormsModule, AuthRoutingModule ],
-  exports: [ LoginComponent, LogoutComponent, ForgetPasswordComponent ],
+  exports: [ LoginComponent, LogoutComponent, ForgetPasswordComponent]
 })
 export class AuthModule { }
