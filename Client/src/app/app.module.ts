@@ -8,13 +8,12 @@ import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AuthModule } from './features/auth/auth.module';
-import { SharedModule } from './shared/modules/shared.module';
 
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, SharedModule],
-  providers: [provideClientHydration(), provideAnimationsAsync()],
+  // imports: [BrowserModule, AppRoutingModule, SharedModule],
+  // providers: [provideClientHydration(), provideAnimationsAsync()],
   imports: [
     BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, 
     AuthModule, SharedModule,
