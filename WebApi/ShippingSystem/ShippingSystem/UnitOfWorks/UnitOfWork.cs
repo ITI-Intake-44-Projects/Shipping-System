@@ -9,6 +9,8 @@ namespace ShippingSystem.UnitOfWorks
 
         IGovernateRepository governateRepository;
 
+        ICityRepository cityRepository;
+
         public UnitOfWork(ShippingContext dbContext)
         {
             this.dbContext = dbContext;
@@ -24,6 +26,19 @@ namespace ShippingSystem.UnitOfWorks
                 }
 
                 return governateRepository;
+            }
+        }
+
+        public ICityRepository CityRepository
+        {
+            get
+            {
+                if (cityRepository == null)
+                {
+                    cityRepository = new CityRepository(dbContext);
+                }
+
+                return cityRepository;
             }
         }
 

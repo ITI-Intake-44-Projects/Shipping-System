@@ -12,8 +12,6 @@ import { AuthModule } from './features/auth/auth.module';
 
 @NgModule({
   declarations: [AppComponent],
-  // imports: [BrowserModule, AppRoutingModule, SharedModule],
-  // providers: [provideClientHydration(), provideAnimationsAsync()],
   imports: [
     BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, ReactiveFormsModule, AuthModule, SharedModule,
   ],

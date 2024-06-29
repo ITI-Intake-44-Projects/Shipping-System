@@ -5,7 +5,8 @@ import { CityTableComponent } from './city-table/city-table.component';
 import { CityComponent } from './city/city.component';
 import { GovernateModule } from '../governate/governate.module';
 import { SharedModule } from '../../shared/modules/shared/shared.module';
-
+import { FormGroup, FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,9 @@ import { SharedModule } from '../../shared/modules/shared/shared.module';
   imports: [
     CommonModule,
     CityRoutingModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class CityModule { }
