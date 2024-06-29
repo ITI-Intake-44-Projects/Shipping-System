@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
-import e from 'express';
 
 @Component({
   selector: 'app-forget-password',
@@ -13,10 +12,7 @@ export class ForgetPasswordComponent {
   constructor(private authService: AuthService) {}
 
   onSubmit() {
-    const forgetPasswordCredentials = {
-      email: this.email
-    }
-    this.authService.forgetPassword(forgetPasswordCredentials)
+    this.authService.forgetPassword(this.email)
     .subscribe(
       response => {
         console.log('Password reset email sent:', response);

@@ -1,30 +1,10 @@
 <div class="login-container">
-    <div class="login-card">
-        <div class="login-header">
-            <img src="../../../../assets/pioneersLogo.jpeg" alt="Logo" class="logo">
-            <h2 class="fw-bold my-3 text-main">تسجيل الدخول</h2>
-        </div>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <label for="email">البريد الإلكتروني</label>
-                <input type="email" id="email" formControlName="email"
-                    [ngClass]="{ 'is-invalid': email?.invalid && (email?.dirty || email?.touched) }"
-                    placeholder="admin@gmail.com" />
-                <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="invalid-feedback">
-                    <div *ngIf="email?.errors?.['required']">من فضلك ادخل اسم مستخدم صالح</div>
-                    <div *ngIf="email?.errors?.['email']">من فضلك ادخل اسم مستخدم صالح</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="password">كلمة المرور</label>
-                <input type="password" id="password" formControlName="password"
-                    [ngClass]="{ 'is-invalid': password?.invalid && (password?.dirty || password?.touched) }" />
-                <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="invalid-feedback">
-                    <div *ngIf="password?.errors?.['required']">من فضلك ادخل كلمة مرور صالحة</div>
-                    <div *ngIf="password?.errors?.['minlength']">كلمة المرور يجب أن تكون على الأقل 6 أحرف</div>
-                </div>
-            </div>
-            <button type="submit" class="login-button">تسجيل الدخول</button>
-        </form>
-    </div>
+    <h2>Login</h2>
+    <form (ngSubmit)="onSubmit()">
+        <label for="username">Username</label>
+        <input type="text" [(ngModel)]="username" name="username" id="username" required>
+        <label for="password">Password</label>
+        <input type="password" [(ngModel)]="password" name="password" id="password" required>
+        <button type="submit">Login</button>
+    </form>
 </div>

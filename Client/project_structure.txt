@@ -1,0 +1,145 @@
+Folder PATH listing
+Volume serial number is 0498-646E
+F:.
+³   .editorconfig
+³   .gitignore
+³   angular.json
+³   package-lock.json
+³   package.json
+³   project_structure.txt
+³   README.md
+³   server.ts
+³   tsconfig.app.json
+³   tsconfig.json
+³   tsconfig.spec.json
+³   
+ÃÄÄÄ.angular
+³   ÀÄÄÄcache
+³       ÀÄÄÄ17.3.8
+³           ÃÄÄÄClient
+³           ³       .tsbuildinfo
+³           ³       
+³           ÀÄÄÄvite
+³               ÀÄÄÄdeps
+³                       @angular_common.js
+³                       @angular_common.js.map
+³                       @angular_common_http.js
+³                       @angular_common_http.js.map
+³                       @angular_core.js
+³                       @angular_core.js.map
+³                       @angular_forms.js
+³                       @angular_forms.js.map
+³                       @angular_platform-browser.js
+³                       @angular_platform-browser.js.map
+³                       @angular_router.js
+³                       @angular_router.js.map
+³                       @ng-bootstrap_ng-bootstrap.js
+³                       @ng-bootstrap_ng-bootstrap.js.map
+³                       chunk-BBUMVJIZ.js
+³                       chunk-BBUMVJIZ.js.map
+³                       chunk-CHRFX2HE.js
+³                       chunk-CHRFX2HE.js.map
+³                       chunk-KBCLPT66.js
+³                       chunk-KBCLPT66.js.map
+³                       chunk-R7GQRDZ6.js
+³                       chunk-R7GQRDZ6.js.map
+³                       chunk-V4I6KYGB.js
+³                       chunk-V4I6KYGB.js.map
+³                       chunk-ZN4ZQIKF.js
+³                       chunk-ZN4ZQIKF.js.map
+³                       ngx-pagination.js
+³                       ngx-pagination.js.map
+³                       package.json
+³                       rxjs.js
+³                       rxjs.js.map
+³                       _metadata.json
+³                       
+ÃÄÄÄ.vscode
+³       extensions.json
+³       launch.json
+³       tasks.json
+³       
+ÀÄÄÄsrc
+    ³   favicon.ico
+    ³   index.html
+    ³   main.server.ts
+    ³   main.ts
+    ³   styles.css
+    ³   
+    ÃÄÄÄapp
+    ³   ³   app-routing.module.ts
+    ³   ³   app.component.css
+    ³   ³   app.component.html
+    ³   ³   app.component.spec.ts
+    ³   ³   app.component.ts
+    ³   ³   app.module.server.ts
+    ³   ³   app.module.ts
+    ³   ³   employee.service.ts
+    ³   ³   
+    ³   ÃÄÄÄadd-employee
+    ³   ³       add-employee.component.css
+    ³   ³       add-employee.component.html
+    ³   ³       add-employee.component.ts
+    ³   ³       
+    ³   ÃÄÄÄemployee-list
+    ³   ³       employee-list.component.css
+    ³   ³       employee-list.component.html
+    ³   ³       employee-list.component.ts
+    ³   ³       
+    ³   ÃÄÄÄfeatures
+    ³   ³   ÃÄÄÄauth
+    ³   ³   ³   ³   auth-routing.module.ts
+    ³   ³   ³   ³   auth.guard.ts
+    ³   ³   ³   ³   auth.module.ts
+    ³   ³   ³   ³   auth.service.ts
+    ³   ³   ³   ³   
+    ³   ³   ³   ÃÄÄÄforget-password
+    ³   ³   ³   ³       forget-password.component.css
+    ³   ³   ³   ³       forget-password.component.html
+    ³   ³   ³   ³       forget-password.component.ts
+    ³   ³   ³   ³       
+    ³   ³   ³   ÃÄÄÄlogin
+    ³   ³   ³   ³       login.component.css
+    ³   ³   ³   ³       login.component.html
+    ³   ³   ³   ³       login.component.ts
+    ³   ³   ³   ³       
+    ³   ³   ³   ÀÄÄÄlogout
+    ³   ³   ³           logout.component.css
+    ³   ³   ³           logout.component.html
+    ³   ³   ³           logout.component.ts
+    ³   ³   ³           
+    ³   ³   ÀÄÄÄhome
+    ³   ³       ³   home.module.ts
+    ³   ³       ³   
+    ³   ³       ÀÄÄÄhome-page
+    ³   ³               home-page.component.css
+    ³   ³               home-page.component.html
+    ³   ³               home-page.component.ts
+    ³   ³               
+    ³   ÀÄÄÄshared
+    ³       ÃÄÄÄcomponents
+    ³       ³   ÃÄÄÄfooter
+    ³       ³   ³       footer.component.css
+    ³       ³   ³       footer.component.html
+    ³       ³   ³       footer.component.ts
+    ³       ³   ³       
+    ³       ³   ÃÄÄÄnavbar
+    ³       ³   ³       navbar.component.css
+    ³       ³   ³       navbar.component.html
+    ³       ³   ³       navbar.component.ts
+    ³       ³   ³       
+    ³       ³   ÀÄÄÄnot-found
+    ³       ³           not-found.component.css
+    ³       ³           not-found.component.html
+    ³       ³           not-found.component.ts
+    ³       ³           
+    ³       ÀÄÄÄmodules
+    ³               shared.module.ts
+    ³               
+    ÃÄÄÄassets
+    ³       .gitkeep
+    ³       
+    ÀÄÄÄenvironments
+            environment.prod.ts
+            environment.ts
+            

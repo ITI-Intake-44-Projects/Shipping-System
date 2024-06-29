@@ -1,9 +1,4 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #e9ecef;
-  }
-  
-  .container {
+.container {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
@@ -27,4 +22,24 @@ body {
   input.ng-invalid.ng-touched {
     border-color: #dc3545;
   }
+  
+  .row {
+    display: flex;
+    align-items: center;
+  }
+  
+  .col-form-label {
+    text-align: right;
+  }
+  
+  .col-sm-3 {
+    flex: 0 0 25%; /* Adjusted width for labels */
+    max-width: 25%;
+  }
+  
+  .col-sm-9 {
+    flex: 0 0 75%; /* Adjusted width for input fields */
+    max-width: 75%;
+  }
+  h2{text-align: right;}
   
