@@ -2,72 +2,54 @@
 using ShippingSystem.DTOs;
 using ShippingSystem.Models;
 using ShippingSystem.Repositories;
+using ShippingSystem.UnitOfWorks;
 
 public class EmployeeService
 {
-    private readonly IGenericRepository<Employee> _repository;
-    private readonly IMapper _mapper;
-    private readonly IGenericRepository<Branch> _branchRepository;
+  
+    private readonly IUnitOfWork unit;
+    private readonly IMapper mapper;
 
-    public EmployeeService(IGenericRepository<Employee> repository, IMapper mapper, IGenericRepository<Branch> branchRepository)
+    public EmployeeService(IUnitOfWork _unit,IMapper _mapper)
     {
-        _repository = repository;
-        _mapper = mapper;
-        _branchRepository = branchRepository;
+        unit = _unit;
+        mapper = _mapper;
     }
 
     public async Task<List<EmployeeDTO>> GetAllEmployees()
     {
-        var employees = await _repository.GetAll();
-        return _mapper.Map<List<EmployeeDTO>>(employees);
+        var employees = await unit.EmployeeRepository.GetAll();
+        return mapper.Map<List<EmployeeDTO>>(employees);
     }
 
     public async Task<EmployeeDTO> GetEmployeeById(string id)
     {
-        // Find employee by string ID in a more manual way
-        var employee = await _repository.GetAll();
-        var foundEmployee = employee.FirstOrDefault(e => e.Id == id);
+        var employee = await unit.EmployeeRepository.GetById(id);
 
-        return _mapper.Map<EmployeeDTO>(foundEmployee);
-    }
-
-    public async Task<EmployeeDTO> CreateEmployee(EmployeeDTO employeeDto)
-    {
-        var employee = _mapper.Map<Employee>(employeeDto);
-        var branch = await _branchRepository.GetById(employeeDto.BranchId);
-        if (branch == null)
-        {
-            throw new KeyNotFoundException("Branch not found.");
-        }
-
-        employee.Branch = branch;
-        await _repository.Add(employee);
-        await _repository.Save();
-        return _mapper.Map<EmployeeDTO>(employee);
-    }
-
-    public async Task<EmployeeDTO> UpdateEmployee(string id, EmployeeDTO employeeDto)
-    {
-        // Find employee by string ID in a more manual way
-        var employee = await _repository.GetAll();
-        var foundEmployee = employee.FirstOrDefault(e => e.Id == id);
-
-        if (foundEmployee == null)
+        if(employee == null) 
         {
             return null;
         }
 
-        _mapper.Map(employeeDto, foundEmployee);
-        var branch = await _branchRepository.GetById(employeeDto.BranchId);
-        if (branch == null)
-        {
-            throw new KeyNotFoundException("Branch not found.");
-        }
+        return mapper.Map<EmployeeDTO>(employee);
+    }
 
-        foundEmployee.Branch = branch;
-        await _repository.Update(foundEmployee);
-        await _repository.Save();
-        return _mapper.Map<EmployeeDTO>(foundEmployee);
+    public async Task AddEmployee(EmployeeDTO employeeDto)
+    {
+        var employee = mapper.Map<Employee>(employeeDto);   
+        
+        await unit.EmployeeRepository.Add(employee);
+
+        await unit.EmployeeRepository.Save();
+    }
+
+    public async Task<EmployeeDTO> UpdateEmployee(string id, EmployeeDTO employeeDto)
+    {
+        var employee = mapper.Map<Employee>(employeeDto);
+
+        await unit.EmployeeRepository.Update(employee);
+
+        await unit.EmployeeRepository.Save();
     }
 
     public async Task<bool> DeleteEmployee(string id)

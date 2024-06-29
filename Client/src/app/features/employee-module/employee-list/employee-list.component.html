@@ -21,7 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let employee of employees | paginate: { itemsPerPage: 10, currentPage: p }">
+        <tr *ngFor="let employee of employees ">
           <td>
             <button class="btn btn-sm btn-primary">تعديل</button>
           </td>
@@ -39,7 +39,7 @@
         </tr>
       </tbody>
     </table>
-    <pagination-controls (pageChange)="p = $event" [directionLinks]="true" [autoHide]="true"
-                         previousLabel="&#8592;" nextLabel="&#8594;"></pagination-controls>
+    <!-- <pagination-controls (pageChange)="p = $event" [directionLinks]="true" [autoHide]="true"
+                         previousLabel="&#8592;" nextLabel="&#8594;"></pagination-controls> -->
   </div>
   
