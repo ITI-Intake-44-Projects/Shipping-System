@@ -18,7 +18,5 @@ namespace ShippingSystem.Models
         public bool? Delete { get; set; }
 
         public virtual ICollection<GroupPrivilege> Privileges { get; set; } = new List<GroupPrivilege>();
-
-
     }
 }

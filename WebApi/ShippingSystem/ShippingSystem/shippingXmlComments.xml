@@ -28,6 +28,18 @@
         <member name="M:ShippingSystem.Migrations.yousefv2.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:ShippingSystem.Migrations.men3mv3">
+            <inheritdoc />
+        </member>
+        <member name="M:ShippingSystem.Migrations.men3mv3.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ShippingSystem.Migrations.men3mv3.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ShippingSystem.Migrations.men3mv3.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="M:ShippingSystem.Repositories.GenericRepository`1.#ctor(ShippingSystem.Models.ShippingContext)">
             <summary>
             shipping parameterized constructor

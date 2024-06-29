@@ -1,0 +1,25 @@
+<div class="container">
+  <h2>Privileges</h2>
+  <button routerLink="/admin/add-privilege" class="btn btn-primary">Add Privilege</button>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Date Added</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let privilege of privileges">
+        <td>{{ privilege.id }}</td>
+        <td>{{ privilege.name }}</td>
+        <td>{{ privilege.dateAdded }}</td>
+        <td>
+          <button (click)="onEdit(privilege)" class="btn btn-warning">Edit</button>
+          <button (click)="onDelete(privilege.id)" class="btn btn-danger">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

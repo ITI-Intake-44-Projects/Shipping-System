@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using ShippingSystem.DTOs.Authentication;
+using ShippingSystem.DTOs.Groups;
+using ShippingSystem.DTOs.Privileges;
 using ShippingSystem.Models;
 
 namespace ShippingSystem.Services
@@ -17,6 +19,11 @@ namespace ShippingSystem.Services
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.UserName))
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
                 .ReverseMap();
+
+            CreateMap<Group, GroupDTO>().ReverseMap();
+            CreateMap<Group, GroupResponseDTO>().ReverseMap();
+            CreateMap<Privilege, PrivilegeDTO>().ReverseMap();
+            CreateMap<Privilege, PrivilegeResponseDTO>().ReverseMap();
         }
     }
 }

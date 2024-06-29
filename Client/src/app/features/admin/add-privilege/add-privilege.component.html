@@ -1,0 +1,10 @@
+<div class="container">
+  <h2>Add Privilege</h2>
+  <form [formGroup]="addPrivilegeForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input id="name" formControlName="name" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-success" [disabled]="addPrivilegeForm.invalid">Add</button>
+  </form>
+</div>

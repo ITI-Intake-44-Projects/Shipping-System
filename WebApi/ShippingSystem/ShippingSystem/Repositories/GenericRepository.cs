@@ -1,19 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShippingSystem.Models;
+using ShippingSystem.UnitOfWorks;
 
 namespace ShippingSystem.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        protected readonly ShippingContext db;
+        protected readonly UnitOfWork unit;
 
         /// <summary>
         /// shipping parameterized constructor
         /// </summary>
         /// <param name="_db"></param>
-        public GenericRepository(ShippingContext _db)
+        public GenericRepository(UnitOfWork unit)
         {
-            db = _db;
+            this.unit = unit;
         }
 
         /// <summary>
@@ -24,11 +25,23 @@ namespace ShippingSystem.Repositories
         {
             await db.Set<T>().AddAsync(obj);
         }
+        
         /// <summary>
-        /// Delete By Id
+        /// Delete By Integer Id
         /// </summary>
         /// <param name="id"></param>
         public async Task Delete(int id)
+        {
+            var obj = await db.Set<T>().FindAsync(id);
+
+            db.Set<T>().Remove(obj);
+        }
+      
+        /// <summary>
+        /// Delete By String Id
+        /// </summary>
+        /// <param name="id"></param>
+        public async Task Delete(string id)
         {
             var obj = await db.Set<T>().FindAsync(id);
 
@@ -54,11 +67,21 @@ namespace ShippingSystem.Repositories
         }
 
         /// <summary>
-        /// Get Object By Id
+        /// Get Object By Integer Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Object</returns>
         public async Task<T> GetById(int id)
+        {
+            return await db.Set<T>().FindAsync(id);
+        }
+
+        /// <summary>
+        /// Get Object By String Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<T> GetById(string id)
         {
             return await db.Set<T>().FindAsync(id);
         }
