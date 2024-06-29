@@ -31,8 +31,7 @@ export class ApiService<T> {
   }
 
   editItem(itemId: number, item: any): Observable<T> {
-    return this.http.patch<T>(`${this.apiUrL}/${itemId}`, item)
-    
+    return this.http.put<T>(`${this.apiUrL}/${itemId}`, item) 
   }
 
   deleteItem(itemId: number): Observable<void> {

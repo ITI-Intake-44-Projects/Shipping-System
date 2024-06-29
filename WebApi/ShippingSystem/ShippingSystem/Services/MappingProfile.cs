@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ShippingSystem.DTOs.Authentication;
+using ShippingSystem.DTOS.Governate;
 using ShippingSystem.Models;
 
 namespace ShippingSystem.Services
@@ -17,6 +18,9 @@ namespace ShippingSystem.Services
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.UserName))
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
                 .ReverseMap();
+
+
+            CreateMap<Governate, GovernateDto>().ReverseMap();
         }
     }
 }

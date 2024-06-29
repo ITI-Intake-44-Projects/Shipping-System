@@ -8,7 +8,6 @@ import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from './features/auth/auth.module';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 @NgModule({

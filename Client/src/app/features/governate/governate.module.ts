@@ -4,7 +4,8 @@ import { GovernateComponentComponent } from './governate-component/governate-com
 import { GovernateRoutingModule } from './governate-routing.module';
 import { GovernateComponent } from './governate/governate.component';
 import { SharedModule } from '../../shared/modules/shared/shared.module';
-
+import { FormGroup, FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,9 @@ import { SharedModule } from '../../shared/modules/shared/shared.module';
   imports: [
     CommonModule,
     GovernateRoutingModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports:[
   ]

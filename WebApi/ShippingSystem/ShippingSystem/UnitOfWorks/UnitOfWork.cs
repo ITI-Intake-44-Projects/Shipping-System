@@ -1,4 +1,5 @@
 ﻿using ShippingSystem.Models;
+using ShippingSystem.Repositories;
 
 namespace ShippingSystem.UnitOfWorks
 {
@@ -6,9 +7,24 @@ namespace ShippingSystem.UnitOfWorks
     {
         private readonly ShippingContext dbContext;
 
+        IGovernateRepository governateRepository;
+
         public UnitOfWork(ShippingContext dbContext)
         {
             this.dbContext = dbContext;
+        }
+
+        public IGovernateRepository GovernateRepository
+        {
+            get
+            {
+                if (governateRepository == null) 
+                {
+                    governateRepository = new GovernateRepository(dbContext);
+                }
+
+                return governateRepository;
+            }
         }
 
         public async Task<int> Save()
