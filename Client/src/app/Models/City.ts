@@ -2,6 +2,6 @@ export interface City{
     id : number ,
     name : string,
     normalCost:number,
-    pickupCost :number,
+    pickUpCost :number,
     governate_Id :number
 }

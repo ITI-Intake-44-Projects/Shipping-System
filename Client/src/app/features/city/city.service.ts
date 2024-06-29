@@ -18,4 +18,8 @@ export class CityService extends ApiService<City>{
     return this.http.get<City>(`${this.apiUrL}/${name}`)
   }
 
+  filterByGovernate(id:number):Observable<City[]>{
+    return this.http.get<City[]>(`${this.apiUrL}/governate/${id}`);
+  }
+
 }

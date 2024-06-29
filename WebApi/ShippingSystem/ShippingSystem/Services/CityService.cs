@@ -28,13 +28,19 @@ namespace ShippingSystem.Services
         {
             var city = await unit.CityRepository.GetById(id);
             return mapper.Map<CityDto>(city);
-
         }
 
         public async Task<CityDto> GetCityByNameAsync(string name)
         {
             var city = await unit.CityRepository.GetCityByNameAsync(name);
             return mapper.Map<CityDto>(city);
+        }
+
+        public async Task<IEnumerable<CityDto>> GetCityByGovernateAsync(int id)
+        {
+            var cities = await unit.CityRepository.GetCitiesByGovernate(id);
+
+            return mapper.Map<IEnumerable<CityDto>>(cities);
         }
 
 

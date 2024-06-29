@@ -4,6 +4,8 @@ import {PageEvent, MatPaginatorModule} from '@angular/material/paginator';
 import { FormGroup, FormsModule, ReactiveFormsModule ,FormBuilder,Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { CityService } from '../city.service';
+import { Governate } from '../../../Models/Governate';
+import { GovernateServiceService } from '../../governate/governate-service.service';
 @Component({
   selector: 'app-city-table',
   templateUrl: './city-table.component.html',
@@ -15,47 +17,57 @@ export class CityTableComponent implements OnInit {
 
   cities : City[] | null = null 
 
+  governates?: Governate[]
+
   cityForm!:FormGroup
 
   editFlag: boolean = false
 
   cityName : string = ''
 
-  constructor(private cityService : CityService,private formBuilder:FormBuilder,private router:Router) {
+  gover_id : number = 0
+
+  constructor(private cityService : CityService,private governateService : GovernateServiceService,private formBuilder:FormBuilder,private router:Router) {
 
   }
   ngOnInit(): void {
 
     this.cityService.getAll().subscribe({
       next:(data:City[])=>{
-        console.log(data)
         this.cities = data 
       }
     })
 
-    this.cityForm = this.formBuilder.group({
-      id : [Number] ,
-      name : ['',Validators.required],
-      normalCost:[Number,Validators.required],
-      pickupCost :[Number,Validators.required],
-      governate_Id :[Number]
+    this.governateService.getAll().subscribe({
+      next:(data:Governate[])=>{
+
+        this.governates = data 
+      }
+
     })
+
+    this.cityForm = this.formBuilder.group({
+      id:[0],
+      name : ['',Validators.required],
+      normalCost:['',Validators.required],
+      pickUpCost :['',Validators.required],
+      governate_Id :[0],
+
+    })
+
+
   }
 
   cityHandler(){
 
     if(this.editFlag){
-      
-      console.log("clicked")
       let city : City ={
         id : this.cityForm.get('id')?.value ,
         name : this.cityForm.get('name')?.value  ,
         normalCost : this.cityForm.get('normalCost')?.value,
-        pickupCost : this.cityForm.get('pickupCost')?.value,
-        governate_Id : this.cityForm.get('governate_Id')?.value  
+        pickUpCost : this.cityForm.get('pickUpCost')?.value,
+        governate_Id :this.cityForm.get('governate_Id')?.value,
       }
-
-      console.log("edited ",city.id , city)
       this.cityService.editItem(city.id , city).subscribe({
         next:(data:any)=>{
           const currentUrl = this.router.url;
@@ -69,6 +81,8 @@ export class CityTableComponent implements OnInit {
           console.log(error)
         }
       })
+
+      
     }
     else {
       this.addCity()
@@ -96,21 +110,24 @@ export class CityTableComponent implements OnInit {
 
   addCity() {
 
-    
     let city : City ={
       id : 0,
       name : '',
       normalCost:0,
-      pickupCost :0,
-      governate_Id : 0 
+      pickUpCost :0,
+      governate_Id : 0
     };
 
+    console.log(this.cityForm)
     if (this.cityForm.invalid){
+      console.log("invalid")
       return 
     }
 
     city = this.cityForm.value
-    
+  
+    console.log(city)
+
     this.cityService.addItem(city).subscribe({
       next:(data:any)=>{
         const currentUrl = this.router.url;
@@ -130,7 +147,7 @@ export class CityTableComponent implements OnInit {
       id : [city.id] ,
       name : [city.name,Validators.required],
       normalCost:[city.normalCost,Validators.required],
-      pickupCost :[city.pickupCost,Validators.required],
+      pickUpCost :[city.pickUpCost,Validators.required],
       governate_Id :[city.governate_Id]
     })
 
@@ -150,10 +167,35 @@ export class CityTableComponent implements OnInit {
         console.log(error)
       }
     })
- }
+  }
+
+  filterByGovernate(event : Event){
+
+    const target = event.target as HTMLSelectElement;
+    const selectedValue = target.value;
+    
+    if(parseInt(selectedValue) == 0){
+      this.cityService.getAll().subscribe({
+        next:(data:City[])=>{
+          this.cities = data
+        }
+      }
+    )
+    }
+    if(selectedValue != null){
+
+      this.cityService.filterByGovernate(parseInt(selectedValue)).subscribe({
+        next:(data:City[])=>{
+          this.cities = data
+        }
+      })
+    }
+  }
 
   openModal() {
     this.modalOpen = true;
+
+   
     
   }
 

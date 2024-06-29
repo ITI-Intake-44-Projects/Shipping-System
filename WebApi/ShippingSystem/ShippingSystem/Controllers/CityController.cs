@@ -30,13 +30,26 @@ namespace ShippingSystem.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<IEnumerable<City>>> GetCityById(int id)
+        public async Task<ActionResult<IEnumerable<CityDto>>> GetCityById(int id)
         {
             var city = await cityService.GetCityByIdAsync(id);
 
             if (city == null)
             {
                 return NotFound(new { message = "no city with this id" });
+
+            }
+            return Ok(city);
+        }
+
+        [HttpGet("governate/{id:int}")]
+        public async Task<ActionResult<IEnumerable<CityDto>>> GetCityByGovernateId(int id)
+        {
+            var city = await cityService.GetCityByGovernateAsync(id);
+
+            if (city == null)
+            {
+                return NotFound(new { message = "no city related to this governate" });
 
             }
             return Ok(city);
