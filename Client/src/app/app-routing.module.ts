@@ -44,6 +44,11 @@ const routes: Routes = [
       import('./features/representative/representative.module').then((m) => m.RepresentativeModule),
   },
   {
+    path: 'branch',
+    loadChildren: () =>
+      import('./features/branch/branch.module').then((m) => m.BranchModule),
+  },
+  {
     path: '**',
     loadChildren: () =>
       import('./shared/modules/shared.module').then((m) => m.SharedModule),

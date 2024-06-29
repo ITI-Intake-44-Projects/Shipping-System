@@ -4,43 +4,33 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class RepresentativeService {
-  private apiURL = 'https://localhost:44389/api/Representatives';
+export class BranchService {
+  private apiURL = 'https://localhost:44389/api/Branches';
 
   constructor(private http: HttpClient) {}
 
-  getRepresentatives(): Observable<any[]> {
+  getBranches(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiURL}`, {
       withCredentials: true,
     });
   }
 
-  registerRepresentative(representative: any): Observable<any> {
+  createBranch(representative: any): Observable<any> {
     return this.http.post<any>(`${this.apiURL}`, representative, {
       withCredentials: true,
     });
   }
 
-  deleteRepresentative(representativeId: string): Observable<any> {
+  deleteBranch(representativeId: string): Observable<any> {
     return this.http.delete<any>(`${this.apiURL}/${representativeId}`, {
       withCredentials: true,
     });
   }
 
-  updateRepresentative(representativeId: string, representative: any): Observable<any> {
+  updateBranch(representativeId: string, representative: any): Observable<any> {
     return this.http.put<any>(`${this.apiURL}/${representativeId}`, representative, {
       withCredentials: true,
     });
   }
-  
-  getGovernorates(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiURL}/governorates`, {
-      withCredentials: true,
-    });
-  }
-  getBranches(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiURL}/branches`, {
-      withCredentials: true,
-    });
-  }
+
 }
