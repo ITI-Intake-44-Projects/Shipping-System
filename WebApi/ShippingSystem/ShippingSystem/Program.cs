@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ShippingSystem.Models;
+using ShippingSystem.Repositories;
 using ShippingSystem.Services;
 using System.Text;
 
@@ -17,6 +18,9 @@ namespace ShippingSystem
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -38,10 +42,11 @@ namespace ShippingSystem
                 options.Password.RequiredLength = 5;
             })
                             .AddEntityFrameworkStores<ShippingContext>();
-
+            //services
             builder.Services.AddScoped<IAccountControllerService, AccountControllerService>();
-
             builder.Services.AddAutoMapper(typeof(MappingProfile));
+            builder.Services.AddScoped<EmployeeService>(); // Register EmployeeService
+
 
             //> Ignore reference loops in the JSON serialization
             builder.Services.AddControllers().AddNewtonsoftJson(
