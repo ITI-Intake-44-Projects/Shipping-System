@@ -1,11 +1,11 @@
 <div class="container">
   <h2 class="mb-4 text-center">إضافة موظف جديد</h2>
-  <form [formGroup]="addEmployeeForm" (ngSubmit)="onSubmit()">
+  <form [formGroup] = "employeeForm" (ngSubmit)="onSubmit()">
     <h2>البيانات الشخصيه</h2>
     <div class="form-group row">
       <div class="col-sm-9">
-        <input id="name" class="form-control" formControlName="name" [ngClass]="{'is-invalid': addEmployeeForm.controls['name'].invalid && addEmployeeForm.controls['name'].touched}" placeholder="ادخل الاسم">
-        <div *ngIf="addEmployeeForm.controls['name'].invalid && addEmployeeForm.controls['name'].touched" class="invalid-feedback">
+        <input id="name" class="form-control" formControlName="name"  placeholder="ادخل الاسم">
+        <div *ngIf="employeeForm.controls['name'].invalid && employeeForm.controls['name'].touched" class="invalid-feedback">
           الاسم مطلوب
         </div>
       </div>
@@ -13,8 +13,8 @@
     </div>
     <div class="form-group row">
       <div class="col-sm-9">
-        <input id="phone" class="form-control" formControlName="phone" [ngClass]="{'is-invalid': addEmployeeForm.controls['phone'].invalid && addEmployeeForm.controls['phone'].touched}" placeholder="ادخل رقم الهاتف">
-        <div *ngIf="addEmployeeForm.controls['phone'].invalid && addEmployeeForm.controls['phone'].touched" class="invalid-feedback">
+        <input id="phone" class="form-control" formControlName="phone"  placeholder="ادخل رقم الهاتف">
+        <div *ngIf="employeeForm.controls['phone'].invalid && employeeForm.controls['phone'].touched" class="invalid-feedback">
           رقم الهاتف مطلوب
         </div>
       </div>
@@ -22,8 +22,8 @@
     </div>
     <div class="form-group row">
       <div class="col-sm-9">
-        <input id="name" class="form-control" formControlName="name" [ngClass]="{'is-invalid': addEmployeeForm.controls['name'].invalid && addEmployeeForm.controls['name'].touched}" placeholder="ادخل العنوان">
-        <div *ngIf="addEmployeeForm.controls['name'].invalid && addEmployeeForm.controls['name'].touched" class="invalid-feedback">
+        <input id="name" class="form-control" formControlName="name" placeholder="ادخل العنوان">
+        <div *ngIf="employeeForm.controls['name'].invalid && employeeForm.controls['name'].touched" class="invalid-feedback">
           العنوان مطلوب
         </div>
       </div>
@@ -33,8 +33,8 @@
 
     <div class="form-group row">
       <div class="col-sm-9">
-        <input id="name" class="form-control" formControlName="name" [ngClass]="{'is-invalid': addEmployeeForm.controls['name'].invalid && addEmployeeForm.controls['name'].touched}" placeholder="ادخل اسم المستخدم">
-        <div *ngIf="addEmployeeForm.controls['name'].invalid && addEmployeeForm.controls['name'].touched" class="invalid-feedback">
+        <input id="name" class="form-control" formControlName="name"  placeholder="ادخل اسم المستخدم">
+        <div *ngIf="employeeForm.controls['name'].invalid && employeeForm.controls['name'].touched" class="invalid-feedback">
           اسم المستخدم مطلوب
         </div>
       </div>
@@ -42,8 +42,8 @@
     </div>
     <div class="form-group row">
       <div class="col-sm-9">
-        <input id="email" class="form-control" formControlName="email" [ngClass]="{'is-invalid': addEmployeeForm.controls['email'].invalid && addEmployeeForm.controls['email'].touched}" placeholder="ادخل البريد الإلكتروني">
-        <div *ngIf="addEmployeeForm.controls['email'].invalid && addEmployeeForm.controls['email'].touched" class="invalid-feedback">
+        <input id="email" class="form-control" formControlName="email"  placeholder="ادخل البريد الإلكتروني">
+        <div *ngIf="employeeForm.controls['email'].invalid && employeeForm.controls['email'].touched" class="invalid-feedback">
           الرجاء إدخال بريد إلكتروني صحيح
         </div>
       </div>
@@ -51,8 +51,8 @@
     </div>
     <div class="form-group row">
       <div class="col-sm-9">
-        <input id="password" class="form-control" type="password" formControlName="password" [ngClass]="{'is-invalid': addEmployeeForm.controls['phone'].invalid && addEmployeeForm.controls['phone'].touched}" placeholder="ادخل كلمه المرور">
-        <div *ngIf="addEmployeeForm.controls['password'].invalid && addEmployeeForm.controls['phone'].touched" class="invalid-feedback">
+        <input id="password" class="form-control" type="password" formControlName="password"  placeholder="ادخل كلمه المرور">
+        <div *ngIf="employeeForm.controls['password'].invalid && employeeForm.controls['phone'].touched" class="invalid-feedback">
           كلمه المرور مطلوبه
         </div>
       </div>
@@ -62,10 +62,10 @@
 
     <div class="form-group row">
       <div class="col-sm-9">
-        <select id="branch" class="form-control" formControlName="branch" [ngClass]="{'is-invalid': addEmployeeForm.controls['branch'].invalid && addEmployeeForm.controls['branch'].touched}">
+        <select id="branch" class="form-control" formControlName="branch" >
           <option ></option>
         </select>
-        <div *ngIf="addEmployeeForm.controls['branch'].invalid && addEmployeeForm.controls['branch'].touched" class="invalid-feedback">
+        <div *ngIf="employeeForm.controls['branch'].invalid && employeeForm.controls['branch'].touched" class="invalid-feedback">
           الفرع مطلوب
         </div>
       </div>
@@ -73,10 +73,10 @@
     </div>
     <div class="form-group row">
       <div class="col-sm-9">
-        <select id="authorizations" class="form-control" formControlName="authorizations" [ngClass]="{'is-invalid': addEmployeeForm.controls['branch'].invalid && addEmployeeForm.controls['authorizations'].touched}">
+        <select id="authorizations" class="form-control" formControlName="authorizations" >
           <option ></option>
         </select>
-        <div *ngIf="addEmployeeForm.controls['authorizations'].invalid && addEmployeeForm.controls['authorizations'].touched" class="invalid-feedback">
+        <div *ngIf="employeeForm.controls['authorizations'].invalid && employeeForm.controls['authorizations'].touched" class="invalid-feedback">
 الصلاحيه مطلوبه    
     </div>
       </div>
@@ -92,3 +92,4 @@
 </div>
 
 
+<!-- [ngClass]="{'is-invalid': employeeForm.controls['name'].invalid && employeeForm.controls['name'].touched} -->
