@@ -3,7 +3,7 @@ using ShippingSystem.Repositories;
 
 namespace ShippingSystem.UnitOfWorks
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly ShippingContext dbContext;
 
@@ -17,21 +17,21 @@ namespace ShippingSystem.UnitOfWorks
             return await dbContext.SaveChangesAsync();
         }
 
-        private GenericRepository<Privilege> privilegeGenericRepository;
-        public GenericRepository<Privilege> PrivilegeGenericRepository
+        private GroupRepository groupRepository;
+        public GroupRepository GroupRepository
         {
             get
             {
-                return privilegeGenericRepository ?? (privilegeGenericRepository = new GenericRepository<Privilege>(dbContext));
+                return groupRepository ?? (groupRepository = new GroupRepository(dbContext));
             }
         }
 
-        private GenericRepository<Group> groupGenericRepository;
-        public GenericRepository<Group> GroupGenericRepository
+        private PrivilegeRepository privilegeRepository;
+        public PrivilegeRepository PrivilegeRepository
         {
             get
             {
-                return groupGenericRepository ?? (groupGenericRepository = new GenericRepository<Group>(dbContext));
+                return privilegeRepository ?? (privilegeRepository = new PrivilegeRepository(dbContext));
             }
         }
     }

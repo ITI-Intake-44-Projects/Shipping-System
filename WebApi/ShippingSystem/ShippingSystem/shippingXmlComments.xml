@@ -4,6 +4,50 @@
         <name>ShippingSystem</name>
     </assembly>
     <members>
+        <member name="M:ShippingSystem.Controllers.GroupController.GetAll(System.Int32,System.Int32)">
+            <summary>
+            get all groups with pagination
+            </summary>
+            <param name="pageNumber"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShippingSystem.Controllers.GroupController.GetById(System.String)">
+            <summary>
+            get group by id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShippingSystem.Controllers.GroupController.GetByName(System.String)">
+            <summary>
+            get group by name
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShippingSystem.Controllers.GroupController.Add(System.String)">
+            <summary>
+            add a new group
+            </summary>
+            <param name="groupDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShippingSystem.Controllers.GroupController.Update(System.String,System.String)">
+            <summary>
+            update group data
+            </summary>
+            <param name="id"></param>
+            <param name="groupDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShippingSystem.Controllers.GroupController.Delete(System.String)">
+            <summary>
+            delete group by id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:ShippingSystem.Migrations.yousefv1">
             <inheritdoc />
         </member>
@@ -44,7 +88,7 @@
             <summary>
             shipping parameterized constructor
             </summary>
-            <param name="_db"></param>
+            <param name="db"></param>
         </member>
         <member name="M:ShippingSystem.Repositories.GenericRepository`1.Add(`0)">
             <summary>
@@ -54,7 +98,13 @@
         </member>
         <member name="M:ShippingSystem.Repositories.GenericRepository`1.Delete(System.Int32)">
             <summary>
-            Delete By Id
+            Delete By Integer Id
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:ShippingSystem.Repositories.GenericRepository`1.Delete(System.String)">
+            <summary>
+            Delete By String Id
             </summary>
             <param name="id"></param>
         </member>
@@ -67,10 +117,17 @@
         <!-- Badly formed XML comment ignored for member "M:ShippingSystem.Repositories.GenericRepository`1.GetAll" -->
         <member name="M:ShippingSystem.Repositories.GenericRepository`1.GetById(System.Int32)">
             <summary>
-            Get Object By Id
+            Get Object By Integer Id
             </summary>
             <param name="id"></param>
             <returns>Object</returns>
+        </member>
+        <member name="M:ShippingSystem.Repositories.GenericRepository`1.GetById(System.String)">
+            <summary>
+            Get Object By String Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
         </member>
         <member name="M:ShippingSystem.Repositories.GenericRepository`1.Update(`0)">
             <summary>
@@ -83,6 +140,33 @@
             Save Changes to Database
             </summary>
             <returns>Number of Affected Rows</returns>
+        </member>
+        <member name="T:ShippingSystem.Repositories.IGroupRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ShippingSystem.Repositories.IGroupRepository.GetGroupsAsync(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="pageNumber"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShippingSystem.Repositories.IGroupRepository.GetGroupByNameAsync(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="groupName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ShippingSystem.Repositories.IGroupRepository.Detach(ShippingSystem.Models.Group)">
+            <summary>
+            stop tracking old group
+            </summary>
+            <param name="oldGroup"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>

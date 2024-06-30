@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ShippingSystem.DTOs.Groups;
 using ShippingSystem.DTOs.Privileges;
+using ShippingSystem.Models;
+using ShippingSystem.Repositories;
 using ShippingSystem.Services;
+using ShippingSystem.UnitOfWorks;
 
 namespace ShippingSystem.Controllers
 {
@@ -10,48 +14,145 @@ namespace ShippingSystem.Controllers
     [ApiController]
     public class GroupController : ControllerBase
     {
-        private readonly IGroupService groupService;
+        private readonly IGroupControllerService groupControllerService;
 
-        public GroupController(IGroupService groupService)
+        public GroupController(IGroupControllerService groupControllerService)
         {
-            this.groupService = groupService;
+            this.groupControllerService = groupControllerService;
         }
 
+        /// <summary>
+        /// get all groups with pagination
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int pageNumber, int pageSize)
         {
-            var groups = await groupService.GetAllGroupsAsync();
-            return Ok(groups);
+            try
+            {
+                var groups = await groupControllerService.GetAllGroupsAsync(pageNumber, pageSize);
+                return Ok(groups);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
+        /// <summary>
+        /// get group by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {
-            var group = await groupService.GetGroupByIdAsync(id);
-            if (group == null) return NotFound();
-            return Ok(group);
+            try
+            {
+                var group = await groupControllerService.GetGroupByIdAsync(id);
+                if (group == null)
+                    return Ok("Role doesn't exist");
+                return Ok(group);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
+        /// <summary>
+        /// get group by name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [HttpGet("name/{name}")]
+        public async Task<IActionResult> GetByName(string name)
+        {
+            try
+            {
+                var group = await groupControllerService.GetGroupByNameAsync(name);
+                if (group == null) 
+                    return NotFound("Role doesn't exist");
+                return Ok(group);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// add a new group
+        /// </summary>
+        /// <param name="groupDTO"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Add(GroupDTO groupDTO)
+        public async Task<IActionResult> Add(string groupName)
         {
-            await groupService.AddGroupAsync(groupDTO);
-            return CreatedAtAction(nameof(GetById), new { id = groupDTO.Id }, groupDTO);
+            try
+            {
+                var existingGroup = await groupControllerService.GetGroupByNameAsync(groupName);
+                if (existingGroup != null)
+                {
+                    return BadRequest("Role already exists");
+                }
+                var groupResponse =  await groupControllerService.AddGroupAsync(groupName);
+                return CreatedAtAction(nameof(GetById), new { id = groupResponse.Id }, groupResponse);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(string id, GroupDTO groupDTO)
+        /// <summary>
+        /// update group data
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="groupDTO"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<IActionResult> Update(string oldGroupName, string newGroupName)
         {
-            if (id != groupDTO.Id) return BadRequest();
-            await groupService.UpdateGroupAsync(groupDTO);
-            return NoContent();
+            try
+            {
+                var existingGroup = await groupControllerService.GetGroupByNameAsync(oldGroupName);
+
+                if (existingGroup == null)
+                {
+                    return NotFound("Old role doesn't exist");
+                }
+
+                existingGroup.Name = newGroupName;
+                existingGroup.NormalizedName = newGroupName.ToUpper();
+
+                await groupControllerService.UpdateGroupAsync(existingGroup);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        /// <summary>
+        /// delete group by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{groupName}")]
+        public async Task<IActionResult> Delete(string groupName)
         {
-            await groupService.DeleteGroupByIdAsync(id);
-            return NoContent();
+            var existingGroup = await groupControllerService.GetGroupByNameAsync(groupName);
+            if(existingGroup == null)
+            {
+                return NotFound("Role doesn't exist");
+            }
+            await groupControllerService.DeleteGroupAsync(existingGroup.Id);
+            await groupControllerService.Save();
+            return Ok($"Role: {existingGroup.Name} has been deleted successfully");
         }
     }
 }

@@ -6,15 +6,15 @@ namespace ShippingSystem.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        protected readonly UnitOfWork unit;
+        protected readonly ShippingContext db;
 
         /// <summary>
         /// shipping parameterized constructor
         /// </summary>
-        /// <param name="_db"></param>
-        public GenericRepository(UnitOfWork unit)
+        /// <param name="db"></param>
+        public GenericRepository(ShippingContext db)
         {
-            this.unit = unit;
+            this.db = db;
         }
 
         /// <summary>
@@ -92,7 +92,10 @@ namespace ShippingSystem.Repositories
         /// <param name="obj"></param>
         public async Task Update(T obj)
         {
-            db.Set<T>().Update(obj);
+            await Task.Run(() => { 
+                db.Attach(obj);
+                db.Entry<T>(obj).State = EntityState.Modified; 
+            });
         }
 
         /// <summary>

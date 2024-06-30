@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ShippingSystem.Models;
+using ShippingSystem.Repositories;
 using ShippingSystem.Services;
+using ShippingSystem.UnitOfWorks;
 using System.Text;
 
 namespace ShippingSystem
@@ -44,7 +46,15 @@ namespace ShippingSystem
                 options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultProvider;
             });
 
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             builder.Services.AddScoped<IAccountControllerService, AccountControllerService>();
+            builder.Services.AddScoped<IGroupControllerService, GroupControllerService>();
+            builder.Services.AddScoped<IPrivilegeControllerService, PrivilegeControllerService>();     
+
+            builder.Services.AddScoped<IGenericRepository<ApplicationUser>, GenericRepository<ApplicationUser>>();
+            builder.Services.AddScoped<IPrivilegeRepository, PrivilegeRepository>();
+            builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 

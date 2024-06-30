@@ -1,20 +1,25 @@
-﻿using ShippingSystem.Models;
-using ShippingSystem.UnitOfWorks;
+﻿using Microsoft.EntityFrameworkCore;
+using ShippingSystem.Models;
 
 namespace ShippingSystem.Repositories
 {
     public class GroupRepository : GenericRepository<Group>, IGroupRepository
     {
-        private readonly UnitOfWork unitOfWork;
+        private readonly ShippingContext db;
 
-        public GroupRepository(UnitOfWork unitOfWork) : base(unitOfWork)
+        public GroupRepository(ShippingContext db) : base(db)
         {
-            this.unitOfWork = unitOfWork;
+            this.db = db;
         }
 
-        public async Task<Group> GetGroupByGroupNameAsync(string groupName)
+        public async Task<Group?> GetGroupByNameAsync(string groupName)
         {
-            
+            return await db.Roles.FirstOrDefaultAsync(g => g.Name == groupName);
+        }
+
+        public async Task<IEnumerable<Group?>> GetGroupsAsync(int pageNumber, int pageSize)
+        {
+            return await db.Roles.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
         }
     }
 }

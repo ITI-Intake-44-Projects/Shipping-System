@@ -8,6 +8,5 @@
         public bool? Update { get; set; }
         public bool? View { get; set; }
         public bool? Delete { get; set; }
-        public DateTime DateAdded { get; set; }
     }
 }
