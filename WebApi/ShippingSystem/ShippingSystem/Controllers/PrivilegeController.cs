@@ -32,7 +32,7 @@ namespace ShippingSystem.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(string id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace ShippingSystem.Controllers
                     return BadRequest("Privilege already exists");
                 }
                 var privilege = await privilegeControllerService.AddPrivilegeAsync(privilegeName);
-                return CreatedAtAction(nameof(GetById), new { id = privilege.Id }, privilege);
+                return CreatedAtAction(nameof(GetById), new { id = privilege?.Id }, privilege);
             }
             catch (Exception ex)
             {
@@ -83,12 +83,6 @@ namespace ShippingSystem.Controllers
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="oldPrivilegeName"></param>
-        /// <param name="newPrivilegeName"></param>
-        /// <returns></returns>
         [HttpPut]
         public async Task<IActionResult> Update(string oldPrivilegeName, string newPrivilegeName)
         {
@@ -121,7 +115,8 @@ namespace ShippingSystem.Controllers
             {
                 return NotFound("Role doesn't exist");
             }
-            await privilegeControllerService.DeletePrivilegeAsync(existingPrivilege.Id);
+            //await privilegeControllerService.DeletePrivilegeAsync(existingPrivilege.Id);
+            await privilegeControllerService.DeletePrivilegeAsync(5);
             await privilegeControllerService.Save();
             return Ok($"Role: {existingPrivilege.Name} has been deleted successfully");
         }

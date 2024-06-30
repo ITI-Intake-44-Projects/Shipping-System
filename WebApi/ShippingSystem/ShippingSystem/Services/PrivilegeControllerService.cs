@@ -24,7 +24,7 @@ namespace ShippingSystem.Services
             return await unitOfWork.PrivilegeRepository.GetAll();
         }
 
-        public async Task<Privilege?> GetPrivilegeByIdAsync(string id)
+        public async Task<Privilege?> GetPrivilegeByIdAsync(int id)
         {
             return await unitOfWork.PrivilegeRepository.GetById(id);
         }
@@ -36,9 +36,17 @@ namespace ShippingSystem.Services
 
         public async Task<Privilege?> AddPrivilegeAsync(string privilegeName)
         {
-            var privilege = mapper.Map<Privilege>(PrivilegeDTO);
-            await unitOfWork.PrivilegeRepository.Add(privilege);
-            await unitOfWork.PrivilegeRepository.Save();
+            //    var privilege = new Privilege
+            //    {
+            //        Name = privilegeName,
+            //        Add = false,
+            //        Delete = false,
+            //        Update = false,
+            //        View = false,
+            //    }
+            //    await unitOfWork.PrivilegeRepository.Add(privilege);
+            //    await unitOfWork.PrivilegeRepository.Save();
+            throw new NotImplementedException();
         }
 
         public async Task UpdatePrivilegeAsync(Privilege privilege)
@@ -46,7 +54,7 @@ namespace ShippingSystem.Services
             throw new NotImplementedException();
         }
 
-        public async Task DeletePrivilegeAsync(string id)
+        public async Task DeletePrivilegeAsync(int id)
         {
             throw new NotImplementedException();
         }
