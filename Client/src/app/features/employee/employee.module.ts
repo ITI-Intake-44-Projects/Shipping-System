@@ -1,4 +1,3 @@
-// employee.module.ts
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,21 +10,13 @@ import { EmployeeRoutingModule } from './employee-routing.module';
 
 
 @NgModule({
-  declarations: [
-    EmployeeListComponent,
-    AddEmployeeComponent,
-    EditEmployeeComponent
-  ],
+  declarations: [AddEmployeeComponent,EmployeeListComponent],
   imports: [
     CommonModule,
+    EmployeeRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     FormsModule,
-    EmployeeRoutingModule,
-    BrowserModule
-  ],
-  exports: [
-    EmployeeListComponent
   ]
 })
 export class EmployeeModule { }
