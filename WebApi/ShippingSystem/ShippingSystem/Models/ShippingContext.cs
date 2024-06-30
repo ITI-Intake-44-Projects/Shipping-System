@@ -49,7 +49,7 @@ namespace ShippingSystem.Models
         {
             builder.Entity<RepresentativeGovernate>().HasKey("Representative_Id", "Governate_Id");
 
-            builder.Entity<GroupPrivilege>().HasKey("Group_Id", "Privelege_Id");
+            //builder.Entity<GroupPrivilege>().HasKey("Group_Id", "Privelege_Id");
 
             builder.Entity<Employee>(entity => { entity.ToTable("Employees"); });
 
