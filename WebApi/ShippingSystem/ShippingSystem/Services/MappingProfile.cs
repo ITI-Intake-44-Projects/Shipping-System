@@ -22,16 +22,10 @@ namespace ShippingSystem.Services
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
                 .ReverseMap();
 
-            //// Employee mappings
-            //CreateMap<Employee, EmployeeDTO>()
-            //  .ForMember(dest => dest.BranchId, opt => opt.MapFrom(src => src.Branch_Id))
-            //  .ForMember(dest => dest.BranchName, opt => opt.MapFrom(src => src.Branch.Name));
 
-            //CreateMap<EmployeeDTO, Employee>()
-            //    .ForMember(dest => dest.Branch_Id, opt => opt.MapFrom(src => src.BranchId))
-            //    .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Phone));
-            //.ForMember(dest => dest.,opt=>opt.MapFrom<>(src=>src.))
 
+            CreateMap<Employee, Employee>();
+         
             CreateMap<Employee, EmployeeDTO>()
             .ForMember(dest => dest.Roles, opt => opt.MapFrom<EmployeeRolesResolver>())
              .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
@@ -61,38 +55,39 @@ namespace ShippingSystem.Services
         public List<string> Resolve(Employee source, EmployeeDTO destination, List<string> destMember, ResolutionContext context)
         {
             var roles = _userManager.GetRolesAsync(source).Result;
+
             return roles.ToList();
         }
     }
 
-    public class AssignRolesResolver : IMappingAction<EmployeeDTO, Employee>
-    {
-        private readonly UserManager<ApplicationUser> _userManager;
+    //public class AssignRolesResolver : IMappingAction<EmployeeDTO, Employee>
+    //{
+    //    private readonly UserManager<ApplicationUser> _userManager;
 
-        public AssignRolesResolver(UserManager<ApplicationUser> userManager)
-        {
-            _userManager = userManager;
-        }
+    //    public AssignRolesResolver(UserManager<ApplicationUser> userManager)
+    //    {
+    //        _userManager = userManager;
+    //    }
 
-        public async Task ProcessAsync(EmployeeDTO source, Employee destination, ResolutionContext context)
-        {
-            var currentRoles = await _userManager.GetRolesAsync(destination);
-            await _userManager.RemoveFromRolesAsync(destination, currentRoles);
+    //    public async Task ProcessAsync(EmployeeDTO source, Employee destination, ResolutionContext context)
+    //    {
+    //        var currentRoles = await _userManager.GetRolesAsync(destination);
+    //        await _userManager.RemoveFromRolesAsync(destination, currentRoles);
 
-            var result = await _userManager.AddToRolesAsync(destination, source.Roles);
-            if (!result.Succeeded)
-            {
-                // Handle role assignment failure
-                throw new Exception($"Failed to assign roles to user '{destination.UserName}'.");
-            }
-        }
+    //        var result = await _userManager.AddToRolesAsync(destination, source.Roles);
+    //        if (!result.Succeeded)
+    //        {
+    //            // Handle role assignment failure
+    //            throw new Exception($"Failed to assign roles to user '{destination.UserName}'.");
+    //        }
+    //    }
 
-        // Implement the IMappingAction interface
-        public void Process(EmployeeDTO source, Employee destination, ResolutionContext context)
-        {
-            ProcessAsync(source, destination, context).GetAwaiter().GetResult();
-        }
-    }
+    //    // Implement the IMappingAction interface
+    //    public void Process(EmployeeDTO source, Employee destination, ResolutionContext context)
+    //    {
+    //        ProcessAsync(source, destination, context).GetAwaiter().GetResult();
+    //    }
+    //}
 
 
 }

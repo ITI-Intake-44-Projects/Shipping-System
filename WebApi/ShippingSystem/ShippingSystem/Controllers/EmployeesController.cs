@@ -60,7 +60,7 @@ namespace ShippingSystem.Controllers
         }
 
         // PUT: api/Employees/{id}
-        [HttpPut("{id:alpha}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEmployee(string id, EmployeeDTO employeeDto)
         {
             if (!ModelState.IsValid)
@@ -68,7 +68,14 @@ namespace ShippingSystem.Controllers
                 return BadRequest(ModelState);
 
             }
-            await employeeService.UpdateEmployee(employeeDto);
+
+            var result =  await employeeService.UpdateEmployee(id,employeeDto);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+
+            }
 
             return Ok(new { message = "employee updated successfully" });
         }
@@ -85,7 +92,7 @@ namespace ShippingSystem.Controllers
             }
 
             await employeeService.DeleteEmployee(id);
-            return NoContent();
+            return Ok(new { message = "employee deleted successfully" });
         }
     }
 }

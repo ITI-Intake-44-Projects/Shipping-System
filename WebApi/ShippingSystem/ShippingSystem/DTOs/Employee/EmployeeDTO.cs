@@ -18,7 +18,7 @@
 
         //public string? BranchName { get; set; }
 
-        public List<string>? Roles { get; set; } 
+        public List<string> Roles { get; set; } 
 
         public bool? Status { get; set; }
     }

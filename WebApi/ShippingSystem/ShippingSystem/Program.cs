@@ -35,13 +35,16 @@ namespace ShippingSystem
                                   .UseLazyLoadingProxies()
             );
 
-            builder.Services.AddIdentity<ApplicationUser,Group>(options =>
+            builder.Services.AddIdentity<ApplicationUser, Group>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequiredLength = 5;
+                options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultProvider;
+
             })
+             .AddDefaultTokenProviders()
             .AddEntityFrameworkStores<ShippingContext>();
 
             //services
@@ -50,7 +53,7 @@ namespace ShippingSystem
             builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
             builder.Services.AddScoped<EmployeeService>(); 
             builder.Services.AddTransient<EmployeeRolesResolver>();
-            builder.Services.AddTransient<AssignRolesResolver>();
+            //builder.Services.AddTransient<AssignRolesResolver>();
 
             //> Ignore reference loops in the JSON serialization
             builder.Services.AddControllers().AddNewtonsoftJson(
