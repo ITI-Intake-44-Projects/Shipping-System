@@ -10,18 +10,25 @@ namespace ShippingSystem.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly EmployeeService _employeeService;
+        private readonly EmployeeService employeeService;
 
-        public EmployeesController(EmployeeService employeeService)
+        public EmployeesController(EmployeeService _employeeService)
         {
-            _employeeService = employeeService;
+            employeeService = _employeeService;
         }
 
         // GET: api/Employees
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EmployeeDTO>>> GetEmployees()
         {
-            var employees = await _employeeService.GetAllEmployees();
+
+            var employees = await employeeService.GetAllEmployees();
+
+            if(employees == null) 
+            {
+                return NotFound(new { message = "no employees found" });
+            
+            }
             return Ok(employees);
         }
 
@@ -29,11 +36,11 @@ namespace ShippingSystem.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<EmployeeDTO>> GetEmployee(string id)
         {
-            var employee = await _employeeService.GetEmployeeById(id);
+            var employee = await employeeService.GetEmployeeById(id);
 
             if (employee == null)
             {
-                return NotFound();
+                return NotFound(new { message = "no employee found with this id" });
             }
 
             return Ok(employee);
@@ -41,44 +48,43 @@ namespace ShippingSystem.Controllers
 
         // POST: api/Employees
         [HttpPost]
-        public async Task<ActionResult<EmployeeDTO>> CreateEmployee(EmployeeDTO employeeDto)
+        public async Task<ActionResult<EmployeeDTO>> AddEmployee (EmployeeDTO employeeDto)
         {
-            try
+            if(!ModelState.IsValid) 
             {
-                var createdEmployee = await _employeeService.CreateEmployee(employeeDto);
-                return CreatedAtAction(nameof(GetEmployee), new { id = createdEmployee.Id }, createdEmployee);
+                return BadRequest(ModelState);
             }
-            catch (KeyNotFoundException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await employeeService.AddEmployee(employeeDto);
+
+            return Ok(new { message = "employee added successfully" });
         }
 
         // PUT: api/Employees/{id}
-        [HttpPut("{id}")]
+        [HttpPut("{id:alpha}")]
         public async Task<IActionResult> UpdateEmployee(string id, EmployeeDTO employeeDto)
         {
-            var updatedEmployee = await _employeeService.UpdateEmployee(id, employeeDto);
-
-            if (updatedEmployee == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
-            }
+                return BadRequest(ModelState);
 
-            return NoContent();
+            }
+            await employeeService.UpdateEmployee(employeeDto);
+
+            return Ok(new { message = "employee updated successfully" });
         }
 
         // DELETE: api/Employees/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(string id)
         {
-            var employee = await _employeeService.GetEmployeeById(id);
+            var employee = await employeeService.DeleteEmployee(id);
+
             if (employee == null)
             {
-                return NotFound();
+                return NotFound(new { message = "no employee found with this id" });
             }
 
-            await _employeeService.DeleteEmployee(id);
+            await employeeService.DeleteEmployee(id);
             return NoContent();
         }
     }

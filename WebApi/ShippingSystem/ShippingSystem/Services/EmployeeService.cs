@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using ShippingSystem.DTOs;
 using ShippingSystem.Models;
 using ShippingSystem.Repositories;
@@ -9,11 +10,13 @@ public class EmployeeService
   
     private readonly IUnitOfWork unit;
     private readonly IMapper mapper;
+    private readonly UserManager<ApplicationUser> userManager;
 
-    public EmployeeService(IUnitOfWork _unit,IMapper _mapper)
+    public EmployeeService(IUnitOfWork _unit,IMapper _mapper,UserManager<ApplicationUser> _userManager)
     {
         unit = _unit;
         mapper = _mapper;
+        userManager = _userManager;
     }
 
     public async Task<List<EmployeeDTO>> GetAllEmployees()
@@ -36,14 +39,27 @@ public class EmployeeService
 
     public async Task AddEmployee(EmployeeDTO employeeDto)
     {
-        var employee = mapper.Map<Employee>(employeeDto);   
-        
-        await unit.EmployeeRepository.Add(employee);
+        var employee = mapper.Map<Employee>(employeeDto);
 
-        await unit.EmployeeRepository.Save();
+        var result = await userManager.CreateAsync(employee, employeeDto.Password); // Replace with appropriate password handling
+        if (!result.Succeeded)
+        {
+            return;
+        }
+
+       // Assign roles to the new employee
+
+        var rolesResult = await userManager.AddToRolesAsync(employee, employeeDto.Roles);
+        if (!rolesResult.Succeeded)
+        {
+            throw new Exception($"Failed to assign roles to user '{employee.UserName}'.");
+        }
+
+        // No need to await AssertConfigurationIsValid because it returns void
+        //mapper.ConfigurationProvider.AssertConfigurationIsValid();
     }
 
-    public async Task<EmployeeDTO> UpdateEmployee(string id, EmployeeDTO employeeDto)
+    public async Task UpdateEmployee(EmployeeDTO employeeDto)
     {
         var employee = mapper.Map<Employee>(employeeDto);
 
@@ -54,17 +70,16 @@ public class EmployeeService
 
     public async Task<bool> DeleteEmployee(string id)
     {
-        // Find employee by string ID in a more manual way
-        var employee = await _repository.GetAll();
-        var foundEmployee = employee.FirstOrDefault(e => e.Id == id);
+        var employee = unit.EmployeeRepository.GetById(id);
 
-        if (foundEmployee == null)
+        if(employee == null)
         {
             return false;
         }
+        await unit.EmployeeRepository.Delete(id);
 
-        await _repository.Delete(foundEmployee);
-        await _repository.Save();
+        await unit.EmployeeRepository.Save();
+
         return true;
     }
 }
