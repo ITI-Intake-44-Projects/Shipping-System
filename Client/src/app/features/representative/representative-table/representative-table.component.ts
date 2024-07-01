@@ -120,7 +120,7 @@ export class RepresentativeTableComponent implements OnInit {
     this.selectedGovernorates = this.frmControlGovernorates.value || [];
     representative.governateIds = this.selectedGovernorates;
     representative.id = ''; // fake id
-    console.log('Form Data :', representative);
+    //console.log('Form Data :', representative);
     this.representativeService.registerRepresentative(representative).subscribe(
       (response) => {
         console.log('Representative registered successfully', response);
