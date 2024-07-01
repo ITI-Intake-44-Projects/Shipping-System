@@ -1,0 +1,101 @@
+<div class="container">
+  <div class="row">
+    <h2 class="mb-4 text-center">إضافة موظف جديد</h2>
+    <form [formGroup] ="employeeForm" (ngSubmit)="onSubmit()">
+      <h2>البيانات الشخصيه</h2>
+      <div class="form-group row">
+        <div class="col-sm-9">
+          <input id="name" class="form-control" formControlName="name" name="name"  placeholder="ادخل الاسم" dir="rtl">
+          <!-- <div *ngIf="employeeForm.controls['name'].invalid && employeeForm.controls['name'].touched" class="invalid-feedback">
+            الاسم مطلوب
+          </div> -->
+        </div>
+        <label for="name" class="col-sm-3 col-form-label text-right">الاسم</label>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-9">
+          <input id="phone" class="form-control" formControlName="phone" name="phone"  placeholder="ادخل رقم الهاتف" dir="rtl">
+          <div *ngIf="employeeForm.controls['phone'].invalid && employeeForm.controls['phone'].touched" class="invalid-feedback">
+            رقم الهاتف مطلوب
+          </div>
+        </div>
+        <label for="phone" class="col-sm-3 col-form-label text-right">رقم الهاتف</label>
+      </div>
+      <div class="form-group d-flex  align-items-center" dir="rtl">
+        <label for="name" class="col-sm-3 col-form-label text-right">الحالة</label>
+        <div class="form-check form-switch " dir="rtl">
+          <input class="form-check-input fs-5 " type="checkbox" role="switch" name="status"  id="flexSwitchCheckDefault" dir="rtl" formControlName="status">
+          <div *ngIf="employeeForm.controls['status'].invalid && employeeForm.controls['status'].touched" class="invalid-feedback">
+            العنوان مطلوب
+          </div>
+        </div>    
+        <!-- <div class="col-sm-9">
+          <input id="name" class="form-control" formControlName="الحالة" placeholder="ادخل العنوان" dir="rtl">
+         
+        </div> -->
+      </div>
+      <h2>معلومات الحساب</h2>
+  
+      <div class="form-group row">
+        <div class="col-sm-9">
+          <!-- <input id="userName" class="form-control" formControlName="userName" name="userName"  placeholder="ادخل اسم المستخدم" dir="rtl">
+          <div *ngIf="employeeForm.controls['userName'].invalid && employeeForm.controls['userName'].touched" class="invalid-feedback">
+            اسم المستخدم مطلوب
+          </div> -->
+        </div>
+        <label for="name" class="col-sm-3 col-form-label text-right">اسم المستخدم</label>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-9">
+          <input id="email" class="form-control" formControlName="email"  placeholder="ادخل البريد الإلكتروني" dir="rtl">
+          <div *ngIf="employeeForm.controls['email'].invalid && employeeForm.controls['email'].touched" class="invalid-feedback">
+            الرجاء إدخال بريد إلكتروني صحيح
+          </div>
+        </div>
+        <label for="email" class="col-sm-3 col-form-label text-right">البريد الإلكتروني</label>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-9">
+          <input id="password" class="form-control" type="password" formControlName="password" name = "password" placeholder="ادخل كلمه المرور" dir="rtl">
+          <div *ngIf="employeeForm.controls['password'].invalid && employeeForm.controls['password'].touched" class="invalid-feedback">
+            كلمه المرور مطلوبه
+          </div>
+        </div>
+        <label for="passowrd" class="col-sm-3 col-form-label text-right">كلمه المرور</label>
+      </div>
+      <h2>معلومات الموظف</h2>
+      <div class="form-group row">
+        <div class="col-sm-9">
+          <select id="branch" class="form-select" formControlName="branch" name="branch">
+            <option ></option>
+          </select>
+          <div *ngIf="employeeForm.controls['branch'].invalid && employeeForm.controls['branch'].touched" class="invalid-feedback">
+            الفرع مطلوب
+          </div>
+        </div>
+        <label for="branch" class="col-sm-3 col-form-label text-right">الفرع</label>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-9">
+          <select id="authorizations" class="form-select"  >
+            <option ></option>
+          </select>
+          <!-- <div *ngIf="employeeForm.controls['authorizations'].invalid && employeeForm.controls['authorizations'].touched" class="invalid-feedback">
+  الصلاحيه مطلوبه    
+      </div> -->
+        </div>
+        <label for="branch" class="col-sm-3 col-form-label text-right">الصلاحيه</label>
+      </div>
+     
+      <div class="form-group row">
+        <div class="col-sm-9 offset-sm-3">
+          <button type="submit" class="btn btn-primary"  >إضافة موظف</button>
+        </div>
+      </div>
+    </form>
+  </div>
+ 
+</div>
+
+
+<!-- [ngClass]="{'is-invalid': employeeForm.controls['name'].invalid && employeeForm.controls['name'].touched} -->
