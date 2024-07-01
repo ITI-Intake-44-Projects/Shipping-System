@@ -18,8 +18,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      rememberMe: [false] 
+      password: ['', [Validators.required, Validators.minLength(5)]],
+      rememberMe: [false]
     });
   }
 
@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
       const loginCredentials: LoginDTO = {
         email: this.email?.value,
         password: this.password?.value,
-        rememberMe: this.rememberMe?.value 
+        rememberMe: this.rememberMe?.value
       };
       this.authService.login(loginCredentials)
         .subscribe({
@@ -96,6 +96,6 @@ export class LoginComponent implements OnInit {
   }
 
   forgetPassword(){
-    
+
   }
 }
