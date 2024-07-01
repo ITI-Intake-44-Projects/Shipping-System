@@ -18,16 +18,14 @@ namespace ShippingSystem.Services
             this.mapper = mapper;
         }
 
-        public async Task<List<GroupResponseDTO>> GetAllGroupsAsync(int pageNumber, int pageSize)
+        public async Task<IEnumerable<Group?>> GetAllGroupsAsync(int pageNumber, int pageSize)
         {
-            var groups = await unitOfWork.GroupRepository.GetGroupsAsync(pageNumber, pageSize);
-            return mapper.Map<List<GroupResponseDTO>>(groups);
+            return await unitOfWork.GroupRepository.GetGroupsAsync(pageNumber, pageSize);
         }
 
-        public async Task<GroupResponseDTO> GetGroupByIdAsync(string id)
+        public async Task<Group> GetGroupByIdAsync(string id)
         {
-            var group = await unitOfWork.GroupRepository.GetById(id);
-            return mapper.Map<GroupResponseDTO>(group);
+            return await unitOfWork.GroupRepository.GetById(id);
         }
 
         public async Task<Group?> GetGroupByNameAsync(string name)
@@ -35,27 +33,55 @@ namespace ShippingSystem.Services
             return await unitOfWork.GroupRepository.GetGroupByNameAsync(name); ;
         }
 
-        public async Task<GroupResponseDTO> AddGroupAsync(string groupName)
-        {
-            var group = new Group
-            {
-                Id = Guid.NewGuid().ToString(),
-                DateAdded = DateTime.Now,
-                Name = groupName,
-                NormalizedName = groupName.ToUpper(),
-                ConcurrencyStamp = Guid.NewGuid().ToString(),
-            };
+        public async Task<Group> AddGroupAsync(GroupDTO groupDTO)
+        {            
+            var group = mapper.Map<Group>(groupDTO);
+
+            group.DateAdded = DateTime.Now;
+            group.NormalizedName = group.Name.ToUpper();
+            group.ConcurrencyStamp = Guid.NewGuid().ToString();
+
             await unitOfWork.GroupRepository.Add(group);
+
             await unitOfWork.GroupRepository.Save();
-            return mapper.Map<GroupResponseDTO>(group);
+            return group;
         }
 
-        public async Task UpdateGroupAsync(Group group)
+        public async Task UpdateGroupAsync(Group existingGroup, GroupDTO groupDTO)
         {
             try
             {
-                await unitOfWork.GroupRepository.Update(group);
-                await unitOfWork.GroupRepository.Save();
+                existingGroup.Name = groupDTO.Name;
+                existingGroup.NormalizedName = groupDTO.Name.ToUpper();
+
+                var existingPrivileges = existingGroup.Privileges.ToList();
+
+                foreach (var existingPrivilege in existingPrivileges)
+                {
+                    if (!groupDTO.GroupPrivileges.Any(p => p.Privelege_Id == existingPrivilege.Privelege_Id))
+                    {
+                        await unitOfWork.GroupPrivilegeRepository.Delete(existingPrivilege);
+                    }
+                }
+
+                foreach (var privilegeDTO in groupDTO.GroupPrivileges)
+                {
+                    var existingPrivilege = existingPrivileges.FirstOrDefault(p => p.Privelege_Id == privilegeDTO.Privelege_Id);
+
+                    if (existingPrivilege != null) 
+                    {
+                        mapper.Map(privilegeDTO, existingPrivilege);
+                    } 
+                    else 
+                    {
+                        var newPrivilege = mapper.Map<GroupPrivilege>(privilegeDTO);
+                        newPrivilege.Group_Id = existingGroup.Id;
+                        existingGroup.Privileges.Add(newPrivilege);
+                    }
+                }
+
+                await unitOfWork.GroupRepository.Update(existingGroup);
+                await unitOfWork.Save();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -63,9 +89,25 @@ namespace ShippingSystem.Services
             }
         }
 
-        public async Task DeleteGroupAsync(string id)
+        public async Task DeleteGroupAsync(Group group)
         {
-            await unitOfWork.GroupRepository.Delete(id);
+            List<GroupPrivilege> groupPrivileges = null;
+            await Task.Run(async () =>
+            {
+                var allPrivileges = await unitOfWork.GroupPrivilegeRepository.GetAll();
+                groupPrivileges = allPrivileges.Where(gp => gp.Group_Id == group.Id).ToList();
+            });
+
+            if (groupPrivileges != null)
+            {
+                foreach (var privilege in groupPrivileges)
+                {
+                    await unitOfWork.GroupPrivilegeRepository.Delete(privilege);
+                }
+            }
+
+            await unitOfWork.GroupRepository.Delete(group);
+            await unitOfWork.Save();
         }
 
         public async Task Save()

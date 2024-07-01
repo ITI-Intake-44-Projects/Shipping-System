@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ShippingSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class men3mv3 : Migration
+    public partial class men3mv5 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

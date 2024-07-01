@@ -223,7 +223,7 @@ namespace ShippingSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Branches", (string)null);
+                    b.ToTable("Branches");
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.City", b =>
@@ -250,7 +250,7 @@ namespace ShippingSystem.Migrations
 
                     b.HasIndex("Governate_Id");
 
-                    b.ToTable("Cities", (string)null);
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.Governate", b =>
@@ -269,7 +269,7 @@ namespace ShippingSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Governates", (string)null);
+                    b.ToTable("Governates");
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.Group", b =>
@@ -280,6 +280,9 @@ namespace ShippingSystem.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
@@ -331,7 +334,7 @@ namespace ShippingSystem.Migrations
 
                     b.HasIndex("Privelege_Id");
 
-                    b.ToTable("GroupPrivilege", (string)null);
+                    b.ToTable("GroupPrivilege");
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.Order", b =>
@@ -423,7 +426,7 @@ namespace ShippingSystem.Migrations
 
                     b.HasIndex("Shipping_Id");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.OrderType", b =>
@@ -439,7 +442,7 @@ namespace ShippingSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrderTypes", (string)null);
+                    b.ToTable("OrderTypes");
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.PaymentType", b =>
@@ -455,7 +458,7 @@ namespace ShippingSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentTypes", (string)null);
+                    b.ToTable("PaymentTypes");
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.Privilege", b =>
@@ -471,7 +474,7 @@ namespace ShippingSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Privileges", (string)null);
+                    b.ToTable("Privileges");
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.ProductOrder", b =>
@@ -501,7 +504,7 @@ namespace ShippingSystem.Migrations
 
                     b.HasIndex("Order_Id");
 
-                    b.ToTable("ProductOrders", (string)null);
+                    b.ToTable("ProductOrders");
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.RepresentativeGovernate", b =>
@@ -516,7 +519,7 @@ namespace ShippingSystem.Migrations
 
                     b.HasIndex("Governate_Id");
 
-                    b.ToTable("RepresentativeGovernates", (string)null);
+                    b.ToTable("RepresentativeGovernates");
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.ShippingType", b =>
@@ -538,7 +541,7 @@ namespace ShippingSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ShippingTypes", (string)null);
+                    b.ToTable("ShippingTypes");
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.SpecialPrice", b =>
@@ -568,7 +571,7 @@ namespace ShippingSystem.Migrations
 
                     b.HasIndex("Merchant_Id");
 
-                    b.ToTable("SpecialPrices", (string)null);
+                    b.ToTable("SpecialPrices");
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.VillageCost", b =>
@@ -584,7 +587,7 @@ namespace ShippingSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("VillageCosts", (string)null);
+                    b.ToTable("VillageCosts");
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.WeightOption", b =>
@@ -603,7 +606,7 @@ namespace ShippingSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WeightOptions", (string)null);
+                    b.ToTable("WeightOptions");
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.Employee", b =>

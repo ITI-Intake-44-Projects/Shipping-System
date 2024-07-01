@@ -28,7 +28,7 @@ namespace ShippingSystem.Controllers
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetAll(int pageNumber, int pageSize)
+        public async Task<IActionResult> GetAllGroupsAsync(int pageNumber, int pageSize)
         {
             try
             {
@@ -51,10 +51,10 @@ namespace ShippingSystem.Controllers
         {
             try
             {
-                var group = await groupControllerService.GetGroupByIdAsync(id);
-                if (group == null)
-                    return Ok("Role doesn't exist");
-                return Ok(group);
+                var groupResponse = await groupControllerService.GetGroupByIdAsync(id);
+                if (groupResponse == null)
+                    return Ok("No such group with the provided Id");
+                return Ok(groupResponse);
             }
             catch (Exception ex)
             {
@@ -89,16 +89,16 @@ namespace ShippingSystem.Controllers
         /// <param name="groupDTO"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Add(string groupName)
+        public async Task<IActionResult> Add(GroupDTO groupDTO)
         {
             try
             {
-                var existingGroup = await groupControllerService.GetGroupByNameAsync(groupName);
+                var existingGroup = await groupControllerService.GetGroupByNameAsync(groupDTO.Name);
                 if (existingGroup != null)
                 {
                     return BadRequest("Role already exists");
                 }
-                var groupResponse =  await groupControllerService.AddGroupAsync(groupName);
+                var groupResponse =  await groupControllerService.AddGroupAsync(groupDTO);
                 return CreatedAtAction(nameof(GetById), new { id = groupResponse.Id }, groupResponse);
             }
             catch(Exception ex)
@@ -114,22 +114,18 @@ namespace ShippingSystem.Controllers
         /// <param name="groupDTO"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> Update(string oldGroupName, string newGroupName)
+        public async Task<IActionResult> Update(string id, GroupDTO groupDTO)
         {
             try
             {
-                var existingGroup = await groupControllerService.GetGroupByNameAsync(oldGroupName);
+                var existingGroup = await groupControllerService.GetGroupByIdAsync(id);
 
                 if (existingGroup == null)
                 {
                     return NotFound("Old role doesn't exist");
                 }
-
-                existingGroup.Name = newGroupName;
-                existingGroup.NormalizedName = newGroupName.ToUpper();
-
-                await groupControllerService.UpdateGroupAsync(existingGroup);
-                return Ok();
+                await groupControllerService.UpdateGroupAsync(existingGroup, groupDTO);
+                return Ok("Role Updated Successfully");
             }
             catch (Exception ex)
             {
@@ -142,17 +138,16 @@ namespace ShippingSystem.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpDelete("{groupName}")]
-        public async Task<IActionResult> Delete(string groupName)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
         {
-            var existingGroup = await groupControllerService.GetGroupByNameAsync(groupName);
-            if(existingGroup == null)
+            var group = await groupControllerService.GetGroupByIdAsync(id);
+            if (group == null)
             {
                 return NotFound("Role doesn't exist");
             }
-            await groupControllerService.DeleteGroupAsync(existingGroup.Id);
-            await groupControllerService.Save();
-            return Ok($"Role: {existingGroup.Name} has been deleted successfully");
+            await groupControllerService.DeleteGroupAsync(group);
+            return Ok($"Role: {group.Name} has been deleted successfully");
         }
     }
 }

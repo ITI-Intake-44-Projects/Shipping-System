@@ -25,8 +25,5 @@ namespace ShippingSystem.Models
         public virtual Privilege? Privilege { get; set; }
 
         public virtual Group? Group { get; set; }
-
-
-
     }
 }
