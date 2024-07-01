@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ShippingSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class yousefv1 : Migration
+    public partial class yousefv4 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,10 +16,6 @@ namespace ShippingSystem.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Add = table.Column<bool>(type: "bit", nullable: true),
-                    Update = table.Column<bool>(type: "bit", nullable: true),
-                    View = table.Column<bool>(type: "bit", nullable: true),
-                    Delete = table.Column<bool>(type: "bit", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -35,6 +31,7 @@ namespace ShippingSystem.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -108,6 +105,19 @@ namespace ShippingSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PaymentTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Privileges",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Privileges", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -360,104 +370,31 @@ namespace ShippingSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
+                name: "GroupPrivilege",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CustomerPhone1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CustomerPhone2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CustomerEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Governate = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    VillageOrStreet = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    VillageDeliver = table.Column<bool>(type: "bit", nullable: true),
-                    OrderCost = table.Column<int>(type: "int", nullable: true),
-                    TotalWeight = table.Column<int>(type: "int", nullable: true),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MerchantMobile = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MerchantAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OrderStatus = table.Column<int>(type: "int", nullable: true),
-                    TotalCost = table.Column<int>(type: "int", nullable: true),
-                    ShippingCost = table.Column<int>(type: "int", nullable: true),
-                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    OrderType_Id = table.Column<int>(type: "int", nullable: true),
-                    Branch_Id = table.Column<int>(type: "int", nullable: true),
-                    Payment_Id = table.Column<int>(type: "int", nullable: true),
-                    Shipping_Id = table.Column<int>(type: "int", nullable: true)
+                    Add = table.Column<bool>(type: "bit", nullable: true),
+                    Update = table.Column<bool>(type: "bit", nullable: true),
+                    View = table.Column<bool>(type: "bit", nullable: true),
+                    Delete = table.Column<bool>(type: "bit", nullable: true),
+                    Group_Id = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Privelege_Id = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.PrimaryKey("PK_GroupPrivilege", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Branches_Branch_Id",
-                        column: x => x.Branch_Id,
-                        principalTable: "Branches",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Orders_OrderTypes_OrderType_Id",
-                        column: x => x.OrderType_Id,
-                        principalTable: "OrderTypes",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Orders_PaymentTypes_Payment_Id",
-                        column: x => x.Payment_Id,
-                        principalTable: "PaymentTypes",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Orders_ShippingTypes_Shipping_Id",
-                        column: x => x.Shipping_Id,
-                        principalTable: "ShippingTypes",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EmployeePrivilege",
-                columns: table => new
-                {
-                    EmployeesId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PrivilegesId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmployeePrivilege", x => new { x.EmployeesId, x.PrivilegesId });
-                    table.ForeignKey(
-                        name: "FK_EmployeePrivilege_AspNetRoles_PrivilegesId",
-                        column: x => x.PrivilegesId,
+                        name: "FK_GroupPrivilege_AspNetRoles_Group_Id",
+                        column: x => x.Group_Id,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_EmployeePrivilege_Employees_EmployeesId",
-                        column: x => x.EmployeesId,
-                        principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MerchantPrivilege",
-                columns: table => new
-                {
-                    MerchantsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PrivilegesId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MerchantPrivilege", x => new { x.MerchantsId, x.PrivilegesId });
-                    table.ForeignKey(
-                        name: "FK_MerchantPrivilege_AspNetRoles_PrivilegesId",
-                        column: x => x.PrivilegesId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MerchantPrivilege_Merchants_MerchantsId",
-                        column: x => x.MerchantsId,
-                        principalTable: "Merchants",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_GroupPrivilege_Privileges_Privelege_Id",
+                        column: x => x.Privelege_Id,
+                        principalTable: "Privileges",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -467,41 +404,22 @@ namespace ShippingSystem.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TransportCost = table.Column<int>(type: "int", nullable: true),
-                    Governate = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Governate_Id = table.Column<int>(type: "int", nullable: true),
+                    City_Id = table.Column<int>(type: "int", nullable: true),
                     Merchant_Id = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SpecialPrices", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_SpecialPrices_Governates_Governate_Id",
+                        column: x => x.Governate_Id,
+                        principalTable: "Governates",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_SpecialPrices_Merchants_Merchant_Id",
                         column: x => x.Merchant_Id,
                         principalTable: "Merchants",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PrivilegeRepresentative",
-                columns: table => new
-                {
-                    PrivilegesId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RepresentativesId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PrivilegeRepresentative", x => new { x.PrivilegesId, x.RepresentativesId });
-                    table.ForeignKey(
-                        name: "FK_PrivilegeRepresentative_AspNetRoles_PrivilegesId",
-                        column: x => x.PrivilegesId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PrivilegeRepresentative_Representatives_RepresentativesId",
-                        column: x => x.RepresentativesId,
-                        principalTable: "Representatives",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -528,6 +446,79 @@ namespace ShippingSystem.Migrations
                         principalTable: "Representatives",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomerPhone1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomerPhone2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomerEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VillageOrStreet = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VillageDeliver = table.Column<bool>(type: "bit", nullable: true),
+                    OrderCost = table.Column<int>(type: "int", nullable: true),
+                    TotalWeight = table.Column<int>(type: "int", nullable: true),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrderStatus = table.Column<int>(type: "int", nullable: true),
+                    TotalCost = table.Column<int>(type: "int", nullable: true),
+                    ShippingCost = table.Column<int>(type: "int", nullable: true),
+                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    OrderType_Id = table.Column<int>(type: "int", nullable: true),
+                    Branch_Id = table.Column<int>(type: "int", nullable: true),
+                    Payment_Id = table.Column<int>(type: "int", nullable: true),
+                    Shipping_Id = table.Column<int>(type: "int", nullable: true),
+                    Merchant_Id = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Representative_Id = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Governate_Id = table.Column<int>(type: "int", nullable: true),
+                    City_Id = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_Branches_Branch_Id",
+                        column: x => x.Branch_Id,
+                        principalTable: "Branches",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Orders_Cities_City_Id",
+                        column: x => x.City_Id,
+                        principalTable: "Cities",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Orders_Governates_Governate_Id",
+                        column: x => x.Governate_Id,
+                        principalTable: "Governates",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Orders_Merchants_Merchant_Id",
+                        column: x => x.Merchant_Id,
+                        principalTable: "Merchants",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Orders_OrderTypes_OrderType_Id",
+                        column: x => x.OrderType_Id,
+                        principalTable: "OrderTypes",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Orders_PaymentTypes_Payment_Id",
+                        column: x => x.Payment_Id,
+                        principalTable: "PaymentTypes",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Orders_Representatives_Representative_Id",
+                        column: x => x.Representative_Id,
+                        principalTable: "Representatives",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Orders_ShippingTypes_Shipping_Id",
+                        column: x => x.Shipping_Id,
+                        principalTable: "ShippingTypes",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -597,19 +588,19 @@ namespace ShippingSystem.Migrations
                 column: "Governate_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeePrivilege_PrivilegesId",
-                table: "EmployeePrivilege",
-                column: "PrivilegesId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Employees_Branch_Id",
                 table: "Employees",
                 column: "Branch_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MerchantPrivilege_PrivilegesId",
-                table: "MerchantPrivilege",
-                column: "PrivilegesId");
+                name: "IX_GroupPrivilege_Group_Id",
+                table: "GroupPrivilege",
+                column: "Group_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GroupPrivilege_Privelege_Id",
+                table: "GroupPrivilege",
+                column: "Privelege_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Merchants_Branch_Id",
@@ -622,6 +613,21 @@ namespace ShippingSystem.Migrations
                 column: "Branch_Id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Orders_City_Id",
+                table: "Orders",
+                column: "City_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_Governate_Id",
+                table: "Orders",
+                column: "Governate_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_Merchant_Id",
+                table: "Orders",
+                column: "Merchant_Id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_OrderType_Id",
                 table: "Orders",
                 column: "OrderType_Id");
@@ -632,14 +638,14 @@ namespace ShippingSystem.Migrations
                 column: "Payment_Id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Orders_Representative_Id",
+                table: "Orders",
+                column: "Representative_Id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_Shipping_Id",
                 table: "Orders",
                 column: "Shipping_Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PrivilegeRepresentative_RepresentativesId",
-                table: "PrivilegeRepresentative",
-                column: "RepresentativesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductOrders_Order_Id",
@@ -655,6 +661,11 @@ namespace ShippingSystem.Migrations
                 name: "IX_Representatives_Branch_Id",
                 table: "Representatives",
                 column: "Branch_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SpecialPrices_Governate_Id",
+                table: "SpecialPrices",
+                column: "Governate_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SpecialPrices_Merchant_Id",
@@ -681,16 +692,10 @@ namespace ShippingSystem.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Cities");
+                name: "Employees");
 
             migrationBuilder.DropTable(
-                name: "EmployeePrivilege");
-
-            migrationBuilder.DropTable(
-                name: "MerchantPrivilege");
-
-            migrationBuilder.DropTable(
-                name: "PrivilegeRepresentative");
+                name: "GroupPrivilege");
 
             migrationBuilder.DropTable(
                 name: "ProductOrders");
@@ -708,19 +713,16 @@ namespace ShippingSystem.Migrations
                 name: "WeightOptions");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "Privileges");
 
             migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Governates");
-
-            migrationBuilder.DropTable(
-                name: "Representatives");
+                name: "Cities");
 
             migrationBuilder.DropTable(
                 name: "Merchants");
@@ -732,7 +734,13 @@ namespace ShippingSystem.Migrations
                 name: "PaymentTypes");
 
             migrationBuilder.DropTable(
+                name: "Representatives");
+
+            migrationBuilder.DropTable(
                 name: "ShippingTypes");
+
+            migrationBuilder.DropTable(
+                name: "Governates");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
