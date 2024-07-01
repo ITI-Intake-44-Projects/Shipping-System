@@ -54,7 +54,8 @@ namespace ShippingSystem
             );
 
             //> Swagger Configuration
-            //builder.Services.AddSwaggerGen(options => {
+            //builder.Services.AddSwaggerGen(options =>
+            //{
             //    options.SwaggerDoc("v1", new OpenApiInfo()
             //    {
             //        Title = "Shipping System Web APIs Documentation",

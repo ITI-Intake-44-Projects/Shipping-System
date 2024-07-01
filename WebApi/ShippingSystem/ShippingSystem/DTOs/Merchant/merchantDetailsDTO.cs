@@ -31,6 +31,8 @@ namespace ShippingSystem.DTOs.Merchant
         public int SpecialPickupCost { get; set; }
         [Required]
         public int InCompleteShippingRatio { get; set; }
+
+
         [Required]
         public string BranchName { get; set; }
         public List<SpecialPriceDTO> SpecialPrices { get; set; }
@@ -55,6 +57,9 @@ namespace ShippingSystem.DTOs.Merchant
 
         public string UserName { get; set; }
         public List<SpecialPriceDTO> SpecialPrices { get; set; }
+
+        [Required]
+        public bool isDeleted { get; set; }
     }
 
     public class SpecialPriceDTO
