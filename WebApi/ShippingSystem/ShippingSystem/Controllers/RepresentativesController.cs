@@ -19,9 +19,34 @@ namespace ShippingSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Representative>>> GetRepresentatives()
+        public async Task<ActionResult<IEnumerable<RepresentativeDtoGET>>> GetRepresentatives()
         {
-            return await _context.Representatives.ToListAsync();
+            var representatives = await _context.Representatives
+                .Select(r => new RepresentativeDtoGET
+                {
+                    Id = r.Id,
+                    FullName = r.FullName,
+                    Email = r.Email,
+                    PhoneNumber = r.PhoneNumber,
+                    Address = r.Address,
+                    Password = r.PasswordHash,
+                    CompanyOrderPrecentage = r.CompanyOrderPrecentage,
+                    SalePrecentage = r.SalePrecentage,
+                    Branch_Id = r.Branch.Id,
+                    BranchName = r.Branch.Name,
+                    LockoutEnabled = r.LockoutEnabled,
+                    Governorates = r.RepresentativeGovernates
+                        .Select(g => new RepresentativeGovernateDTO
+                        {
+                            Id = g.Governate.Id,
+                            Name = g.Governate.Name,
+                            Status = g.Governate.Status
+                        })
+                        .ToList()
+                })
+                .ToListAsync();
+
+            return Ok(representatives);
         }
 
         [HttpGet("{id}")]

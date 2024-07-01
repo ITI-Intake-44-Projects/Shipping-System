@@ -70,8 +70,8 @@ export class RepresentativeTableComponent implements OnInit {
     this.modalOpen = false;
   }
 
-  getGovernorateNames(representativeGovernates: any[]): string {
-    return representativeGovernates.map((rg) => rg.governate.name).join(', ');
+  getGovernorateNames(governorates: any[]): string {
+    return governorates.map((rg) => rg.name).join(', ');
   }
 
   fetchRepresentatives() {
@@ -84,7 +84,6 @@ export class RepresentativeTableComponent implements OnInit {
       (error) => console.error('Error fetching representatives', error)
     );
   }
-
   fetchGovernorates() {
     this.representativeService.getGovernorates().subscribe(
       (data) => {
@@ -158,11 +157,11 @@ export class RepresentativeTableComponent implements OnInit {
     this.selectedfullName = representative.fullName;
     this.selectedEmail = representative.email;
     this.selectedphoneNumber = representative.phoneNumber;
-    this.selectedpassword = representative.passwordHash;
+    this.selectedpassword = representative.password;
     this.selectedaddress = representative.address;
     this.selectedid = representative.id;
-    let selectedGovernoratesIds = representative.representativeGovernates.map(
-      (rg: any) => rg.governate_Id
+    let selectedGovernoratesIds = representative.governorates.map(
+      (rg: any) => rg.id
     );
     this.frmControlGovernorates.setValue(selectedGovernoratesIds);
     this.modalOpen = true;
