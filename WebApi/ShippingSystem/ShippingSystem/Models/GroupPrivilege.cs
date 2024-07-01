@@ -20,8 +20,8 @@ namespace ShippingSystem.Models
         public string? Group_Id { get; set; }
 
         [ForeignKey("Privilege")]
-        public int? Privelege_Id {  get; set; }
-        
+        public int? Privelege_Id { get; set; }
+
         public virtual Privilege? Privilege { get; set; }
 
         public virtual Group? Group { get; set; }

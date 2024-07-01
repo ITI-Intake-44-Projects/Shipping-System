@@ -9,9 +9,9 @@ namespace ShippingSystem.Models
 
         public string? Address { get; set; }
 
-        public string? Governate { get; set; }
+        //public string? Governate { get; set; }
 
-        public string? City { get; set; }
+        //public string? City { get; set; }
 
         public string? StoreName { get; set; }
 
@@ -25,7 +25,17 @@ namespace ShippingSystem.Models
 
         public virtual Branch? Branch { get; set; }
 
-        //public virtual ICollection<Privilege>? Privileges { get; set; } = new List<Privilege>();
+
+        [ForeignKey("Governate")]
+        public int? Governate_Id { get; set; }
+
+        public virtual Governate? Governate { get; set; }
+
+        [ForeignKey("City")]
+        public int? City_Id { get; set; }
+
+        public virtual City City { get; set; }
+
 
         public virtual ICollection<SpecialPrice>? SpecialPrices { get; set; } = new List<SpecialPrice>();
 
