@@ -67,7 +67,7 @@ namespace ShippingSystem
                         Url = new Uri("https://github.com/abdelmonemanwr")
                     },
                 });
-                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "shippingXmlComments.xml"));
+                //options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "shippingXmlComments.xml"));
                 options.EnableAnnotations();
                 #region add security definition
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
