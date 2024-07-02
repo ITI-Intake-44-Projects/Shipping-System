@@ -46,6 +46,33 @@ namespace ShippingSystem.Controllers
             return Ok(employee);
         }
 
+        [HttpGet("name/{name}")]
+        public async Task<ActionResult<EmployeeDTO>> GetEmployeeByName(string name)
+        {
+            var employee = await employeeService.GetEmployeeByName(name);
+
+            if (employee == null)
+            {
+                return NotFound(new { message = "no employee found with this name" });
+            }
+
+            return Ok(employee);
+        }
+
+        [HttpGet("email/{email}")]
+        public async Task<ActionResult<EmployeeDTO>> GetEmployeeByEmail(string email)
+        {
+            var employee = await employeeService.GetEmployeeByEmail(email);
+
+            if (employee == null)
+            {
+                return NotFound(new { message = "no employee found with this email" });
+            }
+
+            return Ok(employee);
+        }
+
+
         // POST: api/Employees
         [HttpPost]
         public async Task<ActionResult<EmployeeDTO>> AddEmployee (EmployeeDTO employeeDto)
@@ -54,9 +81,24 @@ namespace ShippingSystem.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+
             await employeeService.AddEmployee(employeeDto);
 
             return Ok(new { message = "employee added successfully" });
+
+
+            //try
+            //{
+            //    await employeeService.AddEmployee(employeeDto);
+
+            //    return Ok(new { message = "employee added successfully" });
+            //}
+            //catch(Exception ex) 
+            //{
+            //    return BadRequest(new {message = "cant add this employee"})
+            //}
+                        
         }
 
         // PUT: api/Employees/{id}

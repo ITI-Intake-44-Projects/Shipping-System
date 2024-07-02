@@ -21,7 +21,7 @@ public class EmployeeService
 
     public async Task<List<EmployeeDTO>> GetAllEmployees()
     {
-        var employees = await unit.EmployeeRepository.GetAll();
+        var employees = await unit.EmployeeRepository.GetActiveEmployee();
         return mapper.Map<List<EmployeeDTO>>(employees);
     }
 
@@ -118,5 +118,29 @@ public class EmployeeService
         await unit.EmployeeRepository.Save();
 
         return true;
+    }
+
+   public async Task<EmployeeDTO> GetEmployeeByName(string name)
+    {
+        var employee = await unit.EmployeeRepository.GetEmployeeByName(name);
+
+        if (employee == null)
+        {
+            return null;
+        }
+
+        return mapper.Map<EmployeeDTO>(employee);
+    }
+
+    public async Task<EmployeeDTO> GetEmployeeByEmail(string email)
+    {
+        var employee = await unit.EmployeeRepository.GetEmployeeByEmail(email);
+
+        if (employee == null)
+        {
+            return null;
+        }
+
+        return mapper.Map<EmployeeDTO>(employee);
     }
 }

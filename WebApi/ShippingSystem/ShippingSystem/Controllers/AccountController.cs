@@ -15,11 +15,13 @@ using ShippingSystem.Models;
 using ShippingSystem.Services;
 using Server.DTOs.Passwords;
 using ShippingSystem.DTOs.Passwords;
+using Microsoft.AspNetCore.Cors;
 
 namespace ShippingSystem.Controllers
 {
     [Authorize]
     [ApiController]
+    [EnableCors("AllowSpecificOrigin")]
     [Route("api/[controller]")]
     [Produces("application/json")]
     [Consumes("application/json")]
@@ -151,7 +153,7 @@ namespace ShippingSystem.Controllers
             }
         }
 
-
+        [AllowAnonymous]
         [HttpGet("GetUserDetails")]
         public async Task<IActionResult> GetUserDetails()
         {

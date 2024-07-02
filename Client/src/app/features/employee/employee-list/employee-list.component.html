@@ -26,15 +26,15 @@
             <!-- <button class="btn btn-sm btn-primary">تعديل</button> -->
             <div class="d-flex justify-content-center">
               <i class="bi bi-trash3-fill text-danger me-2 fs-4"  ></i>
-              <i class="mx-1 fs-5 text-info bi bi-pencil-square fs-4" ></i>
-              <!-- [routerLink]="['/edit',,'employee']" -->
+              <i class="mx-1 fs-5 text-info bi bi-pencil-square fs-4"  [routerLink]="['/employee','edit',employee.id]" ></i>
+              
             </div>
           </td>
           <td>
             <!-- <div class="form-check form-switch d-flex justify-content-center">
               <input class="form-check-input" type="checkbox" [checked]="employee.status === 'Active'" (change)="toggleStatus(employee)">
             </div> -->
-            <div class="form-check form-switch justify-content-center d-flex " dir="rtl">
+            <div class="form-check form-switch justify-content-center d-flex  ps-0" dir="rtl">
               <input class="form-check-input fs-5 " type="checkbox" role="switch" name="status"  id="flexSwitchCheckDefault" dir="rtl" [checked]="employee.status">
             </div>    
           </td>
@@ -43,7 +43,7 @@
           <td>{{ employee.phone }}</td>
           <td>{{ employee.email }}</td>
           <td>{{ employee.fullName }}</td>
-          <td>{{employees.indexOf(employee)}}</td>
+          <td></td>
         </tr>
       </tbody>
     </table>

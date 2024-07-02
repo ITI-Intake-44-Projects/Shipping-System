@@ -1,7 +1,8 @@
+import { AuthService } from './../../auth/auth.service';
 import { error } from 'console';
 import { EmployeeService } from '../employee.service';
-import { Employee } from './../../../Models/Employee';
 import { Component, OnInit } from '@angular/core';
+import { Employee } from '../../../Models/Employee';
 
 @Component({
   selector: 'app-employee-list',
@@ -10,26 +11,34 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmployeeListComponent implements OnInit {
 
-  employees : Employee[] = []
+  employees : Employee[]  = []
 
   p: number = 1; // current page
 
-  constructor(private employeeService : EmployeeService) {
+  userId : string = '' 
+  constructor(private employeeService : EmployeeService,private authService : AuthService) {
 
 
-   }
-
+  }
 
 
   ngOnInit(): void {
 
     this.employeeService.getAll().subscribe({
-      next:(data:Employee[])=>{
+      next:(data:Employee[] )=>{
         console.log(data)
         this.employees= data
       },
       error:(error)=>{
         console.log(error)
+      }
+    })
+
+    this.authService.getUserDetails().subscribe({
+      next:(data:any)=>{
+        console.log(data)
+        this.userId = data.id
+        console.log(this.userId)
       }
     })
   }

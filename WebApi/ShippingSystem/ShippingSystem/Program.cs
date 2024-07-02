@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ShippingSystem.Models;
 using ShippingSystem.Services;
+using ShippingSystem.UnitOfWorks;
 using System.Text;
 
 namespace ShippingSystem
@@ -18,7 +19,6 @@ namespace ShippingSystem
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
             builder.Services.AddEndpointsApiExplorer();
@@ -36,6 +36,7 @@ namespace ShippingSystem
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequiredLength = 5;
+                options.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<ShippingContext>()
                 .AddDefaultTokenProviders();
@@ -45,6 +46,8 @@ namespace ShippingSystem
             });
 
             builder.Services.AddScoped<IAccountControllerService, AccountControllerService>();
+            builder.Services.AddScoped<EmployeeService>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -93,13 +96,14 @@ namespace ShippingSystem
 
 
             //> Add CORS Policies
-            string Policies = "";
+            string Policies = "AllowSpecificOrigin";
             builder.Services.AddCors(options => {
                 options.AddPolicy(Policies,
                 builder => {
                     builder.AllowAnyOrigin();
                     builder.AllowAnyMethod();
                     builder.AllowAnyHeader();
+                                    
                 });
             });
 
@@ -132,6 +136,10 @@ namespace ShippingSystem
                 };
             });
             #endregion
+
+
+            builder.Services.AddControllers();
+
 
             var app = builder.Build();
 

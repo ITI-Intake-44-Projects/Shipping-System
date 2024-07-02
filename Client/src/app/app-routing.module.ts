@@ -3,10 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './features/auth/auth.guard';
 
 const routes: Routes = [
-  { path: '', loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule), canActivate: [authGuard] },
+  // { path: '', loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule), canActivate: [authGuard] },
   { path: 'auth', loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule)},
-  
-  { path: '**', loadChildren: () => import('./shared/modules/shared.module').then(m => m.SharedModule) }
+  { path: 'employee', loadChildren: () => import('./features/employee/employee.module').then(m => m.EmployeeModule)},
+
+  // { path: '**', loadChildren: () => import('./shared/modules/shared.module').then(m => m.SharedModule) }
 ];
 
 @NgModule({

@@ -53,4 +53,16 @@ export class AuthService {
   resetPassword(data: ResetPasswordDTO): Observable<ResponseDTO> {
     return this.http.post<ResponseDTO>(`${this.apiURL}/account/resetPassword`, data);
   }
+
+
+  getUserDetails(): Observable<any> {
+    const token = localStorage.getItem('token');
+    console.log()
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+  
+    return this.http.get<any>(`${this.apiURL}Account/GetUserDetails`, { headers });
+  }
 }
