@@ -38,7 +38,7 @@ namespace ShippingSystem.Services
              .ForMember(dest => dest.Branch_Id, opt => opt.MapFrom(src => src.BranchId))
              .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Phone))
              .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password))
-             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
+             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src=>src.UserName))
              .ForMember(dest => dest.Id, opt => opt.Ignore());
             
 

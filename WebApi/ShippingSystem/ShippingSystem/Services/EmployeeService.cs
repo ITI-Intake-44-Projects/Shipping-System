@@ -37,23 +37,30 @@ public class EmployeeService
         return mapper.Map<EmployeeDTO>(employee);
     }
 
-    public async Task AddEmployee(EmployeeDTO employeeDto)
+    public async Task<IdentityResult> AddEmployee(EmployeeDTO employeeDto)
     {
         var employee = mapper.Map<Employee>(employeeDto);
 
+        //await userManager.UserValidators
         var result = await userManager.CreateAsync(employee, employeeDto.Password); // Replace with appropriate password handling
         if (!result.Succeeded)
         {
-            return;
+            return result;
         }
 
-       // Assign roles to the new employee
+        // Assign roles to the new employee
 
-        var rolesResult = await userManager.AddToRolesAsync(employee, employeeDto.Roles);
-        if (!rolesResult.Succeeded)
+        if (employeeDto.Roles != null) 
         {
-            throw new Exception($"Failed to assign roles to user '{employee.UserName}'.");
+            var rolesResult = await userManager.AddToRolesAsync(employee, employeeDto.Roles);
+            if (!rolesResult.Succeeded)
+            {
+                throw new Exception($"Failed to assign roles to user '{employee.FullName}'.");
+            }
+
         }
+
+        return result; 
 
         // No need to await AssertConfigurationIsValid because it returns void
         //mapper.ConfigurationProvider.AssertConfigurationIsValid();
@@ -65,12 +72,16 @@ public class EmployeeService
 
         var current_roles = await userManager.GetRolesAsync(employee);
 
-        await userManager.RemoveFromRolesAsync(employee,current_roles);
 
-        var resultRole = await userManager.AddToRolesAsync(employee, employeeDto.Roles);
-        if(!resultRole.Succeeded) 
+        if (employeeDto.Roles != null)
         {
-           throw new Exception($"Failed to assign roles to user '{employeeDto.FullName}'.");
+            await userManager.RemoveFromRolesAsync(employee, current_roles);
+            var rolesResult = await userManager.AddToRolesAsync(employee, employeeDto.Roles);
+            if (!rolesResult.Succeeded)
+            {
+                throw new Exception($"Failed to assign roles to user '{employee.FullName}'.");
+            }
+
         }
         employee.FullName = employeeDto.FullName;
         //employee.UserName = employeeDto.UserName;
@@ -113,11 +124,23 @@ public class EmployeeService
         {
             return false;
         }
-        await unit.EmployeeRepository.Delete(id);
 
-        await unit.EmployeeRepository.Save();
+       var result =  await unit.EmployeeRepository.DisableEmployee(id);
 
-        return true;
+        if (result == false)
+            return false;
+        try
+        {
+            await unit.EmployeeRepository.Save();
+
+            return true;
+        }
+
+        catch (Exception ex) 
+        {
+            return false;
+        }
+      
     }
 
    public async Task<EmployeeDTO> GetEmployeeByName(string name)

@@ -24,10 +24,10 @@ namespace ShippingSystem.Controllers
 
             var employees = await employeeService.GetAllEmployees();
 
-            if(employees == null) 
+            if (employees == null)
             {
                 return NotFound(new { message = "no employees found" });
-            
+
             }
             return Ok(employees);
         }
@@ -46,8 +46,8 @@ namespace ShippingSystem.Controllers
             return Ok(employee);
         }
 
-        [HttpGet("name/{name}")]
-        public async Task<ActionResult<EmployeeDTO>> GetEmployeeByName(string name)
+        [HttpGet("name")]
+        public async Task<ActionResult<EmployeeDTO>> GetEmployeeByName([FromQuery] string name)
         {
             var employee = await employeeService.GetEmployeeByName(name);
 
@@ -56,7 +56,7 @@ namespace ShippingSystem.Controllers
                 return NotFound(new { message = "no employee found with this name" });
             }
 
-            return Ok(employee);
+            return Ok();
         }
 
         [HttpGet("email/{email}")]
@@ -83,8 +83,12 @@ namespace ShippingSystem.Controllers
             }
 
 
-            await employeeService.AddEmployee(employeeDto);
+             var result = await employeeService.AddEmployee(employeeDto);
 
+            if (!result.Succeeded) 
+            {
+                return BadRequest(new {errors =  result.Errors });
+            }
             return Ok(new { message = "employee added successfully" });
 
 
@@ -110,16 +114,25 @@ namespace ShippingSystem.Controllers
                 return BadRequest(ModelState);
 
             }
-
-            var result =  await employeeService.UpdateEmployee(id,employeeDto);
-
-            if (!result.Succeeded)
+            try
             {
-                return BadRequest(result.Errors);
+                var result =  await employeeService.UpdateEmployee(id,employeeDto);
+                if (!result.Succeeded)
+                {
+                    return BadRequest(result.Errors);
+
+                }
+
+                return Ok(new { message = "employee updated successfully" });
 
             }
+            catch (Exception ex) 
+            { 
+                return BadRequest(ex.Message);
+            }
 
-            return Ok(new { message = "employee updated successfully" });
+           
+
         }
 
         // DELETE: api/Employees/{id}

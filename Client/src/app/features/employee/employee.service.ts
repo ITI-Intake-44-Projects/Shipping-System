@@ -10,11 +10,17 @@ import { Employee } from '../../Models/Employee';
   providedIn: 'root'
 })
 export class EmployeeService extends ApiService<Employee> {
+  
 
 
   constructor(http:HttpClient , @Inject('apiUrl') protected apiUrl:string ) 
   {
     super(http,environment.apiUrl+'employees')
+  }
+
+
+  searchByName(name : string):Observable<Employee>{
+    return this.http.get<Employee>(`${this.apiUrL}/name/${name}`)
   }
 
  

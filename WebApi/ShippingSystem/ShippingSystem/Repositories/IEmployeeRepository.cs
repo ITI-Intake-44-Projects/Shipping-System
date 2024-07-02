@@ -11,5 +11,7 @@ namespace ShippingSystem.Repositories
 
         public Task<IEnumerable<Employee>> GetActiveEmployee();
 
+        public Task<bool> DisableEmployee(string id);
+
     }
 }

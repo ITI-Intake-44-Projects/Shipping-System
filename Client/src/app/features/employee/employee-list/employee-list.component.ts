@@ -3,6 +3,8 @@ import { error } from 'console';
 import { EmployeeService } from '../employee.service';
 import { Component, OnInit } from '@angular/core';
 import { Employee } from '../../../Models/Employee';
+import { Router } from '@angular/router';
+import { response } from 'express';
 
 @Component({
   selector: 'app-employee-list',
@@ -16,7 +18,10 @@ export class EmployeeListComponent implements OnInit {
   p: number = 1; // current page
 
   userId : string = '' 
-  constructor(private employeeService : EmployeeService,private authService : AuthService) {
+
+  employeeName : string =''
+
+  constructor(private employeeService : EmployeeService,private authService : AuthService,private router :Router) {
 
 
   }
@@ -34,17 +39,48 @@ export class EmployeeListComponent implements OnInit {
       }
     })
 
-    this.authService.getUserDetails().subscribe({
-      next:(data:any)=>{
-        console.log(data)
-        this.userId = data.id
-        console.log(this.userId)
+    // this.authService.getUserDetails().subscribe({
+    //   next:(data:any)=>{
+    //     console.log(data)
+    //     this.userId = data.id
+    //     console.log(this.userId)
+    //   }
+    // })
+  }
+
+  search(){
+
+
+    this.employeeService.searchByName(this.employeeName).subscribe({
+      next:(data:Employee)=>{
+        this.employees = []
+        this.employees.push(data)
+        // const currentUrl = this.router.url;
+        // this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        //   this.router.navigate([currentUrl]);
+        // });
+      }
+      ,
+      error:(error)=>{
+       console.log(error);
       }
     })
   }
 
-  toggleStatus(employee: any): void {
-    employee.status = employee.status === 'Active' ? 'Inactive' : 'Active';
-    // Optionally, make an API call to save the status change
+  delete(id:string){
+
+    this.employeeService.deleteItem(id).subscribe({
+        next:(response)=>{
+          console.log("response",response);
+          const currentUrl = this.router.url;
+          this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+            this.router.navigate([currentUrl]);
+          });
+        },
+
+        error:(error)=>{
+          console.log("error:" ,error.errors);
+        }
+    })
   }
 }

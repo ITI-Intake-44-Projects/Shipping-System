@@ -34,7 +34,7 @@ export class ApiService<T> {
     return this.http.put<T>(`${this.apiUrL}/${itemId}`, item) 
   }
 
-  deleteItem(itemId: number): Observable<void> {
+  deleteItem(itemId: number |string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrL}/${itemId}`)
   }
 

@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +30,7 @@ namespace ShippingSystem
                                   .UseLazyLoadingProxies()
             );
 
-            builder.Services.AddIdentity<ApplicationUser,Group>(options =>
+            builder.Services.AddIdentity<ApplicationUser, Group>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
@@ -40,6 +40,9 @@ namespace ShippingSystem
             })
                 .AddEntityFrameworkStores<ShippingContext>()
                 .AddDefaultTokenProviders();
+                //.AddUserValidator<CustomUserValidator<ApplicationUser>>(); // Add custom user validator
+
+
 
             builder.Services.Configure<IdentityOptions>(options => {
                 options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultProvider;
@@ -50,6 +53,7 @@ namespace ShippingSystem
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddAutoMapper(typeof(MappingProfile));
+
 
             //> Ignore reference loops in the JSON serialization
             builder.Services.AddControllers().AddNewtonsoftJson(
