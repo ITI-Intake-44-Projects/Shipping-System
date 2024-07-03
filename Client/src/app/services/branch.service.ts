@@ -15,20 +15,20 @@ export class BranchService {
     });
   }
 
-  createBranch(representative: any): Observable<any> {
-    return this.http.post<any>(`${this.apiURL}`, representative, {
+  createBranch(branch: any): Observable<any> {
+    return this.http.post<any>(`${this.apiURL}`, branch, {
       withCredentials: true,
     });
   }
 
-  deleteBranch(representativeId: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiURL}/${representativeId}`, {
+  deleteBranch(branchId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiURL}/${branchId}`, {
       withCredentials: true,
     });
   }
 
-  updateBranch(representativeId: string, representative: any): Observable<any> {
-    return this.http.put<any>(`${this.apiURL}/${representativeId}`, representative, {
+  updateBranch(branchId: string, branch: any): Observable<any> {
+    return this.http.put<any>(`${this.apiURL}/${branchId}`, branch, {
       withCredentials: true,
     });
   }

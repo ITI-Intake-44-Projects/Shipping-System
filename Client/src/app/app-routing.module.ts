@@ -49,6 +49,11 @@ const routes: Routes = [
       import('./features/branch/branch.module').then((m) => m.BranchModule),
   },
   {
+    path: 'shippingtype',
+    loadChildren: () =>
+      import('./features/shippingtype/shippingtype.module').then((m) => m.ShippingTypeModule),
+  },
+  {
     path: '**',
     loadChildren: () =>
       import('./shared/modules/shared.module').then((m) => m.SharedModule),
