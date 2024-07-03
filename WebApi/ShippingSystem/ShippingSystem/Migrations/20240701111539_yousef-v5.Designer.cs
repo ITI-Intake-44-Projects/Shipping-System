@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShippingSystem.Models;
 
@@ -11,9 +12,11 @@ using ShippingSystem.Models;
 namespace ShippingSystem.Migrations
 {
     [DbContext(typeof(ShippingContext))]
-    partial class ShippingContextModelSnapshot : ModelSnapshot
+    [Migration("20240701111539_yousef-v5")]
+    partial class yousefv5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -234,7 +237,7 @@ namespace ShippingSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("Governate_Id")
+                    b.Property<int>("Governate_Id")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -642,8 +645,8 @@ namespace ShippingSystem.Migrations
                     b.Property<int?>("Governate_Id")
                         .HasColumnType("int");
 
-                    b.Property<float?>("InCompleteShippingRatio")
-                        .HasColumnType("real");
+                    b.Property<int?>("InCompleteShippingRatio")
+                        .HasColumnType("int");
 
                     b.Property<int?>("SpecialPickupCost")
                         .HasColumnType("int");
@@ -670,11 +673,11 @@ namespace ShippingSystem.Migrations
                     b.Property<int?>("Branch_Id")
                         .HasColumnType("int");
 
-                    b.Property<float?>("CompanyOrderPrecentage")
-                        .HasColumnType("real");
+                    b.Property<int?>("CompanyOrderPrecentage")
+                        .HasColumnType("int");
 
-                    b.Property<float?>("SalePrecentage")
-                        .HasColumnType("real");
+                    b.Property<int?>("SalePrecentage")
+                        .HasColumnType("int");
 
                     b.HasIndex("Branch_Id");
 
@@ -736,7 +739,9 @@ namespace ShippingSystem.Migrations
                 {
                     b.HasOne("ShippingSystem.Models.Governate", "Governate")
                         .WithMany("Cities")
-                        .HasForeignKey("Governate_Id");
+                        .HasForeignKey("Governate_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Governate");
                 });

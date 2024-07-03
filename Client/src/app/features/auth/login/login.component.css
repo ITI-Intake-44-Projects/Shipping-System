@@ -33,6 +33,18 @@ h2 {
   text-align: right;
 }
 
+.password-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.password-container i {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+}
+
 label {
   display: block;
   margin-bottom: 0.5rem;
@@ -68,4 +80,31 @@ input {
   color: #dc3545;
   text-align: right;
   font-size: 0.875rem;
+}
+
+.forgot-password {
+  color: #15467e;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.form-check-input {
+  width: 20px;
+}
+
+.form-check-input:checked {
+  background-color: #15467e;
+  border-color: #15467e;
+}
+
+.form-check-label {
+  margin: 0;
 }

@@ -38,9 +38,13 @@ namespace ShippingSystem
                 options.Password.RequireLowercase = false;
                 options.Password.RequiredLength = 5;
             })
-            .AddEntityFrameworkStores<ShippingContext>();
+                .AddEntityFrameworkStores<ShippingContext>()
+                .AddDefaultTokenProviders();
 
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.Configure<IdentityOptions>(options => {
+                options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultProvider;
+            });
+
             builder.Services.AddScoped<IAccountControllerService, AccountControllerService>();
             builder.Services.AddScoped<GovernateService>();
             builder.Services.AddScoped<CityService>();

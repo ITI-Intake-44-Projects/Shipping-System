@@ -12,8 +12,8 @@ using ShippingSystem.Models;
 namespace ShippingSystem.Migrations
 {
     [DbContext(typeof(ShippingContext))]
-    [Migration("20240627174233_yousef-v2")]
-    partial class yousefv2
+    [Migration("20240630184252_yousef-v4")]
+    partial class yousefv4
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -155,6 +155,9 @@ namespace ShippingSystem.Migrations
 
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -301,13 +304,33 @@ namespace ShippingSystem.Migrations
 
             modelBuilder.Entity("ShippingSystem.Models.GroupPrivilege", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool?>("Add")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("Delete")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Group_Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Privelege_Id")
+                    b.Property<int?>("Privelege_Id")
                         .HasColumnType("int");
 
-                    b.HasKey("Group_Id", "Privelege_Id");
+                    b.Property<bool?>("Update")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("View")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Group_Id");
 
                     b.HasIndex("Privelege_Id");
 
@@ -325,8 +348,8 @@ namespace ShippingSystem.Migrations
                     b.Property<int?>("Branch_Id")
                         .HasColumnType("int");
 
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("City_Id")
+                        .HasColumnType("int");
 
                     b.Property<string>("CustomerEmail")
                         .HasColumnType("nvarchar(max)");
@@ -340,14 +363,11 @@ namespace ShippingSystem.Migrations
                     b.Property<string>("CustomerPhone2")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Governate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Governate_Id")
+                        .HasColumnType("int");
 
-                    b.Property<string>("MerchantAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MerchantMobile")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Merchant_Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
@@ -366,6 +386,9 @@ namespace ShippingSystem.Migrations
 
                     b.Property<int?>("Payment_Id")
                         .HasColumnType("int");
+
+                    b.Property<string>("Representative_Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("ShippingCost")
                         .HasColumnType("int");
@@ -389,9 +412,17 @@ namespace ShippingSystem.Migrations
 
                     b.HasIndex("Branch_Id");
 
+                    b.HasIndex("City_Id");
+
+                    b.HasIndex("Governate_Id");
+
+                    b.HasIndex("Merchant_Id");
+
                     b.HasIndex("OrderType_Id");
 
                     b.HasIndex("Payment_Id");
+
+                    b.HasIndex("Representative_Id");
 
                     b.HasIndex("Shipping_Id");
 
@@ -438,20 +469,8 @@ namespace ShippingSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
 
-                    b.Property<bool?>("Add")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("Delete")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("Update")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("View")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -533,11 +552,11 @@ namespace ShippingSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("City_Id")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Governate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Governate_Id")
+                        .HasColumnType("int");
 
                     b.Property<string>("Merchant_Id")
                         .IsRequired()
@@ -547,6 +566,8 @@ namespace ShippingSystem.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Governate_Id");
 
                     b.HasIndex("Merchant_Id");
 
@@ -720,15 +741,11 @@ namespace ShippingSystem.Migrations
                 {
                     b.HasOne("ShippingSystem.Models.Group", "Group")
                         .WithMany("Privileges")
-                        .HasForeignKey("Group_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Group_Id");
 
                     b.HasOne("ShippingSystem.Models.Privilege", "Privilege")
                         .WithMany("Privileges")
-                        .HasForeignKey("Privelege_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Privelege_Id");
 
                     b.Navigation("Group");
 
@@ -741,6 +758,18 @@ namespace ShippingSystem.Migrations
                         .WithMany()
                         .HasForeignKey("Branch_Id");
 
+                    b.HasOne("ShippingSystem.Models.City", "City")
+                        .WithMany()
+                        .HasForeignKey("City_Id");
+
+                    b.HasOne("ShippingSystem.Models.Governate", "Governate")
+                        .WithMany()
+                        .HasForeignKey("Governate_Id");
+
+                    b.HasOne("ShippingSystem.Models.Merchant", "Merchant")
+                        .WithMany()
+                        .HasForeignKey("Merchant_Id");
+
                     b.HasOne("ShippingSystem.Models.OrderType", "OrderType")
                         .WithMany()
                         .HasForeignKey("OrderType_Id");
@@ -749,15 +778,27 @@ namespace ShippingSystem.Migrations
                         .WithMany()
                         .HasForeignKey("Payment_Id");
 
+                    b.HasOne("ShippingSystem.Models.Representative", "Representative")
+                        .WithMany()
+                        .HasForeignKey("Representative_Id");
+
                     b.HasOne("ShippingSystem.Models.ShippingType", "ShippingType")
                         .WithMany()
                         .HasForeignKey("Shipping_Id");
 
                     b.Navigation("Branch");
 
+                    b.Navigation("City");
+
+                    b.Navigation("Governate");
+
+                    b.Navigation("Merchant");
+
                     b.Navigation("OrderType");
 
                     b.Navigation("PaymentType");
+
+                    b.Navigation("Representative");
 
                     b.Navigation("ShippingType");
                 });
@@ -792,11 +833,17 @@ namespace ShippingSystem.Migrations
 
             modelBuilder.Entity("ShippingSystem.Models.SpecialPrice", b =>
                 {
+                    b.HasOne("ShippingSystem.Models.Governate", "Governate")
+                        .WithMany()
+                        .HasForeignKey("Governate_Id");
+
                     b.HasOne("ShippingSystem.Models.Merchant", "Merchant")
                         .WithMany("SpecialPrices")
                         .HasForeignKey("Merchant_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Governate");
 
                     b.Navigation("Merchant");
                 });
