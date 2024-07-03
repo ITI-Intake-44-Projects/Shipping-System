@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShippingSystem.DTOs.Representatives;
 using ShippingSystem.Models;
@@ -12,16 +14,29 @@ namespace ShippingSystem.Controllers
     public class RepresentativesController : ControllerBase
     {
         private readonly ShippingContext _context;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IMapper mapper;
 
-        public RepresentativesController(ShippingContext context)
+        public RepresentativesController(ShippingContext context,UserManager<ApplicationUser> _userManager,IMapper _mapper)
         {
             _context = context;
+            userManager = _userManager;
+            mapper = _mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Representative>>> GetRepresentatives()
+        public async Task<ActionResult<IEnumerable<RepresentativeDTO>>> GetRepresentatives()
         {
-            return await _context.Representatives.ToListAsync();
+            var representatives =  await _context.Representatives.ToListAsync();
+
+            if (representatives == null)
+            {
+                return NotFound(new {message ="no representatives found"});
+            }
+
+            var representativesDto = mapper.Map<IEnumerable<RepresentativeDTO>>(representatives);
+
+            return Ok(representativesDto);
         }
 
         [HttpGet("{id}")]
@@ -34,7 +49,20 @@ namespace ShippingSystem.Controllers
                 return NotFound();
             }
 
-            return representative;
+            var representativeDto = new RepresentativeDTO()
+            {
+                FullName = representative.FullName,
+                PhoneNumber=representative.PhoneNumber,
+                Email = representative.Email,
+                Address = representative.Address,
+                CompanyOrderPrecentage = representative.CompanyOrderPrecentage,
+                SalePrecentage = representative.SalePrecentage,
+                Branch_Id = representative.Branch.Id,
+                Password = representative.PasswordHash
+            };
+
+
+            return Ok(representativeDto);
         }
 
         [HttpPost]
@@ -43,6 +71,7 @@ namespace ShippingSystem.Controllers
             var representative = new Representative
             {
                 FullName = representativeDto.FullName,
+                UserName = representativeDto.UserName,
                 PhoneNumber = representativeDto.PhoneNumber,
                 Email = representativeDto.Email,
                 Address = representativeDto.Address,
@@ -60,11 +89,22 @@ namespace ShippingSystem.Controllers
                     Representative = representative
                 });
             }
+            var result = await userManager.CreateAsync(representative, representativeDto.Password); 
+            if (!result.Succeeded)
+            {
+                return BadRequest(result);
+            }
+            
 
-            _context.Representatives.Add(representative);
-            await _context.SaveChangesAsync();
+            var rolesResult = await userManager.AddToRoleAsync(representative,"representative");
 
-            return CreatedAtAction("GetRepresentative", new { id = representative.Id }, representative);
+            if (!rolesResult.Succeeded)
+            {
+                return BadRequest(rolesResult);
+            }
+           
+
+            return Ok(new { message = "representative added successfully" });
         }
 
         [HttpPut("{id}")]
