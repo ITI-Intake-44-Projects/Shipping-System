@@ -27,6 +27,5 @@ namespace ShippingSystem.Models
         public virtual Group? Group { get; set; }
 
 
-
     }
 }
