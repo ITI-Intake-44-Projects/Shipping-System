@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShippingSystem.Models;
 
@@ -11,9 +12,11 @@ using ShippingSystem.Models;
 namespace ShippingSystem.Migrations
 {
     [DbContext(typeof(ShippingContext))]
-    partial class ShippingContextModelSnapshot : ModelSnapshot
+    [Migration("20240630184252_yousef-v4")]
+    partial class yousefv4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -280,9 +283,6 @@ namespace ShippingSystem.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DateAdded")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
@@ -567,8 +567,6 @@ namespace ShippingSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("City_Id");
-
                     b.HasIndex("Governate_Id");
 
                     b.HasIndex("Merchant_Id");
@@ -636,14 +634,14 @@ namespace ShippingSystem.Migrations
                     b.Property<int?>("Branch_Id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("City_Id")
-                        .HasColumnType("int");
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Governate_Id")
-                        .HasColumnType("int");
+                    b.Property<string>("Governate")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<float?>("InCompleteShippingRatio")
-                        .HasColumnType("real");
+                    b.Property<int?>("InCompleteShippingRatio")
+                        .HasColumnType("int");
 
                     b.Property<int?>("SpecialPickupCost")
                         .HasColumnType("int");
@@ -652,10 +650,6 @@ namespace ShippingSystem.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasIndex("Branch_Id");
-
-                    b.HasIndex("City_Id");
-
-                    b.HasIndex("Governate_Id");
 
                     b.ToTable("Merchants", (string)null);
                 });
@@ -670,11 +664,11 @@ namespace ShippingSystem.Migrations
                     b.Property<int?>("Branch_Id")
                         .HasColumnType("int");
 
-                    b.Property<float?>("CompanyOrderPrecentage")
-                        .HasColumnType("real");
+                    b.Property<int?>("CompanyOrderPrecentage")
+                        .HasColumnType("int");
 
-                    b.Property<float?>("SalePrecentage")
-                        .HasColumnType("real");
+                    b.Property<int?>("SalePrecentage")
+                        .HasColumnType("int");
 
                     b.HasIndex("Branch_Id");
 
@@ -821,7 +815,7 @@ namespace ShippingSystem.Migrations
             modelBuilder.Entity("ShippingSystem.Models.RepresentativeGovernate", b =>
                 {
                     b.HasOne("ShippingSystem.Models.Governate", "Governate")
-                        .WithMany("RepresentativeGovernates")
+                        .WithMany()
                         .HasForeignKey("Governate_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -839,10 +833,6 @@ namespace ShippingSystem.Migrations
 
             modelBuilder.Entity("ShippingSystem.Models.SpecialPrice", b =>
                 {
-                    b.HasOne("ShippingSystem.Models.City", "City")
-                        .WithMany()
-                        .HasForeignKey("City_Id");
-
                     b.HasOne("ShippingSystem.Models.Governate", "Governate")
                         .WithMany()
                         .HasForeignKey("Governate_Id");
@@ -852,8 +842,6 @@ namespace ShippingSystem.Migrations
                         .HasForeignKey("Merchant_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("City");
 
                     b.Navigation("Governate");
 
@@ -881,14 +869,6 @@ namespace ShippingSystem.Migrations
                         .WithMany("Merchants")
                         .HasForeignKey("Branch_Id");
 
-                    b.HasOne("ShippingSystem.Models.City", "City")
-                        .WithMany()
-                        .HasForeignKey("City_Id");
-
-                    b.HasOne("ShippingSystem.Models.Governate", "Governate")
-                        .WithMany()
-                        .HasForeignKey("Governate_Id");
-
                     b.HasOne("ShippingSystem.Models.ApplicationUser", null)
                         .WithOne()
                         .HasForeignKey("ShippingSystem.Models.Merchant", "Id")
@@ -896,10 +876,6 @@ namespace ShippingSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("Branch");
-
-                    b.Navigation("City");
-
-                    b.Navigation("Governate");
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.Representative", b =>
@@ -929,8 +905,6 @@ namespace ShippingSystem.Migrations
             modelBuilder.Entity("ShippingSystem.Models.Governate", b =>
                 {
                     b.Navigation("Cities");
-
-                    b.Navigation("RepresentativeGovernates");
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.Group", b =>

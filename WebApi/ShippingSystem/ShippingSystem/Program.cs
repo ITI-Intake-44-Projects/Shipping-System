@@ -30,14 +30,19 @@ namespace ShippingSystem
                                   .UseLazyLoadingProxies()
             );
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            builder.Services.AddIdentity<ApplicationUser,Group>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequiredLength = 5;
             })
-            .AddEntityFrameworkStores<ShippingContext>();
+                .AddEntityFrameworkStores<ShippingContext>()
+                .AddDefaultTokenProviders();
+
+            builder.Services.Configure<IdentityOptions>(options => {
+                options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultProvider;
+            });
 
             builder.Services.AddScoped<IAccountControllerService, AccountControllerService>();
 
