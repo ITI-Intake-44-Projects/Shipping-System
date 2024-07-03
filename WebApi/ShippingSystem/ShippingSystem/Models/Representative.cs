@@ -9,9 +9,9 @@ namespace ShippingSystem.Models
 
         public string? Address { get; set; }
 
-        public int? CompanyOrderPrecentage { get; set; }
+        public float? CompanyOrderPrecentage { get; set; }
 
-        public int? SalePrecentage { get; set; }
+        public float? SalePrecentage { get; set; }
 
         [ForeignKey("Branch")]
         public int? Branch_Id { get; set; }
