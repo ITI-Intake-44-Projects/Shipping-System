@@ -8,13 +8,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from './features/auth/auth.module';
 import { SharedModule } from './shared/modules/shared.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-
+import { MerchantsModule } from './features/merchant/merchants.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    MerchantsModule,
     BrowserModule, AppRoutingModule, HttpClientModule,
-    FormsModule, ReactiveFormsModule, AuthModule, SharedModule
+    FormsModule, ReactiveFormsModule, AuthModule, SharedModule, NgbModule
   ],
   providers: [
     provideClientHydration(), provideHttpClient(withFetch()),

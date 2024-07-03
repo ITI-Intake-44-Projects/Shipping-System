@@ -1,0 +1,49 @@
+<div class="modalContainer">
+<div class="merchant-modal-header">
+  <h1 class="merchant-modal-title">Merchant Details</h1>
+  <button type="button" class="btn-close" aria-label="Close" (click)="onNoClick()"></button>
+</div>
+<div class="merchant-modal-body">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <p><strong>ID:</strong> {{data.merchant.id}}</p>
+        <p><strong>Full Name:</strong> {{data.merchant.fullName}}</p>
+        <p><strong>Username:</strong> {{data.merchant.userName}}</p>
+        <p><strong>Email:</strong> {{data.merchant.email}}</p>
+        <p><strong>Phone Number:</strong> {{data.merchant.phoneNumber}}</p>
+        <p><strong>Store Name:</strong> {{data.merchant.storeName}}</p>
+        <p><strong>Address:</strong> {{data.merchant.address}}</p>
+        <p><strong>City:</strong> {{data.merchant.city}}</p>
+        <p><strong>Governate:</strong> {{data.merchant.governate}}</p>
+        <p><strong>Branch Name:</strong> {{data.merchant.branchName}}</p>
+        <p><strong>Incomplete Shipping Ratio:</strong> {{data.merchant.inCompleteShippingRatio}}</p>
+        <p><strong>Special Pickup Cost:</strong> {{data.merchant.specialPickupCost}}</p>
+        <div *ngIf="data.merchant.specialPrices.length > 0">
+          <h3 class="special-prices-title">Special Prices</h3>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Governate</th>
+                <th>City</th>
+                <th>Transport Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let price of data.merchant.specialPrices">
+                <td>{{price.governate}}</td>
+                <td>{{price.city}}</td>
+                <td>{{price.transportCost}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Deleted:</strong> <span [class.text-danger]="data.merchant.isDeleted">{{data.merchant.isDeleted ? 'Yes' : 'No'}}</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="merchant-modal-footer">
+  <button class="btn btn-secondary m-2" (click)="onNoClick()">Close</button>
+</div>
+</div>
