@@ -78,7 +78,7 @@ namespace ShippingSystem.Controllers
                 CompanyOrderPrecentage = representativeDto.CompanyOrderPrecentage,
                 SalePrecentage = representativeDto.SalePrecentage,
                 Branch_Id = representativeDto.Branch_Id,
-                PasswordHash = representativeDto.Password
+                //PasswordHash = representativeDto.Password
             };
 
             foreach (var governateId in representativeDto.GovernateIds)
@@ -131,7 +131,7 @@ namespace ShippingSystem.Controllers
             representative.CompanyOrderPrecentage = representativeDto.CompanyOrderPrecentage;
             representative.SalePrecentage = representativeDto.SalePrecentage;
             representative.Branch_Id = representativeDto.Branch_Id;
-            representative.PasswordHash = representativeDto.Password;
+            //representative.PasswordHash = representativeDto.Password;
 
             // Update RepresentativeGovernates
             representative.RepresentativeGovernates.Clear();
@@ -144,12 +144,36 @@ namespace ShippingSystem.Controllers
                 });
             }
 
-           var result = await userManager.UpdateAsync(representative);
+            if (!string.IsNullOrWhiteSpace(representativeDto.Password))
+            {
+                // Check if the new password is different from the current password
+                var passwordHasher = new PasswordHasher<Representative>();
+                var passwordVerificationResult = passwordHasher.VerifyHashedPassword(representative, representative.PasswordHash, representativeDto.Password);
+
+                if (passwordVerificationResult == PasswordVerificationResult.Failed)
+                {
+                    // Change password if the new password is different
+                    var resetToken = await userManager.GeneratePasswordResetTokenAsync(representative);
+                    var resultPass = await userManager.ResetPasswordAsync(representative, resetToken, representativeDto.Password);
+
+                    if (!resultPass.Succeeded)
+                    {
+                        // Handle password reset failure
+                        foreach (var error in resultPass.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                        return BadRequest(); // Or return an appropriate response
+                    }
+                }
+            }
+            var result = await userManager.UpdateAsync(representative);
 
             if(!result.Succeeded)
             {
                 return BadRequest(result.Errors);
             }
+
 
 
             return Ok(new {message = "representative updated successfully"});
