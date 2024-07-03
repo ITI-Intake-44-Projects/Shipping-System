@@ -27,7 +27,7 @@ namespace ShippingSystem.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RepresentativeDTO>>> GetRepresentatives()
         {
-            var representatives =  await _context.Representatives.ToListAsync();
+            var representatives = await _context.Representatives.Where(r => r.IsDeleted == false).ToListAsync();
 
             if (representatives == null)
             {
@@ -112,7 +112,7 @@ namespace ShippingSystem.Controllers
         {
             if (id != representativeDto.id)
             {
-                return BadRequest();
+                return BadRequest(new {message = "not valid id"});
             }
 
             var representative = await _context.Representatives
@@ -121,7 +121,7 @@ namespace ShippingSystem.Controllers
 
             if (representative == null)
             {
-                return NotFound();
+                return NotFound(new { message = "representative not found" });
             }
 
             representative.FullName = representativeDto.FullName;
@@ -144,47 +144,52 @@ namespace ShippingSystem.Controllers
                 });
             }
 
-            _context.Representatives.Update(representative);
+           var result = await userManager.UpdateAsync(representative);
 
-            try
+            if(!result.Succeeded)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RepresentativeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(result.Errors);
             }
 
-            return NoContent();
+
+            return Ok(new {message = "representative updated successfully"});
+            //_context.Representatives.Update(representative);
+
+            //try
+            //{
+            //    await _context.SaveChangesAsync();
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!RepresentativeExists(id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
+
+            //return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRepresentative(string id)
         {
             var representative = await _context.Representatives.FindAsync(id);
+
             if (representative == null)
             {
                 return NotFound();
             }
 
-            _context.Representatives.Remove(representative);
-            await _context.SaveChangesAsync();
+            representative.IsDeleted = true;
 
-            return NoContent();
+            return Ok(new {message =" representative deleted successfully"});
         }
 
-        private bool RepresentativeExists(string id)
-        {
-            return _context.Representatives.Any(e => e.Id == id);
-        }
-
+      
 
         [HttpGet("governorates")]
         public async Task<ActionResult<IEnumerable<RepresentativeGovernateDTO>>> GetGovernorates()

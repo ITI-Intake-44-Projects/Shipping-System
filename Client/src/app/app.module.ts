@@ -8,7 +8,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from './features/auth/auth.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { SharedModule } from './shared/modules/shared.module';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 

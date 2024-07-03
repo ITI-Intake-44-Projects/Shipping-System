@@ -4,18 +4,18 @@ import { authGuard } from './features/auth/auth.guard';
 import { LoginComponent } from './features/auth/login/login.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    loadChildren: () =>
-      import('./features/home/home.module').then((m) => m.HomeModule),
-    canActivate: [authGuard],
-  },
-  {
-    path: 'home',
-    loadChildren: () =>
-      import('./features/home/home.module').then((m) => m.HomeModule),
-    canActivate: [authGuard],
-  },
+  // {
+  //   path: '',
+  //   loadChildren: () =>
+  //     import('./features/home/home.module').then((m) => m.HomeModule),
+  //   canActivate: [authGuard],
+  // },
+  // {
+  //   path: 'home',
+  //   loadChildren: () =>
+  //     import('./features/'
+  //   canActivate: [authGuard],
+  // },
   {
     path: 'auth',
     loadChildren: () =>

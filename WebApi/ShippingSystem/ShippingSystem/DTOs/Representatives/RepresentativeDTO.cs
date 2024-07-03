@@ -14,9 +14,9 @@
 
         public string? Address { get; set; }
 
-        public int? CompanyOrderPrecentage { get; set; }
+        public float? CompanyOrderPrecentage { get; set; }
 
-        public int? SalePrecentage { get; set; }
+        public float? SalePrecentage { get; set; }
 
         public string? Password { get; set; }
 
