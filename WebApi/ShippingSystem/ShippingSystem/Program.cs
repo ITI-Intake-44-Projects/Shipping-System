@@ -45,6 +45,7 @@ namespace ShippingSystem
                 options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultProvider;
             });
 
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IAccountControllerService, AccountControllerService>();
             builder.Services.AddScoped<GovernateService>();
             builder.Services.AddScoped<CityService>();
