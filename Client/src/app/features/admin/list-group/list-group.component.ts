@@ -3,6 +3,7 @@ import { GroupService } from '../Services/group.service';
 import { Group } from '../interfaces/group';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-list-group',
