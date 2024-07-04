@@ -1,0 +1,259 @@
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="tabs d-flex flex-wrap flex-column align-items-center justify-content-center" dir="rtl">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs d-flex  align-items-center justify-content-center  border-0" role="tablist">
+                    <li class="nav-item pb-2  ">
+                        <a class="nav-link labeltext border-0 active"   role="tab" [ngClass]="{'active':selectedTab == 'customer'}" (click)="selectTab('customer')">بيانات العميل</a>
+                    </li>
+            
+                    <li class="nav-item pb-2 ">
+                        <a class="nav-link labeltext  border-0 " data-toggle="tab" role="tab" [ngClass]="{'active':selectedTab == 'order'}" (click)="selectTab('order')">بيانات الطلب</a>
+                    </li>
+            
+                    <li class="nav-item pb-2 ">
+                        <a class="nav-link labeltext  border-0" data-toggle="tab"  role="tab" [ngClass]="{'active':selectedTab == 'products'}" (click)="selectTab('products')">المنتجات</a>
+                    </li>
+    
+                    <li class="nav-item pb-2 ">
+                        <a class="nav-link labeltext  border-0" data-toggle="tab"  role="tab" [ngClass]="{'active':selectedTab == 'notes'}" (click)="selectTab('notes')">الملاحظات</a>
+                    </li>
+    
+    
+                </ul>
+            
+    
+                <div class="tab-content justify-content-center align-items-center pt-4">
+                    <div *ngIf="selectedTab == 'customer'" class="tab-pane fade show active " id="description" role="tabpanel">
+                        <div class="how-pos2">
+                            <div class="d-flex justify-content-center">
+                                <div class="ps-5">
+                                    <label for="basic-url" class="form-label labeltext">اسم العميل</label>
+                                    <div class="input-group mb-3">
+                                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+        
+                                <div class="ps-5">
+                                    <label for="basic-url" class="form-label labeltext">البريد الالكتروني</label>
+                                    <div class="input-group mb-3">
+                                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="d-flex">
+                                <div class="ps-5">
+                                    <label for="basic-url" class="form-label labeltext">رقم الهاتف الاول</label>
+                                    <div class="input-group mb-3">
+                                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+        
+                                <div class="ps-5">
+                                    <label for="basic-url" class="form-label labeltext">رقم الهاتف الثاني</label>
+                                    <div class="input-group mb-3">
+                                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="d-flex justify-content-between">
+                                <div class="ps-5 w-100" style="max-width: 50%;">
+                                    <label for="basic-url" class="form-label labeltext">المحافظة</label>
+                                    
+                                    <div class="w-100">
+                                        <select class="form-select w-100" aria-label="Default select example">
+                                            <option value = "0" selected>All</option>
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="15">15</option>
+                                          </select>
+                                    </div>
+                                </div>
+        
+                                <div class="ps-5 w-100" style="max-width: 50%;">
+                                    <label for="basic-url" class="form-label labeltext">المدينه</label>
+                                    
+                                    <div class="w-100">
+                                        <select class="form-select w-100" aria-label="Default select example">
+                                            <option value = "0" selected>All</option>
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="15">15</option>
+                                          </select>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="d-flex align-items-center">
+                                <div class="ps-5">
+                                    <label for="basic-url" class="form-label labeltext">الشارع</label>
+                                    <div class="input-group mb-3">
+                                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+        
+                                <div class="d-flex align-items-center justify-content-between ps-5 ">
+                                    <label for="basic-url" class="form-label mb-0 labeltext ps-2">التوصيل لقرية</label>
+                                    <div class="form-check form-switch d-flex justify-content-center ">
+                                        <input class="form-check-input fs-5" type="checkbox" role="switch" id="flexSwitchCheckDefault" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div  *ngIf="selectedTab == 'order'" class="tab-pane fade show active" id="information" role="tabpanel">
+                        <div class="row">
+                            <div class="col-sm-10 col-md-10 col-lg-12 mx-auto">
+                                <ul class="px-4 px-3-sm">
+                                    <li class="d-flex align-items-center justify-content-center pb-2">
+                                        <div class="ps-5">
+                                            <label for="basic-url" class="form-label labeltext">نوع الطلب</label>
+                                            <div class="w-100">
+                                                <select class="form-select w-100" aria-label="Default select example">
+                                                    <option value = "0" selected>All</option>
+                                                    <option value="5">5</option>
+                                                    <option value="10">10</option>
+                                                    <option value="15">15</option>
+                                                  </select>
+                                            </div>
+                                        </div>
+                
+                                        <div class="ps-5">
+                                            <label for="basic-url" class="form-label labeltext">نوع الشحن</label>
+                                            <div class="w-100">
+                                                <select class="form-select w-100" aria-label="Default select example">
+                                                    <option value = "0" selected>All</option>
+                                                    <option value="5">5</option>
+                                                    <option value="10">10</option>
+                                                    <option value="15">15</option>
+                                                  </select>
+                                            </div>
+                                        </div>
+                                    </li>
+            
+                                    <li class="d-flex align-items-center justify-content-center pb-2">
+                                        <span class="stext size-145 ">
+                                            Dimensions
+                                        </span>
+            
+                                        <span class="stext size-200 ">
+                                            110 x 33 x 100 cm
+                                        </span>
+                                    </li>
+            
+                                    <li class="d-flex  align-items-center justify-content-center  pb-2">
+                                        <span class="stext size-145">
+                                            Materials
+                                        </span>
+            
+                                        <span class="stext size-200  ">
+                                            60% cotton
+                                        </span>
+                                    </li>
+            
+                                    <li class="d-flex  align-items-center justify-content-center  pb-2">
+                                        <span class="stext size-145">
+                                            Color
+                                        </span>
+            
+                                        <span class="stext size-200 ">
+                                            Black, Blue, Grey, Green, Red, White
+                                        </span>
+                                    </li>
+            
+                                    <li class="d-flex  pb-2">
+                                        <span class="stext size-145">
+                                            Size
+                                        </span>
+            
+                                        <span class="stext size-200">
+                                            XL, L, M, S
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div *ngIf="selectedTab == 'products'" class="tab-pane fade show active" id="reviews" role="tabpanel">
+                        <div class="row">
+                            <div class="col-sm-10 col-md-8 col-lg-10 mx-auto">
+                                <div  class="pb-4 mx-sm-3">
+                                    <!-- <div   *ngFor="let review of reviews" class="profile-container d-flex ">
+                                        <div class="profile-img border-0">
+                                            <img [src] = " review?.userImage ? review.userImage :  '../../../../assets/imgs/personal.png'"  class="w-100 h-100" alt="AVATAR">
+                                        </div>
+            
+                                        <div class="size-207">
+                                            <div class="d-flex  align-items-center flex-wrap pb-3">
+                                                <span class="mtext cl2 pe-4">
+                                                    {{review.userName}}
+                                                </span>
+            
+                                                <span class="fs-18 cl11">
+                                                    <i class="bi " *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" [class.bi-star-fill]="i < review.rating" ></i>
+                                                  </span>
+                                            </div>
+            
+                                            <p class="stext">
+                                                {{review.feedback}}
+                                            </p>
+                                        </div>
+                                    </div> -->
+                                    
+                                    <!-- Add review -->
+                                    <form  class="w-100">
+                                        <h5 class="pb-2">
+                                            Add a review
+                                        </h5>
+            
+                                        <p class="stext ">
+                                            Your email address will not be published. Required fields are marked *
+                                        </p>
+            
+                                        <div class="d-flex align-items-center  pt-5 pb-4">
+                                        
+            
+                                         
+            
+                                            
+                                            <!-- <input class="d-none" type="number" name="rating"> -->
+                                        </div>
+            
+                                        <div class="row pb-4">
+                                            <div class="col-12 pb-2">
+                                                <label class="stext mb-2" for="review">Your review</label>
+                                                <textarea class="w-100 bord stext px-3 py-2" id="review" name="review" style="min-height:100px;"  ></textarea>
+                                            </div>
+            
+                                            <!-- <div class="col-sm-6 p-b-5">
+                                                <label class="stext mb-2" for="name">Name</label>
+                                                <input class="w-100 stext px-3" id="name" type="text" name="name" style="min-height:40px;">
+                                            </div>
+            
+                                            <div class="col-sm-6 p-b-5">
+                                                <label class="stext mb-2" for="email">Email</label>
+                                                <input class="w-100 stext px-3" id="email" type="text" name="email" style="min-height:40px;">
+                                            </div> -->
+                                        </div>
+            
+                                        <button type="button" (click)="onSubmit($event)"  class="btn btn-dark rounded-5 d-flex justify-content-center align-items-center stext text-white" style="min-width: 134px; height: 43px;">
+                                            Submit
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+

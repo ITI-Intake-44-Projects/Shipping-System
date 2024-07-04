@@ -11,6 +11,8 @@ namespace ShippingSystem.UnitOfWorks
 
         ICityRepository cityRepository;
 
+        IOrderRepository orderRepository;
+
         public UnitOfWork(ShippingContext dbContext)
         {
             this.dbContext = dbContext;
@@ -39,6 +41,19 @@ namespace ShippingSystem.UnitOfWorks
                 }
 
                 return cityRepository;
+            }
+        }
+
+        public IOrderRepository OrderRepository
+        {
+            get 
+            { 
+                if(orderRepository == null)
+                {
+                    orderRepository = new OrderRepository(dbContext); 
+                }
+                return orderRepository;
+            
             }
         }
 

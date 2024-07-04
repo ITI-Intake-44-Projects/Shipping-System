@@ -1,0 +1,71 @@
+/* .
+
+
+.mtext{
+
+    font-size: 15px;
+    font-family:Poppins-Regular;
+    color: #888;  ;
+    border-color: #797979;
+}
+
+.how-pos2{
+
+    padding-left: 10.7%;
+    padding-right: 11%;
+
+}
+
+.stext{
+
+    font-family: Poppins-Regular;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #888;
+}
+
+.tabs-content{
+    padding-top: 43px;
+}
+
+.size-145{
+    width: 145px;
+}
+
+.size-200{
+    width: calc(100% - 145px);
+}
+
+.profile-container{
+    padding-bottom: 68px;
+}
+
+.profile-img{
+
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    margin-right: 18px;
+    margin-top: 6px;
+}
+
+.cl11 {
+
+    color: #f9ba48;
+} */
+
+
+.labeltext{
+
+    font-family: Poppins-Bold;
+    font-size: 22px;
+
+}
+
+
+.tabs-container{
+    padding-top: 43px;
+    padding-bottom: 40px;
+    margin-bottom: 73px;
+}
