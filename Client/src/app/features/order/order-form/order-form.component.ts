@@ -8,6 +8,9 @@ import { Component } from '@angular/core';
 export class OrderFormComponent {
 
   selectedTab: string = 'description';
+  modalOpen : boolean = false
+  editFlag: boolean = false
+
 
   constructor() {
 
@@ -31,6 +34,18 @@ export class OrderFormComponent {
   onSubmit(event : Event){
 
 
+  }
+
+
+
+  openModal() {
+    this.modalOpen = true;
+    
+  }
+
+  closeModal() {
+    this.modalOpen = false;
+    this.editFlag = false;
   }
 
   
