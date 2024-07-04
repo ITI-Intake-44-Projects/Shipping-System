@@ -165,7 +165,9 @@ namespace ShippingSystem.Controllers
             var branch = await _context.Branches.FirstOrDefaultAsync(b => b.Name == merchantDTO.BranchName);
             if (branch == null)
             {
-                return BadRequest($"Invalid governate name: {merchantDTO.BranchName}");
+                branch = new Branch { Name = merchantDTO.BranchName, AddingDate = DateTime.Now };
+                _context.Branches.Add(branch);
+                await _context.SaveChangesAsync();
             }
 
             merchant.Branch = branch;
@@ -247,7 +249,7 @@ namespace ShippingSystem.Controllers
             merchant.FullName = merchantDTO.FullName;
             merchant.UserName = merchantDTO.UserName;
             merchant.Email = merchantDTO.Email;
-            merchant.PasswordHash = merchantDTO.Password; // Consider removing this line if not needed in update
+            merchant.PasswordHash = merchantDTO.Password; 
             merchant.PhoneNumber = merchantDTO.PhoneNumber;
             merchant.Address = merchantDTO.Address;
             merchant.Governate.Name = merchantDTO.Governate;
@@ -320,7 +322,7 @@ namespace ShippingSystem.Controllers
                 return NotFound();
             }
 
-            merchant.IsDeleted = true; // Mark as deleted
+            merchant.IsDeleted = !merchant.IsDeleted; // Mark as deleted
             _context.Entry(merchant).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 

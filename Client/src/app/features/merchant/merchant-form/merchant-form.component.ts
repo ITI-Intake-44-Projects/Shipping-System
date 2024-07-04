@@ -3,14 +3,16 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { MerchantService } from '../merchant.service';
 import { MerchantDTO, SpecialPriceDTO,Merchant } from '../merchant.model';
 import { emailValidator, passwordValidator, noSpacesValidator } from './custom-validators'; 
+import { EventEmitter, Output } from '@angular/core';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-merchant-form',
   templateUrl: './merchant-form.component.html',
   styleUrl:'./merchant-form.component.css'
 })
 export class MerchantFormComponent implements OnInit {
-  @Input() initialMerchant?:any ; // Input to receive initial merchant data
-
+  @Input() initialMerchant?:any ; 
+  @Output() operationSuccess: EventEmitter<string> = new EventEmitter<string>();
   merchantForm: any ;
 
   constructor(
@@ -95,6 +97,9 @@ export class MerchantFormComponent implements OnInit {
 
   onSubmit(): void {
     console.log(this.merchantForm.valid);
+    console.log(this.merchantForm.vlue);
+    console.log(this.merchantForm.errorMessage);
+    
     if (this.merchantForm.valid) {
       const merchantData: MerchantDTO = this.merchantForm.value;
       // Determine whether to create or update based on existence of initialMerchant data
@@ -112,26 +117,28 @@ export class MerchantFormComponent implements OnInit {
     console.log("creating called")
     this.merchantService.createMerchant(merchantData).subscribe(
       (response) => {
+        this.showSuccessAlert();
         console.log('Merchant created successfully:', response);
-        // Optionally close the modal or handle success
+
+        this.operationSuccess.emit('success');
       },
       (error) => {
         console.error('Error creating merchant:', error);
-        // Handle error here
+        
+
       }
     );
   }
 
   updateMerchant(merchantData: MerchantDTO): void {
-    // Assuming you have a method in merchantService for updating
     this.merchantService.updateMerchant(this.initialMerchant.id, merchantData).subscribe(
       (response) => {
         console.log('Merchant updated successfully:', response);
-        // Optionally close the modal or handle success
+      
+        this.operationSuccess.emit('success');
       },
       (error) => {
         console.error('Error updating merchant:', error);
-        // Handle error here
       }
     );
   }
@@ -141,5 +148,13 @@ export class MerchantFormComponent implements OnInit {
     while (this.specialPrices.length !== 0) {
       this.specialPrices.removeAt(0);
     }
+  }
+  private showSuccessAlert(): void {
+    Swal.fire({
+      title: 'Success!',
+      text: 'Operation completed successfully.',
+      icon: 'success',
+      confirmButtonText: 'OK'
+    });
   }
 }

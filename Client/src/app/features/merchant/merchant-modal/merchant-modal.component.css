@@ -159,4 +159,17 @@
   .m-2 {
     margin: 0.5rem;
   }
-  
+  /* .merchant-modal-title{
+    text-align: center;
+  } */
+  /* .merchant-modal-header{
+    text-align: center;
+  } */
+  /* .merchant-modal-title {
+    text-align: center !important; 
+}
+ */
+ .form-group{
+  margin-top:1em ;
+  margin-bottom: 1em;
+} 

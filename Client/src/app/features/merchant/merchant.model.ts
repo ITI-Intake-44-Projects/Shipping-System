@@ -13,6 +13,7 @@ export interface Merchant {
     inCompleteShippingRatio: number;
     branchName: string;
     specialPrices: SpecialPrice[];
+    isDeleted : boolean;
   }
   
   export interface MerchantDTO {
