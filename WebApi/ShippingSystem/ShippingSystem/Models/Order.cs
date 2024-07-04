@@ -47,6 +47,8 @@ namespace ShippingSystem.Models
 
         public virtual OrderType? OrderType { get; set; }
 
+        public OrderTypeEnum orderType { get; set; }
+
         [ForeignKey("Branch")]
         public int? Branch_Id { get; set; }
 
@@ -56,6 +58,9 @@ namespace ShippingSystem.Models
         public int? Payment_Id { get; set; }
 
         public virtual PaymentType? PaymentType { get; set; }
+
+        public PaymentTypeEnum paymentType {  get; set; }
+
 
 
         [ForeignKey("ShippingType")]

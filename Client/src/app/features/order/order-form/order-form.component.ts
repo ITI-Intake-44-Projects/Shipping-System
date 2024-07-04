@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class OrderFormComponent {
 
-  selectedTab: string = 'description';
+  selectedTab: string = 'customer';
   modalOpen : boolean = false
   editFlag: boolean = false
 
@@ -18,6 +18,8 @@ export class OrderFormComponent {
   }
 
   ngOnInit(): void {
+
+    this.selectedTab ='customer';
 
     // this.activateRoute.params.subscribe({
     //   next:(params)=>{
