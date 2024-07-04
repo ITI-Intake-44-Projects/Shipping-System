@@ -12,8 +12,36 @@ export class VillageCostService {
 
   constructor(private http: HttpClient) { }
 
+  getAllVillageCosts(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getVillageCostById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   addVillageCost(data: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, data)
+    return this.http.post<any>(`${this.apiUrl}`, data)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  updateVillageCost(id: number, data: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, data)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  deleteVillageCost(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`)
       .pipe(
         catchError(this.handleError)
       );
@@ -21,7 +49,6 @@ export class VillageCostService {
 
   private handleError(error: HttpErrorResponse) {
     console.error('Error occurred:', error);
-    return throwError('Error adding village cost');
+    return throwError('Error occurred');
   }
-  
 }

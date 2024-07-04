@@ -7,7 +7,7 @@ const routes: Routes = [
   // { path: '', loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule), canActivate: [authGuard] },
   { path: 'auth', loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule)},
   { path: 'weight', loadChildren: () => import('./features/weight/weight.module').then(m=>m.WeightModule)},
-  { path: 'village', loadChildren: () => import('./features/village-cost/village-cost.module').then(m=>m.VillageCostModule)}
+  { path: 'village-cost', loadChildren: () => import('./features/village-cost/village-cost.module').then(m=>m.VillageCostModule)}
 
 ];
 
