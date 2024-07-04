@@ -17,7 +17,7 @@ namespace ShippingSystem.Models
 
         public int? SpecialPickupCost { get; set; }
 
-        public int? InCompleteShippingRatio { get; set; }
+        public float? InCompleteShippingRatio { get; set; }
 
 
         [ForeignKey("Branch")]
