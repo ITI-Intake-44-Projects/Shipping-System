@@ -47,11 +47,11 @@ namespace ShippingSystem.Controllers
                 Id = merchant.Id,
                 FullName = merchant.FullName,
                 Address = merchant.Address,
-                Governate = merchant.Governate,
+                Governate = merchant.Governate.Name,
                 Email = merchant.Email,
                 PhoneNumber = merchant.PhoneNumber,
                 UserName = merchant.UserName,
-                City = merchant.City,
+                City = merchant.City.Name,
                 StoreName = merchant.StoreName,
                 SpecialPickupCost = (int)merchant.SpecialPickupCost,
                 InCompleteShippingRatio = (int)merchant.InCompleteShippingRatio,
@@ -67,6 +67,7 @@ namespace ShippingSystem.Controllers
 
             return Ok(merchantDTOs);
         }
+
 
         // GET: api/Merchants/5
         [HttpGet("{id}")]
@@ -87,6 +88,9 @@ namespace ShippingSystem.Controllers
                 return NotFound();
             }
 
+            var governate = await _context.Governates.FirstOrDefaultAsync(g => g.Id == merchant.Governate_Id);
+            var city = await _context.Cities.FirstOrDefaultAsync(c => c.Id == merchant.City_Id);
+
             var merchantDTO = new MerchantResponseDTO
             {
                 Id = merchant.Id,
@@ -95,8 +99,8 @@ namespace ShippingSystem.Controllers
                 UserName = merchant.UserName,
                 FullName = merchant.FullName,
                 Address = merchant.Address,
-                Governate = merchant.Governate,
-                City = merchant.City,
+                Governate = governate?.Name,
+                City = city?.Name,
                 StoreName = merchant.StoreName,
                 SpecialPickupCost = (int)merchant.SpecialPickupCost,
                 InCompleteShippingRatio = (int)merchant.InCompleteShippingRatio,
@@ -104,8 +108,8 @@ namespace ShippingSystem.Controllers
                 SpecialPrices = merchant.SpecialPrices.Select(sp => new SpecialPriceDTO
                 {
                     TransportCost = sp.TransportCost,
-                    Governate = sp.Governate?.Name, // Assuming Governate has Name property
-                    City = sp.City?.Name // Assuming City has Name property
+                    Governate = sp.Governate?.Name, 
+                    City = sp.City?.Name 
                 }).ToList(),
                 isDeleted = merchant.IsDeleted
             };
@@ -124,6 +128,18 @@ namespace ShippingSystem.Controllers
                 return BadRequest(ModelState);
             }
 
+            var governate = await _context.Governates.FirstOrDefaultAsync(g => g.Name == merchantDTO.Governate);
+            if (governate == null)
+            {
+                return BadRequest($"Invalid governate name: {merchantDTO.Governate}");
+            }
+
+            var city = await _context.Cities.FirstOrDefaultAsync(c => c.Name == merchantDTO.City && c.Governate_Id == governate.Id);
+            if (city == null)
+            {
+                return BadRequest($"Invalid city name: {merchantDTO.City}");
+            }
+
             var merchant = new Merchant
             {
                 FullName = merchantDTO.FullName,
@@ -131,8 +147,8 @@ namespace ShippingSystem.Controllers
                 PhoneNumber = merchantDTO.PhoneNumber,
                 UserName = merchantDTO.UserName,
                 Address = merchantDTO.Address,
-                Governate = merchantDTO.Governate,
-                City = merchantDTO.City,
+                Governate_Id = governate.Id,
+                City_Id = city.Id,
                 StoreName = merchantDTO.StoreName,
                 SpecialPickupCost = merchantDTO.SpecialPickupCost,
                 InCompleteShippingRatio = merchantDTO.InCompleteShippingRatio
@@ -149,38 +165,30 @@ namespace ShippingSystem.Controllers
             var branch = await _context.Branches.FirstOrDefaultAsync(b => b.Name == merchantDTO.BranchName);
             if (branch == null)
             {
-                branch = new Branch { Name = merchantDTO.BranchName ,AddingDate = DateTime.Now };
-                _context.Branches.Add(branch);
-                await _context.SaveChangesAsync();
+                return BadRequest($"Invalid governate name: {merchantDTO.BranchName}");
             }
 
             merchant.Branch = branch;
 
             foreach (var specialPriceDTO in merchantDTO.SpecialPrices)
             {
-                var governate = await _context.Governates.FirstOrDefaultAsync(g => g.Name == specialPriceDTO.Governate);
-                if (governate == null)
+                var specialPriceGovernate = await _context.Governates.FirstOrDefaultAsync(g => g.Name == specialPriceDTO.Governate);
+                if (specialPriceGovernate == null)
                 {
-                    governate = new Governate { Name = specialPriceDTO.Governate };
-                    _context.Governates.Add(governate);
+                    return BadRequest($"Invalid governate name: {specialPriceDTO.Governate}");
                 }
 
-                var city = await _context.Cities.FirstOrDefaultAsync(c => c.Name == specialPriceDTO.City);
-                if (city == null)
+                var specialPriceCity = await _context.Cities.FirstOrDefaultAsync(c => c.Name == specialPriceDTO.City && c.Governate_Id == specialPriceGovernate.Id);
+                if (specialPriceCity == null)
                 {
-                    city = new City
-                    {
-                        Name = specialPriceDTO.City,
-                        Governate = governate
-                    };
-                    _context.Cities.Add(city);
+                    return BadRequest($"Invalid city name: {specialPriceDTO.City}");
                 }
 
                 var specialPrice = new SpecialPrice
                 {
                     TransportCost = specialPriceDTO.TransportCost,
-                    Governate = governate,
-                    City = city
+                    Governate = specialPriceGovernate,
+                    City = specialPriceCity
                 };
                 merchant.SpecialPrices.Add(specialPrice);
             }
@@ -195,8 +203,8 @@ namespace ShippingSystem.Controllers
                 PhoneNumber = merchant.PhoneNumber,
                 UserName = merchant.UserName,
                 Address = merchant.Address,
-                Governate = merchant.Governate,
-                City = merchant.City,
+                Governate = governate.Name,
+                City = city.Name,
                 StoreName = merchant.StoreName,
                 SpecialPickupCost = (int)merchant.SpecialPickupCost,
                 InCompleteShippingRatio = (int)merchant.InCompleteShippingRatio,
@@ -204,14 +212,15 @@ namespace ShippingSystem.Controllers
                 SpecialPrices = merchant.SpecialPrices.Select(sp => new SpecialPriceDTO
                 {
                     TransportCost = (int)sp.TransportCost,
-                    Governate = sp.Governate?.Name, 
-                    City = sp.City?.Name 
+                    Governate = sp.Governate?.Name,
+                    City = sp.City?.Name
                 }).ToList(),
                 isDeleted = merchant.IsDeleted
             };
 
             return CreatedAtAction(nameof(GetMerchant), new { id = merchant.Id }, createdMerchantDTO);
         }
+
 
         // PUT: api/Merchants/5
         [HttpPut("{id}")]
@@ -241,8 +250,8 @@ namespace ShippingSystem.Controllers
             merchant.PasswordHash = merchantDTO.Password; // Consider removing this line if not needed in update
             merchant.PhoneNumber = merchantDTO.PhoneNumber;
             merchant.Address = merchantDTO.Address;
-            merchant.Governate = merchantDTO.Governate;
-            merchant.City = merchantDTO.City;
+            merchant.Governate.Name = merchantDTO.Governate;
+            merchant.City.Name = merchantDTO.City;
             merchant.StoreName = merchantDTO.StoreName;
             merchant.SpecialPickupCost = merchantDTO.SpecialPickupCost;
             merchant.InCompleteShippingRatio = merchantDTO.InCompleteShippingRatio;
@@ -250,9 +259,7 @@ namespace ShippingSystem.Controllers
             var branch = await _context.Branches.FirstOrDefaultAsync(b => b.Name == merchantDTO.BranchName);
             if (branch == null)
             {
-                branch = new Branch { Name = merchantDTO.BranchName };
-                _context.Branches.Add(branch);
-                await _context.SaveChangesAsync();
+                return BadRequest($"Invalid branch name: {merchantDTO.BranchName}");
             }
 
             merchant.Branch = branch;
@@ -263,19 +270,13 @@ namespace ShippingSystem.Controllers
                 var governate = await _context.Governates.FirstOrDefaultAsync(g => g.Name == specialPriceDTO.Governate);
                 if (governate == null)
                 {
-                    governate = new Governate { Name = specialPriceDTO.Governate };
-                    _context.Governates.Add(governate);
+                    return BadRequest($"Invalid governate name: {specialPriceDTO.Governate}");
                 }
 
                 var city = await _context.Cities.FirstOrDefaultAsync(c => c.Name == specialPriceDTO.City);
                 if (city == null)
                 {
-                    city = new City
-                    {
-                        Name = specialPriceDTO.City,
-                        Governate = governate
-                    };
-                    _context.Cities.Add(city);
+                    return BadRequest($"Invalid city name: {specialPriceDTO.City}");
                 }
 
                 var specialPrice = new SpecialPrice
