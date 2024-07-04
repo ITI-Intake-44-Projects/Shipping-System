@@ -56,20 +56,8 @@ export class AuthService {
   // }
 
   getUserDetails(): Observable<UserDetailsDTO> {
-    const token = this.getToken();
-    if (!token) {
-      throw new Error("No token found");
-    }
     const url = `${this.apiURL}Account/GetUserDetails`;
-    return this.http.get<UserDetailsDTO>(url, { headers: { Authorization: `Bearer ${token}` } }).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          this.logout();
-          this.router.navigate(['/login']);
-        }
-        return throwError(() => new Error('Error retrieving user details'));
-      })
-    );
+    return this.http.get<UserDetailsDTO>(url);
   }
 
   getToken(): string | null {

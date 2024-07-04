@@ -19,11 +19,35 @@ export class ListGroupComponent implements OnInit {
   totalPages: number = 0;
   totalPagesArray: number[] = [];
 
-  constructor(private groupService: GroupService, private router: Router, private snackBar: MatSnackBar) { }
+  constructor(private groupService: GroupService, private router: Router, private snackBar: MatSnackBar/*, private authService: AuthService*/) { }
 
   ngOnInit() {
     this.loadGroups();
+    // this.testLoadUserDetails();
   }
+
+  // testLoadUserDetails(){
+  //   this.authService.getUserDetails().subscribe({
+  //       next: (response) => {
+  //         this.snackBar.open('user details retrieved successfully', 'Close', {
+  //           duration: 3000,
+  //           horizontalPosition: 'center',
+  //           verticalPosition: 'bottom',
+  //           direction: 'rtl'
+  //         });
+  //         console.log('User details retrieved successfully:', JSON.stringify(response));
+  //       },
+  //       error: (error) => {
+  //         console.error('Error retrieving user details:', error);
+  //         this.snackBar.open('failed to retrieve user details', 'Close', {
+  //           duration: 3000,
+  //           horizontalPosition: 'center',
+  //           verticalPosition: 'bottom',
+  //           direction: 'rtl'
+  //         });
+  //       }
+  //     });
+  // }
 
   loadGroups() {
     this.groupService.getAllGroups(this.currentPage, this.pageSize).subscribe({
