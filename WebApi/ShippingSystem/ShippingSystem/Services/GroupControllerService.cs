@@ -28,6 +28,12 @@ namespace ShippingSystem.Services
             return await unitOfWork.GroupRepository.GetById(id);
         }
 
+        public async Task<GroupDTO> GetGroupDTOByIdAsync(string id)
+        {
+            var group = await unitOfWork.GroupRepository.GetById(id);
+            return mapper.Map<GroupDTO>(group);
+        }
+
         public async Task<Group?> GetGroupByNameAsync(string name)
         {
             return await unitOfWork.GroupRepository.GetGroupByNameAsync(name); ;

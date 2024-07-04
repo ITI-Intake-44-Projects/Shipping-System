@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ShippingSystem.DTOs.Authentication;
 using ShippingSystem.DTOs.Groups;
+using ShippingSystem.DTOs.Privileges;
 using ShippingSystem.Models;
 
 namespace ShippingSystem.Services
@@ -41,6 +42,12 @@ namespace ShippingSystem.Services
                 .ForMember(dest => dest.View, opt => opt.MapFrom(src => src.View))
                 .ForMember(dest => dest.Update, opt => opt.MapFrom(src => src.Update))
                 .ReverseMap();
+
+            CreateMap<Privilege, PrivilegeDTO>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ReverseMap();
+
         }
     }
 }

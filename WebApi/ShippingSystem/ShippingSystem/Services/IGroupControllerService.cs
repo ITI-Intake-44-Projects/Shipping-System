@@ -8,7 +8,10 @@ namespace ShippingSystem.Services
         public Task<IEnumerable<Group>> GetAllGroupsAsync(int pageNumber, int pageSize);
         
         public Task<Group> GetGroupByIdAsync(string id);
-        
+
+        public Task<GroupDTO> GetGroupDTOByIdAsync(string id);
+
+
         public Task<Group?> GetGroupByNameAsync(string name);
 
         public Task<Group> AddGroupAsync(GroupDTO groupDTO);

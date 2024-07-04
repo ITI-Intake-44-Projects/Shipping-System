@@ -43,6 +43,11 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
+    // if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+    //   const token = localStorage.getItem('token');
+    //   return token != null;
+    // }
+    // return false;
     return !!localStorage.getItem('token');
   }
 
@@ -51,6 +56,6 @@ export class AuthService {
   }
 
   resetPassword(data: ResetPasswordDTO): Observable<ResponseDTO> {
-    return this.http.post<ResponseDTO>(`${this.apiURL}/account/resetPassword`, data);
+    return this.http.post<ResponseDTO>(`${this.apiURL}/Account/resetPassword`, data);
   }
 }

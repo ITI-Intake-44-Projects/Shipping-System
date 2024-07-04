@@ -85,7 +85,7 @@ export class LoginComponent implements OnInit {
 
   private redirectUser(role: string) {
     if (role === 'admin'){
-      this.router.navigate(['/admin-dashboard']);
+      this.router.navigate(['/admin/myGroups']);
     } else if (role === 'employee') {
       this.router.navigate(['/employee-dashboard']);
     } else if (role === 'merchant') {

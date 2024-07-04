@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShippingSystem.DTOs.Privileges;
+using ShippingSystem.Models;
 using ShippingSystem.Services;
 
 namespace ShippingSystem.Controllers
@@ -16,11 +18,11 @@ namespace ShippingSystem.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(int pageNumber, int pageSize)
+        public async Task<ActionResult<PrivilegeDTO>> GetAll()
         {
             try
             {
-                return Ok(await privilegeControllerService.GetAllPrivilegesAsync(pageNumber, pageSize));
+                return Ok(await privilegeControllerService.GetAllPrivilegesAsync());
             }
             catch (Exception ex)
             {

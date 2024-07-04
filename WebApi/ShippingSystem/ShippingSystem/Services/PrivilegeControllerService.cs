@@ -19,9 +19,10 @@ namespace ShippingSystem.Services
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<Privilege?>> GetAllPrivilegesAsync(int pageNumber, int pageSize)
+        public async Task<List<PrivilegeDTO?>> GetAllPrivilegesAsync()
         {
-            return await unitOfWork.PrivilegeRepository.GetPrivilegesAsync(pageNumber, pageSize);
+            var privileges = await unitOfWork.PrivilegeRepository.GetAll();
+            return mapper.Map<List<PrivilegeDTO?>>(privileges);
         }
     }
 }

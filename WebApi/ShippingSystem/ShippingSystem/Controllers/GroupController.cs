@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShippingSystem.DTOs.Groups;
@@ -46,7 +47,7 @@ namespace ShippingSystem.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(string id)
+        public async Task<IActionResult> GetGroupById(string id)
         {
             try
             {
@@ -61,24 +62,40 @@ namespace ShippingSystem.Controllers
             }
         }
 
+        [HttpGet("GetGroupDTO/{id}")]
+        public async Task<IActionResult> GetGroupDTOById(string id)
+        {
+            try
+            {
+                var groupResponse = await groupControllerService.GetGroupDTOByIdAsync(id);
+                if (groupResponse == null)
+                    return Ok("No such group with the provided Id");
+                return Ok(groupResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         /// <summary>
-        /// get group by name
+        /// get group by name. Returns true if group exists, false otherwise
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        [HttpGet("name/{name}")]
-        public async Task<IActionResult> GetByName(string name)
+        [HttpGet("GetGroupByName")]
+        public async Task<ActionResult<bool>> GetGroupByName(string name)
         {
             try
             {
                 var group = await groupControllerService.GetGroupByNameAsync(name);
-                if (group == null) 
-                    return NotFound("Role doesn't exist");
-                return Ok(group);
+                if (group != null)
+                    return Ok(true);
+                return Ok(false);
             }
             catch(Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = ex.Message });
             }
         }
 
@@ -87,22 +104,22 @@ namespace ShippingSystem.Controllers
         /// </summary>
         /// <param name="groupDTO"></param>
         /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> Add(GroupDTO groupDTO)
+        [HttpPost("AddNewGroup")]
+        public async Task<IActionResult> AddNewGroup(GroupDTO groupDTO)
         {
             try
             {
                 var existingGroup = await groupControllerService.GetGroupByNameAsync(groupDTO.Name);
                 if (existingGroup != null)
                 {
-                    return BadRequest("Role already exists");
+                    return BadRequest(new { message = "Role already exists" });
                 }
                 var groupResponse =  await groupControllerService.AddGroupAsync(groupDTO);
-                return CreatedAtAction(nameof(GetById), new { id = groupResponse.Id }, groupResponse);
+                return CreatedAtAction(nameof(GetGroupById), new { id = groupResponse.Id }, groupResponse);
             }
             catch(Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = ex.Message });
             }
         }
 
@@ -112,8 +129,8 @@ namespace ShippingSystem.Controllers
         /// <param name="id"></param>
         /// <param name="groupDTO"></param>
         /// <returns></returns>
-        [HttpPut]
-        public async Task<IActionResult> Update(string id, GroupDTO groupDTO)
+        [HttpPut("UpdateGroup")]
+        public async Task<IActionResult> UpdateGroup(string id, GroupDTO groupDTO)
         {
             try
             {
@@ -121,10 +138,10 @@ namespace ShippingSystem.Controllers
 
                 if (existingGroup == null)
                 {
-                    return NotFound("Old role doesn't exist");
+                    return NotFound(new { message = "Old role doesn't exist" });
                 }
                 await groupControllerService.UpdateGroupAsync(existingGroup, groupDTO);
-                return Ok("Role Updated Successfully");
+                return Ok(new { message = "Role Updated Successfully" });
             }
             catch (Exception ex)
             {
@@ -138,15 +155,15 @@ namespace ShippingSystem.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> DeleteGroup(string id)
         {
             var group = await groupControllerService.GetGroupByIdAsync(id);
             if (group == null)
             {
-                return NotFound("Role doesn't exist");
+                return NotFound(new { message = "Role doesn't exist" });
             }
             await groupControllerService.DeleteGroupAsync(group);
-            return Ok($"Role: {group.Name} has been deleted successfully");
+            return Ok(new { message = $"Role: {group.Name} has been deleted successfully"});
         }
     }
 }

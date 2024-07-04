@@ -10,6 +10,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
   const isAdmin = (authService.getRole() === 'admin');
 
   if (isAdmin) {
+    router.navigate(['/myGroups']);
     return true;
   } else {
     router.navigate(['/login']);
