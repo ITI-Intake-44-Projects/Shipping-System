@@ -56,6 +56,13 @@
               </tr>
             </tbody>
         </table> 
+        
+        <app-pagination
+        [totalItems]="totalItems"
+        [itemsPerPage]="pageSize"
+        [currentPage]="pageNumber"
+        (pageChange)="onPageChange($event)">
+        </app-pagination>
         </div>
         <div class="modal"  [ngClass]="{'d-block' :modalOpen}" tab-index="-1">
             <div class="modal-dialog">

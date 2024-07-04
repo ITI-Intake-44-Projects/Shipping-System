@@ -11,6 +11,10 @@ import { Router } from '@angular/router';
 })
 export class GovernateComponentComponent implements OnInit {
 
+  totalItems: number = 0; 
+  pageNumber: number = 1;
+  pageSize: number = 10;
+
   governates : Governate[] | null = null 
 
   modalOpen : boolean = false
@@ -26,12 +30,7 @@ export class GovernateComponentComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    this.governateService.getAll().subscribe({
-      next:(data:Governate[])=>{
-        console.log(data)
-        this.governates = data 
-      }
-    })
+    this.loadGovernates()
 
     this.governateForm = this.formBuilder.group({
       name:['',Validators.required],
@@ -152,7 +151,19 @@ export class GovernateComponentComponent implements OnInit {
     this.modalOpen = false;
     this.editFlag = false;
   }
-
-
+  loadGovernates() {
+    this.governateService.getGovernates(this.pageNumber,this.pageSize).subscribe({
+      next:(data:Governate[])=>{
+        console.log(data)
+        this.governates = data 
+        this.totalItems = 30;
+      }
+    })
+  }
+   
+  onPageChange(page: number): void {
+    this.pageNumber = page;
+    this.loadGovernates();
+  }
 
 }

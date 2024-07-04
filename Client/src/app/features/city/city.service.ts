@@ -15,6 +15,7 @@ export class CityService extends ApiService<City>{
   }
 
   searchByName(name : string):Observable<City>{
+    
     return this.http.get<City>(`${this.apiUrL}/${name}`)
   }
 
@@ -24,12 +25,13 @@ export class CityService extends ApiService<City>{
 
 
   getCities(page: number, size: number): Observable<City[]> {
+    
     let params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString());
-
+      .set('pageNumber', page.toString())
+      .set('pageSize', size.toString());
+      console.log(this.apiUrL)
     // Make the GET request with the query parameters
-    return this.http.get<any>(this.apiUrl, { params });
+    return this.http.get<any>(this.apiUrl +'City', { params });
   }
 
 }
