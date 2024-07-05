@@ -7,6 +7,6 @@ import { PaginationComponent } from '../../components/pagination/pagination.comp
 @NgModule({
   declarations: [NavbarComponent,FooterComponent,PaginationComponent],
   imports: [CommonModule],
-  exports: [NavbarComponent, FooterComponent]
+  exports: [NavbarComponent, FooterComponent,PaginationComponent]
 })
 export class SharedModule { }
