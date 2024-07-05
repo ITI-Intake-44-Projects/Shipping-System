@@ -13,6 +13,10 @@ import { GovernateServiceService } from '../../governate/governate-service.servi
 })
 export class CityTableComponent implements OnInit {
 
+  totalItems: number = 0; // Add this to track the total number of cities
+  pageNumber: number = 1;
+  pageSize: number = 10;
+  
   modalOpen : boolean = false
 
   cities : City[] | null = null 
@@ -32,12 +36,7 @@ export class CityTableComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    this.cityService.getAll().subscribe({
-      next:(data:City[])=>{
-        this.cities = data 
-      }
-    })
-
+    this.loadCities()
     this.governateService.getAll().subscribe({
       next:(data:Governate[])=>{
 
@@ -46,6 +45,7 @@ export class CityTableComponent implements OnInit {
 
     })
 
+   
     this.cityForm = this.formBuilder.group({
       id:[0],
       name : ['',Validators.required],
@@ -57,7 +57,11 @@ export class CityTableComponent implements OnInit {
 
 
   }
+  // hanelNext (){
 
+  //   this.page = this.page + 1
+  //   this.loadData()
+  // }
   cityHandler(){
 
     if(this.editFlag){
@@ -168,6 +172,19 @@ export class CityTableComponent implements OnInit {
       }
     })
   }
+   loadCities() {
+  
+    this.cityService.getCities(this.pageNumber, this.pageSize).subscribe({
+      next:(data:City[])=>{
+        this.cities = data 
+        this.totalItems = 30;
+      }
+    })
+  }
+  onPageChange(page: number): void {
+    this.pageNumber = page;
+    this.loadCities();
+  }
 
   filterByGovernate(event : Event){
 
@@ -202,4 +219,7 @@ export class CityTableComponent implements OnInit {
   closeModal() {
     this.modalOpen = false;
   }
+  
 }
+
+
