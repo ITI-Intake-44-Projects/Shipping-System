@@ -4,10 +4,8 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
 
-
-
 @NgModule({
-  declarations: [NavbarComponent, FooterComponent,PaginationComponent],
+  declarations: [NavbarComponent,FooterComponent,PaginationComponent],
   imports: [CommonModule],
   exports: [NavbarComponent, FooterComponent,PaginationComponent]
 })

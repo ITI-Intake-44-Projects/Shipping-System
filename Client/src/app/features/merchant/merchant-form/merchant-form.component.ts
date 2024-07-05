@@ -84,9 +84,9 @@ export class MerchantFormComponent implements OnInit {
   // Method to add special price entry
   addSpecialPrice(): void {
     this.specialPrices.push(this.fb.group({
-      governate: ['', Validators.required],
-      city: ['', Validators.required],
-      transportCost: ['', Validators.required]
+      governate: ['',],
+      city: ['',],
+      transportCost: ['',]
     }));
   }
 
@@ -96,11 +96,15 @@ export class MerchantFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.merchantForm.valid);
-    console.log(this.merchantForm.vlue);
-    console.log(this.merchantForm.errorMessage);
+    // console.log(this.merchantForm.valid);
+    // console.log(this.merchantForm.value);
+    // console.log(this.merchantForm);
     
+    if(!this.merchantForm.valid){
+      console.log(this.merchantForm)
+    }
     if (this.merchantForm.valid) {
+      console.log("valid")
       const merchantData: MerchantDTO = this.merchantForm.value;
       // Determine whether to create or update based on existence of initialMerchant data
       if (this.initialMerchant) {

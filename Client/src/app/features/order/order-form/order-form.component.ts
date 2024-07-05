@@ -1,9 +1,14 @@
+import { CityService } from './../../city/city.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
 import { OrderService } from '../order.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { Order } from '../../../Models/Order';
+import { GovernateServiceService } from '../../governate/governate-service.service';
+import { City } from '../../../Models/City';
+import { Governate } from '../../../Models/Governate';
+import { OrderType, PaymentType } from '../../../Models/Enums';
 
 @Component({
   selector: 'app-order-form',
@@ -20,10 +25,20 @@ export class OrderFormComponent implements OnInit {
   products: any[] = [];
   selectedTab: string = 'customer';
 
+  orderTypes = OrderType 
+  paymetTypes = PaymentType 
+
+
+  cities : City[] = [];
+  governates : Governate[] = [];
+
+
   constructor(
     private fb: FormBuilder,
     private orderService: OrderService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cityService:CityService,
+    private governateService:GovernateServiceService
   ) {
     this.orderForm = this.fb.group({
       id: [null],
@@ -56,6 +71,18 @@ export class OrderFormComponent implements OnInit {
 
     this.selectedTab ='customer';
 
+    this.cityService.getAll().subscribe({
+      next:(data:City[])=>{
+          this.cities= data
+      }
+    })
+
+    this.governateService.getAll().subscribe({
+      next:(data:Governate[])=>{
+          this.governates= data
+      }
+    })
+
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
@@ -63,6 +90,8 @@ export class OrderFormComponent implements OnInit {
         this.loadOrder(this.orderId);
       }
     });
+
+    this.getEnumKeys(this.orderTypes)
   }
 
   loadOrder(id: number) {
@@ -109,15 +138,20 @@ export class OrderFormComponent implements OnInit {
   handleSubmit() {
     if (this.orderForm.valid) {
       const orderData: Order = this.orderForm.value;
-      if (this.orderId) {
-        this.orderService.editItem(this.orderId, orderData).subscribe(() => {
-          // Handle successful update
-        });
-      } else {
-        this.orderService.addItem(orderData).subscribe(() => {
-          // Handle successful creation
-        });
-      }
+      console.log(this.orderForm)
+      // if (this.orderId) {
+      //   this.orderService.editItem(this.orderId, orderData).subscribe(() => {
+      //     // Handle successful update
+      //   });
+      // } else {
+      //   this.orderService.addItem(orderData).subscribe(() => {
+      //     // Handle successful creation
+      //   });
+      // }
     }
+  }
+
+  getEnumKeys<T extends object>(enumType: T): (keyof T)[] {
+    return Object.keys(enumType).filter(key => isNaN(Number(key as any))) as (keyof T)[];
   }
 }

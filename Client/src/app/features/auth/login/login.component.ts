@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(5)]],
       rememberMe: [false] 
     });
   }
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
             console.log(`login credentials ${JSON.stringify(loginCredentials)}`)
             localStorage.setItem('token', response.token);
             localStorage.setItem('role', response.role);
-            this.redirectUser(response.role);
+            // this.redirectUser(response.role);
           },
           error: (error) => {
             console.error('Login failed:', error);
@@ -83,17 +83,17 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  private redirectUser(role: string) {
-    if (role === 'admin'){
-      this.router.navigate(['/admin-dashboard']);
-    } else if (role === 'employee') {
-      this.router.navigate(['/employee-dashboard']);
-    } else if (role === 'merchant') {
-      this.router.navigate(['/merchant-dashboard']);
-    } else if (role === 'supportive') {
-      this.router.navigate(['/supportive-dashboard']);
-    }
-  }
+  // private redirectUser(role: string) {
+  //   if (role === 'admin'){
+  //     this.router.navigate(['/admin-dashboard']);
+  //   } else if (role === 'employee') {
+  //     this.router.navigate(['/employee-dashboard']);
+  //   } else if (role === 'merchant') {
+  //     this.router.navigate(['/merchant-dashboard']);
+  //   } else if (role === 'supportive') {
+  //     this.router.navigate(['/supportive-dashboard']);
+  //   }
+  // }
 
   forgetPassword(){
     

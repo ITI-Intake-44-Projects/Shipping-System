@@ -13,12 +13,12 @@ export enum OrderStatus {
   }
   
   export enum OrderType {
-    Normal = 'Normal',
-    PickUp = 'PickUp'
+    Normal = 'الاستلام من الفرع ',
+    PickUp = 'الاستلام من التاجر'
   }
   
   export enum PaymentType {
-    PayOnDeliver = 'PayOnDeliver',
-    Deposit = 'Deposit',
-    PackageForPackage = 'PackageForPackage'
+    PayOnDeliver = 'الدفع عند التوصيل',
+    Deposit = 'الدفع مقدما',
+    PackageForPackage = 'طرد مقابل طرد'
   }
