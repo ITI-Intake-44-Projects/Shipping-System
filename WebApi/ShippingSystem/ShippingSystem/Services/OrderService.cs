@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ShippingSystem.DTOs.Order;
+using ShippingSystem.Enumerations;
 using ShippingSystem.Models;
 using ShippingSystem.UnitOfWorks;
 
@@ -52,44 +53,79 @@ namespace ShippingSystem.Services
         }
 
 
-        public async Task PostOrderAsync(OrderDto OrderDto)
+        public async Task<bool> PostOrderAsync(OrderDto OrderDto)
         {
             var Order = mapper.Map<Order>(OrderDto);
 
-            await unit.OrderRepository.AddOrder(Order);
+           return  await unit.OrderRepository.AddOrder(Order);
             
 
         }
 
-        public async Task PutGovernateAsync(OrderDto OrderDto)
+        public async Task PutOrderAsync(OrderDto OrderDto)
         {
-            var governate = mapper.Map<Governate>(OrderDto);
+            var order = mapper.Map<Order>(OrderDto);
 
-            await unit.GovernateRepository.Update(governate);
+            await unit.OrderRepository.Update(order);
 
             await unit.Save();
         }
 
-        public async Task<bool> RemoveGovernateAsync(int id )
+        public async Task<bool> RemoveOrderAsync(int id )
         {
-            var governate = await unit.GovernateRepository.GetById(id);
+            var order = await unit.OrderRepository.GetById(id);
 
-            if (governate == null)
+            if (order == null)
             {
                 return false;
                
             }
-            await unit.GovernateRepository.Delete(governate);
+            await unit.OrderRepository.Delete(order);
             await unit.Save();
 
             return true;
 
         }
 
-        public Double CalcaulateCost(OrderDto orderDto)
+        public async Task<bool> AssignRepresentative(int orderId , string representativeId)
         {
-           
-            return 1.1;
+            var order = await unit.OrderRepository.GetById(orderId);
+            if(order == null)
+            {
+                return false;
+            }
+
+            order.Representative_Id = representativeId;
+            return true;
         }
+
+        public async Task<IEnumerable<OrderDto>> FilterOrderByStatus(OrderStatus status)
+        {
+
+            var orders = await unit.OrderRepository.FilterByStatus(status);
+
+            if(orders == null)
+            {
+                return null;
+            }
+
+            else 
+                return mapper.Map<IEnumerable<OrderDto>>(orders);
+        }
+
+        public async Task<IEnumerable<OrderDto>> FilterOrderByStatusAndDate(OrderStatus status, DateTime startDate , DateTime endDate)
+        {
+
+            var orders = await unit.OrderRepository.FilterByStatusAndDate(status, startDate, endDate);
+
+            if (orders == null)
+            {
+                return null;
+            }
+
+            else
+                return mapper.Map<IEnumerable<OrderDto>>(orders);
+        }
+
     }
 }

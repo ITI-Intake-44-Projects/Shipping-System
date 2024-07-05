@@ -49,11 +49,10 @@ namespace ShippingSystem
             builder.Services.AddScoped<IAccountControllerService, AccountControllerService>();
             builder.Services.AddScoped<GovernateService>();
             builder.Services.AddScoped<CityService>();
-
-
-
-
+            builder.Services.AddScoped<OrderService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+
 
             //> Ignore reference loops in the JSON serialization
             builder.Services.AddControllers().AddNewtonsoftJson(

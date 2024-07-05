@@ -1,4 +1,5 @@
-﻿using ShippingSystem.Models;
+﻿using ShippingSystem.Enumerations;
+using ShippingSystem.Models;
 
 namespace ShippingSystem.Repositories
 {
@@ -12,6 +13,11 @@ namespace ShippingSystem.Repositories
 
         Task<IEnumerable<Order>> GetRepresentativeOrdersAsync(string id);
 
-        Task AddOrder(Order order);
+        Task<IEnumerable<Order>> FilterByStatus(OrderStatus status);
+
+        Task<IEnumerable<Order>> FilterByStatusAndDate(OrderStatus status, DateTime startDate, DateTime endDate);
+
+        Task<bool> AddOrder(Order order);
+
     }
 }
