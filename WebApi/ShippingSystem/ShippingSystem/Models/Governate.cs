@@ -10,6 +10,6 @@ namespace ShippingSystem.Models
 
         public bool? Status { get; set; }
 
-        public virtual ICollection<City> Cities { get; set; } = new List<City>();
+        public virtual ICollection<City>? Cities { get; set; } = new List<City>();
     }
 }

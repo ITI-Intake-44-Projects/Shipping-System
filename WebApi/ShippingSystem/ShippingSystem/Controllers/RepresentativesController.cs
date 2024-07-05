@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShippingSystem.DTOs.Representatives;
 using ShippingSystem.Models;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 
 namespace ShippingSystem.Controllers
@@ -12,16 +14,17 @@ namespace ShippingSystem.Controllers
     public class RepresentativesController : ControllerBase
     {
         private readonly ShippingContext _context;
-
-        public RepresentativesController(ShippingContext context)
+        private readonly UserManager<ApplicationUser> userManager;
+        public RepresentativesController(ShippingContext context, UserManager<ApplicationUser> _userManager)
         {
             _context = context;
+            userManager = _userManager;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RepresentativeDtoGET>>> GetRepresentatives()
         {
-            var representatives = await _context.Representatives
+            var representatives = await _context.Representatives.Where(r => r.IsDeleted == false)
                 .Select(r => new RepresentativeDtoGET
                 {
                     Id = r.Id,
@@ -45,7 +48,10 @@ namespace ShippingSystem.Controllers
                         .ToList()
                 })
                 .ToListAsync();
-
+            if (representatives == null)
+            {
+                return NotFound(new { message = "no representatives found" });
+            }
             return Ok(representatives);
         }
 
@@ -56,7 +62,7 @@ namespace ShippingSystem.Controllers
 
             if (representative == null)
             {
-                return NotFound();
+                return NotFound(new { message = "no representatives found" });
             }
 
             return representative;
@@ -69,6 +75,7 @@ namespace ShippingSystem.Controllers
             {
                 FullName = representativeDto.FullName,
                 PhoneNumber = representativeDto.PhoneNumber,
+                UserName = representativeDto.Email,
                 Email = representativeDto.Email,
                 Address = representativeDto.Address,
                 CompanyOrderPrecentage = representativeDto.CompanyOrderPrecentage,
@@ -85,6 +92,18 @@ namespace ShippingSystem.Controllers
                     Representative = representative
                 });
             }
+            var result = await userManager.CreateAsync(representative, representativeDto.Password);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result);
+            }
+
+            var rolesResult = await userManager.AddToRoleAsync(representative, "representative");
+
+            if (!rolesResult.Succeeded)
+            {
+                return BadRequest(rolesResult);
+            }
 
             _context.Representatives.Add(representative);
             await _context.SaveChangesAsync();
@@ -97,7 +116,7 @@ namespace ShippingSystem.Controllers
         {
             if (id != representativeDto.id)
             {
-                return BadRequest();
+                return BadRequest(new { message = "not valid id" });
             }
 
             var representative = await _context.Representatives
@@ -129,25 +148,14 @@ namespace ShippingSystem.Controllers
                 });
             }
 
+            var result = await userManager.UpdateAsync(representative);
+            if (!result.Succeeded)
+            { 
+                return BadRequest(result.Errors);
+            }
             _context.Representatives.Update(representative);
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RepresentativeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            await _context.SaveChangesAsync();
+            return Ok(new { message = "representative updated successfully" });
         }
 
         [HttpDelete("{id}")]
