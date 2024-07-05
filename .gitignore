@@ -482,3 +482,4 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+/WebApi/ShippingSystem/ShippingSystem/Migrations/20240701111539_yousef-v5.cs

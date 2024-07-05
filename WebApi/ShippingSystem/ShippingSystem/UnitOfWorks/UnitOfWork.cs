@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using ShippingSystem.Models;
 using ShippingSystem.Repositories;
 
@@ -82,7 +83,28 @@ namespace ShippingSystem.UnitOfWorks
             return await dbContext.SaveChangesAsync();
         }
 
+        private GroupRepository groupRepository;
+        public GroupRepository GroupRepository
+        {
+            get
+            {
+                return groupRepository ?? (groupRepository = new GroupRepository(dbContext));
+            }
+        }
 
+        private PrivilegeRepository privilegeRepository;
+        public PrivilegeRepository PrivilegeRepository
+        {
+            get
+            {
+                return privilegeRepository ?? (privilegeRepository = new PrivilegeRepository(dbContext));
+            }
+        }
 
+        private GroupPrivilegeRepository groupPrivilegeRepository;
+        public GroupPrivilegeRepository GroupPrivilegeRepository
+        {
+            get { return groupPrivilegeRepository ??= new GroupPrivilegeRepository(dbContext); }
+        }
     }
 }

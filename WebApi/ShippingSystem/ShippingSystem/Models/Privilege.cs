@@ -10,7 +10,5 @@ namespace ShippingSystem.Models
         public string ? Name { get; set; }
 
         public virtual ICollection<GroupPrivilege> Privileges { get; set; } = new List<GroupPrivilege>();
-
-
     }
 }

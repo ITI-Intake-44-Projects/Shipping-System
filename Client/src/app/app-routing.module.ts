@@ -14,6 +14,10 @@ const routes: Routes = [
   { path: 'weight', loadChildren: () => import('./features/weight/weight.module').then(m=>m.WeightModule)},
   { path: 'village-cost', loadChildren: () => import('./features/village-cost/village-cost.module').then(m=>m.VillageCostModule)}
 
+  { path: 'auth', loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule), canActivate: [authGuard]},
+
+  { path: 'admin', loadChildren: () => import('./features/admin/admin.module').then(m => m.AdminModule)},
+
 ];
 
 @NgModule({

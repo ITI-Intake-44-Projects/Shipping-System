@@ -57,7 +57,14 @@ namespace ShippingSystem
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddScoped<EmployeeService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IGroupControllerService, GroupControllerService>();
+            builder.Services.AddScoped<IPrivilegeControllerService, PrivilegeControllerService>();     
 
+            builder.Services.AddScoped<IGenericRepository<ApplicationUser>, GenericRepository<ApplicationUser>>();
+            builder.Services.AddScoped<IPrivilegeRepository, PrivilegeRepository>();
+            builder.Services.AddScoped<IGroupRepository, GroupRepository>();
+
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
             builder.Services.AddScoped<IGenericRepository<WeightOption>,GenericRepository<WeightOption>>();
             builder.Services.AddScoped<IGenericRepository<VillageCost>, GenericRepository<VillageCost>>();
@@ -106,16 +113,17 @@ namespace ShippingSystem
             //        },
             //        new List<string>()
 
-            //    }});
-            //    #endregion
-            //});
+                }});
+                #endregion
+            });
 
             //> Add CORS Policies
             string Policies = "AllowSpecificOrigin";
             builder.Services.AddCors(options => {
                 options.AddPolicy(Policies,
                 builder => {
-                    builder.AllowAnyOrigin();
+                    builder.WithOrigins("http://localhost:4200");
+                    builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
                     builder.AllowAnyHeader();
                                     
@@ -167,13 +175,16 @@ namespace ShippingSystem
 
             app.UseHttpsRedirection();
 
+            //> middleware to use the cors policy
+            app.UseCors(Policies);
+
+            //> middleware to use the cors policy
+            app.UseRouting();
+
             //> middleware to use the authentication
             app.UseAuthentication();
 
             app.UseAuthorization();
-
-            //> middleware to use the cors policy
-            app.UseCors(Policies);
 
             app.MapControllers();
 

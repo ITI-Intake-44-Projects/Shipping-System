@@ -12,13 +12,22 @@ import { SharedModule } from './shared/modules/shared/shared.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ShowOrdersComponent } from './features/show-orders/show-orders.component';
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [AppComponent, ShowOrdersComponent],
   imports: [
     MerchantsModule,
     BrowserModule, AppRoutingModule, HttpClientModule,
-    FormsModule, ReactiveFormsModule, AuthModule, SharedModule
+    FormsModule, ReactiveFormsModule, AuthModule, SharedModule,
+
+    MatFormFieldModule, MatInputModule, MatIconModule,
+    MatButtonModule, MatTableModule, MatPaginatorModule,
   ],
   providers: [
     provideClientHydration(), provideHttpClient(withFetch()),

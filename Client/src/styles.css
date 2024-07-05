@@ -40,7 +40,7 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: serif;
 }
 /* General Font Style */
 body, .modal-body, .form-container, .form-control, .col-form-label {

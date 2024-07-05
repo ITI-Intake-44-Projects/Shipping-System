@@ -183,8 +183,8 @@ namespace ShippingSystem.Services
                     Message = "Invalid email address"
                 };
             }
-
-            var resetPassResult = await userManager.ResetPasswordAsync(user, resetPasswordDTO.Token, resetPasswordDTO.NewPassword);
+            var passwordToken = await userManager.GeneratePasswordResetTokenAsync(user);
+            var resetPassResult = await userManager.ResetPasswordAsync(user, passwordToken, resetPasswordDTO.NewPassword);
             if (!resetPassResult.Succeeded)
             {
                 return new AuthResponseDTO
