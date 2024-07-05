@@ -9,6 +9,10 @@ const routes: Routes = [
   {path:'order',loadChildren:()=>import('./features/order/order.module').then(m=>m.OrderModule)},
 
 
+ // { path: '', loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule), canActivate: [authGuard] },
+ //{ path: 'auth', loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule)},
+ { path: 'merchants', loadChildren: () => import('./features/merchant/merchants.module').then(m => m.MerchantsModule) },
+  { path: '**', loadChildren: () => import('./shared/modules/shared.module').then(m => m.SharedModule) }
 ];
 
 @NgModule({

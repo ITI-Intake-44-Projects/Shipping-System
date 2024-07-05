@@ -8,13 +8,14 @@ import { environment } from '../environments/environment';
 import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from './features/auth/auth.module';
-
+import { MerchantsModule } from './features/merchant/merchants.module';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    MerchantsModule,
     BrowserModule, AppRoutingModule, HttpClientModule,
-    FormsModule, ReactiveFormsModule, AuthModule, SharedModule
+    FormsModule, ReactiveFormsModule, AuthModule, SharedModule, NgbModule
   ],
   providers: [
     provideClientHydration(), provideHttpClient(withFetch()),

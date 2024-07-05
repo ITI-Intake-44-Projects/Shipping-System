@@ -42,3 +42,9 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+/* General Font Style */
+body, .modal-body, .form-container, .form-control, .col-form-label {
+  font-family: 'Roboto', sans-serif; /* Use a clean and modern font */
+  font-size: 16px;
+  color: #333; /* Dark gray for text */
+}

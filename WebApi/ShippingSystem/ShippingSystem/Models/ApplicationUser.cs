@@ -7,6 +7,6 @@ namespace ShippingSystem.Models
     {
         public string? FullName { get; set; }
 
-        public bool? IsDeleted { get; set; } = false;
+        public bool IsDeleted { get; set; } = false;
     }
 }
