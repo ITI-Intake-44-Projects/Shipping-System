@@ -42,6 +42,54 @@ export class AddPrivilegeComponent implements OnInit {
     return this.groupForm.get('privileges') as FormArray;
   }
 
+  // ngOnInit() {
+  //   this.route.paramMap.subscribe(params => {
+  //     this.groupId = params.get('id');
+  //     if (this.groupId) {
+  //       this.addMode = false;
+  //       this.groupService.getGroupDTOById(this.groupId).subscribe({
+  //         next: (groupDTO: GroupDTO) => {
+  //           // bind name to the group name control
+  //           groupNameControl?.setValue(groupDTO.name);
+  //           // store the data in local variables
+  //           this.groupNameInEditMode = groupDTO.name;
+  //           this.userPrivileges = groupDTO.groupPrivileges;
+  //         },
+  //         error: (error) => {
+  //           console.error('Failed to fetch groupDTO data fro m server', error.message);
+  //         }
+  //       });
+  //     }
+  //   });
+
+  //   this.privilegeService.getPrivileges().subscribe({
+  //     next: (data: PrivilegeDTO[]) => {
+  //       this.privileges = data;
+  //       console.log(`user Privileges: ${JSON.stringify(this.userPrivileges)}`);
+  //       this.setPrivileges(data, this.userPrivileges);
+  //     },
+  //     error: (error) => {
+  //       console.error('Failed to fetch privileges from server', error);
+  //     }
+  //   });
+
+  //   const groupNameControl = this.groupForm.get('groupName');
+  //   groupNameControl?.valueChanges.subscribe({
+  //     next: (groupName: string) => {
+  //       if (groupName) {
+  //         if(this.addMode){
+  //           this.validateGroupName(groupName);
+  //         } else {
+  //           if(groupName !== this.groupNameInEditMode ){
+  //             this.validateGroupName(groupName);
+  //           }
+  //         }
+  //       }
+  //     }
+  //   });
+
+  // }
+
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.groupId = params.get('id');
@@ -54,6 +102,16 @@ export class AddPrivilegeComponent implements OnInit {
             // store the data in local variables
             this.groupNameInEditMode = groupDTO.name;
             this.userPrivileges = groupDTO.groupPrivileges;
+            this.privilegeService.getPrivileges().subscribe({
+              next: (data: PrivilegeDTO[]) => {
+                this.privileges = data;
+                console.log(`user Privileges: ${JSON.stringify(this.userPrivileges)}`);
+                this.setPrivileges(data, this.userPrivileges);
+              },
+              error: (error) => {
+                console.error('Failed to fetch privileges from server', error);
+              }
+            });
           },
           error: (error) => {
             console.error('Failed to fetch groupDTO data fro m server', error.message);
@@ -61,17 +119,18 @@ export class AddPrivilegeComponent implements OnInit {
         });
       }
     });
-
-    this.privilegeService.getPrivileges().subscribe({
-      next: (data: PrivilegeDTO[]) => {
-        this.privileges = data;
-        console.log(`user Privileges: ${JSON.stringify(this.userPrivileges)}`);
-        this.setPrivileges(data, this.userPrivileges);
-      },
-      error: (error) => {
-        console.error('Failed to fetch privileges from server', error);
-      }
-    });
+    if(this.addMode){
+      this.privilegeService.getPrivileges().subscribe({
+        next: (data: PrivilegeDTO[]) => {
+          this.privileges = data;
+          console.log(`user Privileges: ${JSON.stringify(this.userPrivileges)}`);
+          this.setPrivileges(data, this.userPrivileges);
+        },
+        error: (error) => {
+          console.error('Failed to fetch privileges from server', error);
+        }
+      });
+    }
 
     const groupNameControl = this.groupForm.get('groupName');
     groupNameControl?.valueChanges.subscribe({
@@ -114,17 +173,35 @@ export class AddPrivilegeComponent implements OnInit {
   }
 
   private setPrivileges(privileges: PrivilegeDTO[], userPrivileges: GroupPrivilegeDTO[]) {
-    const privilegeFGs = privileges.map(privilege => this.fb.group({
-      Privelege_Id: [privilege.id],
-      Add: [userPrivileges.find(gp => gp.Privelege_Id === privilege.id)?.Add || false],
-      Update: [userPrivileges.find(gp => gp.Privelege_Id === privilege.id)?.Update || false],
-      View: [userPrivileges.find(gp => gp.Privelege_Id === privilege.id)?.View || false],
-      Delete: [userPrivileges.find(gp => gp.Privelege_Id === privilege.id)?.Delete || false]
-    }));
+    const privilegeFGs: FormGroup[] = [];
+    privileges.forEach(privilege => {
+      const userPrivilege = userPrivileges.find(gp => gp.Privelege_Id === privilege.id);
+      const privilegeFormGroup = this.fb.group({
+        Privelege_Id: [privilege.id],
+        Add: [userPrivilege ? userPrivilege.Add : false],
+        Update: [userPrivilege ? userPrivilege.Update : false],
+        View: [userPrivilege ? userPrivilege.View : false],
+        Delete: [userPrivilege ? userPrivilege.Delete : false]
+      });
+      console.log(`123 privilegeFormGroup: ${JSON.stringify(privilegeFormGroup.value)}`);
+      privilegeFGs.push(privilegeFormGroup);
+    });
     const privilegeFormArray = this.fb.array(privilegeFGs);
     this.groupForm.setControl('privileges', privilegeFormArray);
     console.log(`user privileges xyz: ${JSON.stringify(userPrivileges)}`);
     console.log(`privileges xyz: ${JSON.stringify(privilegeFormArray.value)}`);
+
+    // const privilegeFGs = privileges.map(privilege => this.fb.group({
+    //   Privelege_Id: [privilege.id],
+    //   Add: [userPrivileges.find(gp => gp.Privelege_Id === privilege.id)?.Add || false],
+    //   Update: [userPrivileges.find(gp => gp.Privelege_Id === privilege.id)?.Update || false],
+    //   View: [userPrivileges.find(gp => gp.Privelege_Id === privilege.id)?.View || false],
+    //   Delete: [userPrivileges.find(gp => gp.Privelege_Id === privilege.id)?.Delete || false]
+    // }));
+    // const privilegeFormArray = this.fb.array(privilegeFGs);
+    // this.groupForm.setControl('privileges', privilegeFormArray);
+    // console.log(`user privileges xyz: ${JSON.stringify(userPrivileges)}`);
+    // console.log(`privileges xyz: ${JSON.stringify(privilegeFormArray.value)}`);
   }
 
   getSelectedPrivileges(): GroupPrivilegeDTO[] {
