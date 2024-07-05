@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class OrderService extends ApiService<Order> {
 
-  constructor(http:HttpClient , @Inject('apiUrl') protected apiUrl:string ) 
+  constructor(http:HttpClient , @Inject('apiUrl') protected apiUrl:string )
   {
     super(http,environment.apiUrl+'order')
   }
@@ -55,8 +55,6 @@ export class OrderService extends ApiService<Order> {
   getRepresentativeOrders(representativeId: string): Observable<Order[]> {
     return this.http.get<Order[]>(`${this.apiUrl}/representativeOrders/${representativeId}`);
   }
-
-  
 
   assignRepresentative(orderId: number, representativeId: string): Observable<void> {
     let params = new HttpParams();

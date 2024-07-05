@@ -6,12 +6,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './pagination.component.css'
 })
 export class PaginationComponent {
-
-
   @Input() totalItems: number = 0;
   @Input() itemsPerPage: number = 10;
   @Input() currentPage: number = 1;
   @Output() pageChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() currentPageChange: EventEmitter<number> = new EventEmitter<number>();
 
   get totalPages(): number {
     return Math.ceil(this.totalItems / this.itemsPerPage);
@@ -20,6 +19,7 @@ export class PaginationComponent {
   changePage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
+      this.currentPageChange.emit(this.currentPage); // Emit currentPageChange event
       this.pageChange.emit(this.currentPage);
     }
   }

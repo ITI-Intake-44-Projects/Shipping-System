@@ -121,14 +121,13 @@ namespace ShippingSystem
             string Policies = "AllowSpecificOrigin";
             builder.Services.AddCors(options => {
                 options.AddPolicy(Policies,
-                builder => {
-                    builder.WithOrigins("http://localhost:4200");
-                    builder.AllowAnyHeader();
-                    builder.AllowAnyMethod();
-                    builder.AllowAnyHeader();
-                                    
-                });
+                builder => builder.WithOrigins("http://localhost:4200")
+                                  .AllowAnyHeader()
+                                  .AllowAnyMethod()
+                                  .AllowCredentials());
             });
+
+            builder.Services.AddControllers();
 
             //> Add JWT Authentication
             #region jwt use default schema
@@ -160,10 +159,6 @@ namespace ShippingSystem
             });
             #endregion
 
-
-            builder.Services.AddControllers();
-
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -176,10 +171,10 @@ namespace ShippingSystem
             app.UseHttpsRedirection();
 
             //> middleware to use the cors policy
-            app.UseCors(Policies);
+            app.UseRouting();
 
             //> middleware to use the cors policy
-            app.UseRouting();
+            app.UseCors(Policies);
 
             //> middleware to use the authentication
             app.UseAuthentication();

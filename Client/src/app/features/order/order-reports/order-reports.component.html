@@ -1,0 +1,97 @@
+<div class="container" dir="rtl">
+  <h2 class="title">تقارير الطلبات حسب الحالة</h2>
+  <div class="filters">
+    <mat-form-field appearance="fill">
+      <mat-label>الحالات</mat-label>
+      <mat-select [(ngModel)]="selectedStatus">
+        <mat-option *ngFor="let status of statuses" [value]="status">{{ status }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>من</mat-label>
+      <input matInput [matDatepicker]="startPicker" [(ngModel)]="startDate">
+      <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+      <mat-datepicker #startPicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>إلى</mat-label>
+      <input matInput [matDatepicker]="endPicker" [(ngModel)]="endDate">
+      <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+      <mat-datepicker #endPicker></mat-datepicker>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="filterOrders()">بحث</button>
+  </div>
+
+  <table mat-table [dataSource]="orders" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="index">
+      <th mat-header-cell *matHeaderCellDef>#</th>
+      <td mat-cell *matCellDef="let order; let i = index">{{ i + 1 }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>الرقم التسلسلي</th>
+      <td mat-cell *matCellDef="let order">{{ order?.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="orderStatus">
+      <th mat-header-cell *matHeaderCellDef>الحالة</th>
+      <td mat-cell *matCellDef="let order">{{ order?.orderStatus }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="merchantId">
+      <th mat-header-cell *matHeaderCellDef>التاجر</th>
+      <td mat-cell *matCellDef="let order">{{ order?.merchantId }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="customerName">
+      <th mat-header-cell *matHeaderCellDef>العميل</th>
+      <td mat-cell *matCellDef="let order">{{ order?.customerName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="customerPhone1">
+      <th mat-header-cell *matHeaderCellDef>رقم الهاتف</th>
+      <td mat-cell *matCellDef="let order">{{ order?.customerPhone1 }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="governateId">
+      <th mat-header-cell *matHeaderCellDef>المحافظة</th>
+      <td mat-cell *matCellDef="let order">{{ order?.governateId }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="cityId">
+      <th mat-header-cell *matHeaderCellDef>المدينة</th>
+      <td mat-cell *matCellDef="let order">{{ order?.cityId }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="orderCost">
+      <th mat-header-cell *matHeaderCellDef>تكلفة الطلب</th>
+      <td mat-cell *matCellDef="let order">{{ order?.orderCost }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="totalCost">
+      <th mat-header-cell *matHeaderCellDef>المبلغ المستلم</th>
+      <td mat-cell *matCellDef="let order">{{ order?.totalCost }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="shippingCost">
+      <th mat-header-cell *matHeaderCellDef>تكلفة الشحن</th>
+      <td mat-cell *matCellDef="let order">{{ order?.shippingCost }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="orderDate">
+      <th mat-header-cell *matHeaderCellDef>التاريخ</th>
+      <td mat-cell *matCellDef="let order">{{ order?.orderDate | date }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [length]="totalOrders" [pageSize]="itemsPerPage" [pageIndex]="currentPage - 1"
+    (page)="onPageChange($event)">
+  </mat-paginator>
+</div>
