@@ -16,11 +16,12 @@ import { PaginationComponent } from '../../shared/components/pagination/paginati
   imports: [
     CommonModule,
     GovernateRoutingModule,
-    SharedModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ],
   exports:[
+
   ]
 })
 export class GovernateModule { }

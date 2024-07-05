@@ -6,6 +6,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { environment } from '../environments/environment';
 import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthModule } from './features/auth/auth.module';
 import { SharedModule } from './shared/modules/shared/shared.module';
 // import { AuthModule } from './features/auth/auth.module';
 // import { MerchantsModule } from './features/merchant/merchants.module';
@@ -17,6 +18,7 @@ import { SharedModule } from './shared/modules/shared/shared.module';
 // import { MatTableModule } from '@angular/material/table';
 // import { MatPaginatorModule } from '@angular/material/paginator';
 
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -24,9 +26,11 @@ import { SharedModule } from './shared/modules/shared/shared.module';
     FormsModule, ReactiveFormsModule, SharedModule,
   ],
   providers: [
-    provideClientHydration(), provideHttpClient(withFetch()),
+  
+    provideAnimationsAsync(),
     { provide: 'apiUrl', useValue: environment.apiUrl },
-    provideAnimationsAsync()
+    provideClientHydration(), provideHttpClient(withFetch()),
+    
   ],
   bootstrap: [AppComponent]
 })
