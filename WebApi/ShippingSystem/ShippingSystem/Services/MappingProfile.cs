@@ -57,26 +57,15 @@ namespace ShippingSystem.Services
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ReverseMap();
 
-        }
-    }
-}
-
-
             CreateMap<Governate, GovernateDto>().ReverseMap();
 
             CreateMap<CityDto, City>();
 
-            CreateMap<City,CityDto>()
+            CreateMap<City, CityDto>()
             .ForMember(dest => dest.Governate_Id, opt => opt.MapFrom(src => src.Governate.Id));
 
 
             CreateMap<Order, OrderDto>().ReverseMap();
-
-
-
-
-
-
             //CreateMap<Employee, EmployeeDTO>()
             //.ForMember(dest => dest.Roles, opt => opt.MapFrom<EmployeeRolesResolver>())
             // .ForMember(dest => dest.BranchId, opt => opt.MapFrom(src => src.Branch_Id))
@@ -89,18 +78,20 @@ namespace ShippingSystem.Services
              .ForMember(dest => dest.Branch_Id, opt => opt.MapFrom(src => src.BranchId))
              .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Phone))
              .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password))
-             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src=>src.UserName))
+             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
              .ForMember(dest => dest.Id, opt => opt.Ignore());
-            
 
-            CreateMap<Employee,EmployeeDTO>()
+
+            CreateMap<Employee, EmployeeDTO>()
              .ForMember(dest => dest.Roles, opt => opt.MapFrom<EmployeeRolesResolver>())
              .ForMember(dest => dest.BranchId, opt => opt.MapFrom(src => src.Branch_Id))
              .ForMember(dest => dest.BranchName, opt => opt.MapFrom(src => src.Branch.Name))
              .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.PasswordHash))
              .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.PhoneNumber));
+
         }
     }
+}
 
 
     public class EmployeeRolesResolver : IValueResolver<Employee, EmployeeDTO, List<string>>
@@ -150,4 +141,4 @@ namespace ShippingSystem.Services
     //}
 
 
-}
+

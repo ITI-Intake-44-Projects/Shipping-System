@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
           console.log(`login credentials ${JSON.stringify(loginCredentials)}`)
           localStorage.setItem('token', response.token);
           localStorage.setItem('role', response.role);
-          this.redirectUser(response.role);
+          // this.redirectUser(response.role);
         },
         error: (error) => {
           console.error('Login failed:', error);

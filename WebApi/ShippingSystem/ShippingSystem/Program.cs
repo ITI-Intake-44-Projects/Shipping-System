@@ -113,9 +113,9 @@ namespace ShippingSystem
             //        },
             //        new List<string>()
 
-                }});
-                #endregion
-            });
+            //    }});
+            //    #endregion
+            //});
 
             //> Add CORS Policies
             string Policies = "AllowSpecificOrigin";
