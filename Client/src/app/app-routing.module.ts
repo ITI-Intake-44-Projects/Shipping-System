@@ -2,6 +2,7 @@ import { VillageCostModule } from './features/village-cost/village-cost.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './features/auth/auth.guard';
+import { LoginComponent } from './features/auth/login/login.component';
 
 const routes: Routes = [
   {path:'governate',loadChildren:()=>import('./features/governate/governate.module').then(m=>m.GovernateModule)},
@@ -13,11 +14,25 @@ const routes: Routes = [
   { path: 'village-cost', loadChildren: () => import('./features/village-cost/village-cost.module').then(m=>m.VillageCostModule)},
   { path: 'auth', loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule)},
   { path: 'admin', loadChildren: () => import('./features/admin/admin.module').then(m => m.AdminModule)},
-  // , canActivate: [authGuard]
+  {
+    path: 'representative',
+    loadChildren: () =>
+      import('./features/representative/representative.module').then((m) => m.RepresentativeModule),
+  },
+  {
+    path: 'branch',
+    loadChildren: () =>
+      import('./features/branch/branch.module').then((m) => m.BranchModule),
+  },
+  {
+    path: 'shippingtype',
+    loadChildren: () =>
+      import('./features/shippingtype/shippingtype.module').then((m) => m.ShippingTypeModule),
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
