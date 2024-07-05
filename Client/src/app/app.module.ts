@@ -9,10 +9,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from './features/auth/auth.module';
 import { MerchantsModule } from './features/merchant/merchants.module';
 import { SharedModule } from './shared/modules/shared/shared.module';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { ShowOrdersComponent } from './features/show-orders/show-orders.component';
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ShowOrdersComponent],
   imports: [
     MerchantsModule,
     BrowserModule, AppRoutingModule, HttpClientModule,

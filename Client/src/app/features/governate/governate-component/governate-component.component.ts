@@ -138,7 +138,7 @@ export class GovernateComponentComponent implements OnInit {
       ,
       error:(error)=>{
         console.log(error)
-      }
+  }
     })
  }
 

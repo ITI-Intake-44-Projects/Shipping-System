@@ -211,7 +211,7 @@ export class CityTableComponent implements OnInit {
 
   openModal() {
     this.modalOpen = true;
-
+    
    
     
   }

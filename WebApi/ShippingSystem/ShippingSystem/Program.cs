@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ShippingSystem.Models;
+using ShippingSystem.Repositories;
 using ShippingSystem.Services;
 using ShippingSystem.UnitOfWorks;
 using System.Text;
@@ -56,6 +57,12 @@ namespace ShippingSystem
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddScoped<EmployeeService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+            builder.Services.AddScoped<IGenericRepository<WeightOption>,GenericRepository<WeightOption>>();
+            builder.Services.AddScoped<IGenericRepository<VillageCost>, GenericRepository<VillageCost>>();
+            builder.Services.AddScoped<WeightOptionService>();
+            builder.Services.AddScoped<VillageCostService>();
 
 
 

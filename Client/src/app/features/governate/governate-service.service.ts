@@ -28,4 +28,5 @@ export class GovernateServiceService extends ApiService<Governate>{
     return this.http.get<Governate[]>(`${this.apiUrL}`, { params });
   }
 
+  constructor() { }
 }

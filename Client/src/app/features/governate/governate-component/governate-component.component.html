@@ -3,17 +3,18 @@
 
       <div class="col-12">
         <div class="py-3">
-          <button class="btn btn-secondary" (click)="openModal()">اضافة محافظة</button>
+            <button class="btn btn-secondary" (click)="openModal()">اضافة محافظة</button>
 
         </div>
       </div>
-       
+        
         <div class="col-12">
-          <div class="d-flex justify-content-between align-items-center">
+       <div class="d-flex justify-content-between align-items-center">
             <form class="d-flex justify-content-between form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2  me-4" type="search" placeholder="بحث عن محافظة" aria-label="Search" [(ngModel)] = "governateName" name="governateName">
                 <button class="btn btn-outline-secondary my-2 my-sm-0" type="button" (click)="search()">Search</button>
             </form>
+    
     
             <div>
                 <select class="form-select" aria-label="Default select example">
@@ -25,11 +26,11 @@
             </div>
            
         </div>
-      
+        
         </div>
         
         <div class="col-12">
-          <table class="table my-5">
+        <table class="table my-5">
             <thead>
               <tr class="table-header">
                   <th scope="col" class="text-center">الاعدادات</th>
@@ -56,7 +57,7 @@
               </tr>
             </tbody>
         </table> 
-        
+
         <app-pagination
         [totalItems]="totalItems"
         [itemsPerPage]="pageSize"
@@ -80,11 +81,11 @@
                       <div class="form-check form-switch " dir="rtl">
                           <input class="form-check-input fs-5 " type="checkbox" role="switch" id="flexSwitchCheckDefault" dir="rtl" formControlName="status">
                       </div>    
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click) = "closeModal()">اغلاق</button>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click) = "closeModal()">اغلاق</button>
                     <button type="submit" class="btn btn-primary"  >{{editFlag == true ? " تعديل" : "اضافة"}}</button>
-                  </div>
+                </div>
                 </form>
               </div>
             </div>
