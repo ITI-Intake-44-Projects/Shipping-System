@@ -15,7 +15,7 @@ namespace ShippingSystem.Models
 
 
         [ForeignKey("Governate")]
-        public int Governate_Id { get; set; }
+        public int? Governate_Id { get; set; }
 
         public virtual Governate? Governate { get; set; }
 

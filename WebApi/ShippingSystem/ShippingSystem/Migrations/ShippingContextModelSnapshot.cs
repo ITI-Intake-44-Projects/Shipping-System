@@ -234,7 +234,7 @@ namespace ShippingSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Governate_Id")
+                    b.Property<int?>("Governate_Id")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -281,7 +281,7 @@ namespace ShippingSystem.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateAdded")
+                    b.Property<DateTime?>("DateAdded")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -736,9 +736,7 @@ namespace ShippingSystem.Migrations
                 {
                     b.HasOne("ShippingSystem.Models.Governate", "Governate")
                         .WithMany("Cities")
-                        .HasForeignKey("Governate_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Governate_Id");
 
                     b.Navigation("Governate");
                 });
