@@ -15,10 +15,13 @@ namespace ShippingSystem.Controllers
     {
         private readonly ShippingContext _context;
         private readonly UserManager<ApplicationUser> userManager;
-        public RepresentativesController(ShippingContext context, UserManager<ApplicationUser> _userManager)
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        public RepresentativesController(ShippingContext context, UserManager<ApplicationUser> _userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             userManager = _userManager;
+            _roleManager = roleManager;
         }
 
         [HttpGet]
@@ -92,24 +95,40 @@ namespace ShippingSystem.Controllers
                     Representative = representative
                 });
             }
-            var result = await userManager.CreateAsync(representative, representativeDto.Password);
-            if (!result.Succeeded)
-            {
-                return BadRequest(result);
-            }
+            var passwordHasher = new PasswordHasher<Representative>();
+            representative.PasswordHash = passwordHasher.HashPassword(representative, representativeDto.Password);
 
+            _context.Representatives.Add(representative);
+            await _context.SaveChangesAsync();
+
+
+            await EnsureRoleExistsAsync("representative");
             var rolesResult = await userManager.AddToRoleAsync(representative, "representative");
-
             if (!rolesResult.Succeeded)
             {
                 return BadRequest(rolesResult);
             }
 
-            _context.Representatives.Add(representative);
-            await _context.SaveChangesAsync();
+           
 
             return CreatedAtAction("GetRepresentative", new { id = representative.Id }, representative);
         }
+
+        private async Task EnsureRoleExistsAsync(string roleName)
+        {
+            var roleExists = await _roleManager.RoleExistsAsync(roleName);
+            if (!roleExists)
+            {
+                var role = new IdentityRole(roleName);
+                var result = await _roleManager.CreateAsync(role);
+                if (!result.Succeeded)
+                {
+                    throw new Exception($"Failed to create role '{roleName}': {string.Join(", ", result.Errors.Select(e => e.Description))}");
+                }
+            }
+        }
+
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRepresentative(string id, RepresentativeDTO representativeDto)
