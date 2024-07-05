@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Azure.Identity;
+using Microsoft.AspNetCore.Identity;
 using ShippingSystem.Models;
 
 namespace ShippingSystem.Models

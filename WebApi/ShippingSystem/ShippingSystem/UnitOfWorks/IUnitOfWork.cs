@@ -10,6 +10,8 @@ namespace ShippingSystem.UnitOfWorks
 
         public IOrderRepository OrderRepository { get;}
 
+        IEmployeeRepository EmployeeRepository {get;}
+
         Task<int> Save();
     }
 }

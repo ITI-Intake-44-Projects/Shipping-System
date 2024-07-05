@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +19,6 @@ namespace ShippingSystem
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
             builder.Services.AddEndpointsApiExplorer();
@@ -31,15 +30,19 @@ namespace ShippingSystem
                                   .UseLazyLoadingProxies()
             );
 
-            builder.Services.AddIdentity<ApplicationUser,Group>(options =>
+            builder.Services.AddIdentity<ApplicationUser, Group>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequiredLength = 5;
+                options.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<ShippingContext>()
                 .AddDefaultTokenProviders();
+                //.AddUserValidator<CustomUserValidator<ApplicationUser>>(); // Add custom user validator
+
+
 
             builder.Services.Configure<IdentityOptions>(options => {
                 options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultProvider;
@@ -51,6 +54,8 @@ namespace ShippingSystem
             builder.Services.AddScoped<CityService>();
             builder.Services.AddScoped<OrderService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
+            builder.Services.AddScoped<EmployeeService>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 
@@ -99,13 +104,14 @@ namespace ShippingSystem
             //});
 
             //> Add CORS Policies
-            string Policies = "";
+            string Policies = "AllowSpecificOrigin";
             builder.Services.AddCors(options => {
                 options.AddPolicy(Policies,
                 builder => {
                     builder.AllowAnyOrigin();
                     builder.AllowAnyMethod();
                     builder.AllowAnyHeader();
+                                    
                 });
             });
 
@@ -138,6 +144,10 @@ namespace ShippingSystem
                 };
             });
             #endregion
+
+
+            builder.Services.AddControllers();
+
 
             var app = builder.Build();
 

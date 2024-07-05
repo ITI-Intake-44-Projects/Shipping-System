@@ -32,7 +32,7 @@
 
                     <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="invalid-feedback">
                         <div *ngIf="password?.errors?.['required']">من فضلك ادخل كلمة مرور صالحة</div>
-                        <div *ngIf="password?.errors?.['minlength']">كلمة المرور يجب أن تكون على الأقل 6 أحرف</div>
+                        <div *ngIf="password?.errors?.['minlength']">كلمة المرور يجب أن تكون على الأقل 5 أحرف</div>
                     </div>
                 </div>
             </div>

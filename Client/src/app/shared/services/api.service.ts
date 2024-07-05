@@ -22,7 +22,7 @@ export class ApiService<T> {
     return this.http.get<T[]>(this.apiUrL)
   }
 
-  getById(itemId: number): Observable<T> {
+  getById(itemId: number|string): Observable<T> {
     return this.http.get<T>(`${this.apiUrL}/${itemId}`);
   }
 
@@ -30,11 +30,11 @@ export class ApiService<T> {
     return this.http.post<T>(this.apiUrL, item)
   }
 
-  editItem(itemId: number, item: any): Observable<T> {
+  editItem(itemId: number|string, item: any): Observable<T> {
     return this.http.put<T>(`${this.apiUrL}/${itemId}`, item) 
   }
 
-  deleteItem(itemId: number): Observable<void> {
+  deleteItem(itemId: number |string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrL}/${itemId}`)
   }
 
