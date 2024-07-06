@@ -1,0 +1,134 @@
+<div class="container-fluid p-4">
+  <div class="formbg p-4 mt-3">
+    <!-- Tabs -->
+    <ul class="nav nav-pills mb-3 flex-row-reverse" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="pills-tab1-tab" data-bs-toggle="pill" href="#pills-tab1" role="tab" aria-controls="pills-tab1" aria-selected="true">الكل</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="pills-tab2-tab" data-bs-toggle="pill" href="#pills-tab2" role="tab" aria-controls="pills-tab2" aria-selected="false">جديد</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="pills-tab3-tab" data-bs-toggle="pill" href="#pills-tab3" role="tab" aria-controls="pills-tab3" aria-selected="false">قيد الانتظار</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="pills-tab4-tab" data-bs-toggle="pill" href="#pills-tab4" role="tab" aria-controls="pills-tab4" aria-selected="false">تم التسليم للمندوب</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="pills-tab5-tab" data-bs-toggle="pill" href="#pills-tab5" role="tab" aria-controls="pills-tab5" aria-selected="false">تم التسليم</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="pills-tab6-tab" data-bs-toggle="pill" href="#pills-tab6" role="tab" aria-controls="#pills-tab6" aria-selected="false">لا يمكن الوصول</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="pills-tab7-tab" data-bs-toggle="pill" href="#pills-tab7" role="tab" aria-controls="#pills-tab7" aria-selected="false">تم التأجيل</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="pills-tab8-tab" data-bs-toggle="pill" href="#pills-tab8" role="tab" aria-controls="#pills-tab8" aria-selected="false">تم التسليم جزئيا</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="pills-tab9-tab" data-bs-toggle="pill" href="#pills-tab9" role="tab" aria-controls="#pills-tab9" aria-selected="false">تم الالغاء من قبل المستلم</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="pills-tab10-tab" data-bs-toggle="pill" href="#pills-tab10" role="tab" aria-controls="#pills-tab10" aria-selected="false">تم الرفض مع الدفع</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="pills-tab11-tab" data-bs-toggle="pill" href="#pills-tab11" role="tab" aria-controls="#pills-tab11" aria-selected="false">رفض مع سداد جزء</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="pills-tab12-tab" data-bs-toggle="pill" href="#pills-tab12" role="tab" aria-controls="#pills-tab12" aria-selected="false">رفض ولم يتم الدفع</a>
+      </li>
+      <!-- Add more tabs as needed -->
+    </ul>
+    
+    <!-- Tab content -->
+    <div class="tab-content" style="direction: rtl;">
+      <!-- Tab 1 Content -->
+      <div class="tab-pane fade show active" id="pills-tab1" role="tabpanel" aria-labelledby="pills-tab1-tab">
+        <!-- Content for Tab 1 -->
+        محتوى التبويب 1
+      </div>
+      <!-- Tab 2 Content -->
+      <div class="tab-pane fade" id="pills-tab2" role="tabpanel" aria-labelledby="pills-tab2-tab">
+        <!-- Content for Tab 2 -->
+        <div class="d-flex justify-content-between mb-3">
+          <input type="search" style="width: 20%;" class="form-control" placeholder="ابحث...." />
+          <div class="d-flex">
+            <!-- PDF Icon -->
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" style="width: 50px; height: 50px;" class="btn mr-3" title="PDF icons" />
+            <!-- Excel Icon -->
+            <img src="https://w7.pngwing.com/pngs/670/803/png-transparent-excel-logo-logos-logos-and-brands-icon-thumbnail.png" style="width: 50px; height: 50px;" class="btn mr-3" title="Excel icons" />
+          </div>
+        </div>
+        <div class="row justify-content-center my-3">
+          <div class="col-12">
+            <table class="table text-center my-4" id="tableId">
+              <thead class="table-primary">
+                <tr class="text-center">
+                  <th class="text-left">#</th>
+                  <th class="text-left"> التاريخ</th>
+                  <th class="text-left">بيانات العميل</th>
+                  <th class="text-left">المحافظة</th>
+                  <th class="text-left">المدينة</th>
+                  <th class="text-left">تكلفة الطلب</th>
+                  <th class="text-left"> تعديل الطلب</th>
+                  <th class="text-left">تغير الحاله </th>
+                  <th class="text-left"> اسناد </th>
+
+                  <th class="text-left">حذف</th>
+
+                  <th class="text-left"style="color: #ccc ;font-size: larger;"><i class="fa-solid fa-print"></i></th>
+                </tr>
+              </thead>
+
+              <tbody class="text-center">
+                <tr>
+                  <td>1</td>
+                  <td>2024-07-04</td>
+                  <td> سارة</td>
+                  <td>القاهرة</td>
+                  <td>مدينة نصر</td>
+                  <td>100</td>
+                  <td><a style="color: #f37735;font-size: larger;"><i class="fa-regular fa-pen-to-square"></i></a></td>
+
+                  <td><a style="font-size:10px;font-weight: bold;" class="btn btn-primary">الحاله</a></td>
+                  <td><a style="font-size:10px;font-weight: bold;" class ="btn btn-primary">اسناد</a> </td>
+
+                  <td><a style="color: #d90429;font-size: larger;"><i class="fa-solid fa-trash-can"></i></a></td>
+
+                  <td><a style="color: #00b4d8;font-size: larger;"><i class="fa-solid fa-print"></i></a></td>
+                </tr>
+                <!-- Additional table rows -->
+              </tbody>
+            </table>
+            <!-- Pagination -->
+            <nav>
+              <ul class="pagination justify-content-end">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <li class="page-item active" aria-current="page">
+                  <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">Next</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <!-- Tab 3 Content -->
+      <div class="tab-pane fade" id="pills-tab3" role="tabpanel" aria-labelledby="pills-tab3-tab">
+        <!-- Content for Tab 3 -->
+        محتوى التبويب 3
+      </div>
+      <!-- Add more tab panes as needed -->
+    </div>
+    <!-- End of tab content -->
+  </div>
+  <!-- End of formbg -->
+</div>
+<!-- End of container-fluid -->
