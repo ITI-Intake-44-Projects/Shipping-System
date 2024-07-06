@@ -8,12 +8,13 @@ import { MerchantsRoutingModule } from './merchants-routing.module';
 import { MerchantModalComponent } from './merchant-modal/merchant-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MerchantFormComponent } from './merchant-form/merchant-form.component';
+import { SharedModule } from '../../shared/modules/shared/shared.module';
 @NgModule({
   declarations: [
     MerchantListComponent,
     MerchantModalComponent,
     MerchantFormComponent,
-    
+  
     
     
   ],
@@ -25,7 +26,7 @@ import { MerchantFormComponent } from './merchant-form/merchant-form.component';
     MerchantsRoutingModule,
     MatDialogModule,
     MatDialogModule,
-    
+    SharedModule
 
 
   ],

@@ -91,6 +91,12 @@
       </div>
    
     </div>
+    <app-pagination
+    [totalItems]="totalItems"
+    [itemsPerPage]="pageSize"
+    [currentPage]="pageNumber"
+    (pageChange)="onPageChange($event)">
+</app-pagination>
     <!-- <pagination-controls (pageChange)="p = $event" [directionLinks]="true" [autoHide]="true"
                          previousLabel="&#8592;" nextLabel="&#8594;"></pagination-controls> -->
   </div>
