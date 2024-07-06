@@ -15,8 +15,9 @@ label {
    justify-content: flex-start; 
 }
 button {
-  background-color: #4CAF50;
+  background-color: #15467e;
   color: white;
+  width: 15%;
   border: none;
   padding: 10px 20px;
   text-align: center;
@@ -25,4 +26,4 @@ button {
   font-size: 16px;
   border-radius: 4px;
   cursor: pointer;
-}
+} 

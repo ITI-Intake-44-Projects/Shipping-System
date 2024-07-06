@@ -86,7 +86,6 @@ export class CityTableComponent implements OnInit {
         }
       })
 
-      
     }
     else {
       this.addCity()
