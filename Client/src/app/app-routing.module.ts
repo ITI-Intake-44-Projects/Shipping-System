@@ -14,7 +14,6 @@ const routes: Routes = [
   { path: 'village-cost', loadChildren: () => import('./features/village-cost/village-cost.module').then(m=>m.VillageCostModule)},
   { path: 'auth', loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule)},
   { path: 'admin', loadChildren: () => import('./features/admin/admin.module').then(m => m.AdminModule)},
-  { path: 'home', loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule)},
 
   {
     path: 'representative',
