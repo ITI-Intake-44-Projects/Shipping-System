@@ -93,11 +93,11 @@ export class OrderFormComponent implements OnInit {
 
     this.selectedTab ='customer';
 
-    this.orderService.getOrders(1,10).subscribe(() => {
+    this.orderService.getOrders(1,10).subscribe( {
       next:(data:any)=>{
         console.log(data)
       }
-  });
+    });
 
     this.getMerchantId()
   
@@ -206,17 +206,17 @@ export class OrderFormComponent implements OnInit {
       orderData.totalWeight = this.calculateTotalWeight()
       orderData.productOrders = this.products
       orderData.orderStatus = this.OrderStatus.New
+      orderData.id= 0
       console.log(orderData)
       if (this.orderId) {
         this.orderService.editItem(this.orderId, orderData).subscribe(() => {
           
         });
       } else {
-        this.orderService.postOrder(orderData).subscribe(() => {
+        this.orderService.postOrder(orderData).subscribe({
             next:(data:any)=>{
               console.log(data)
             }
-            
         });
       }
     }
@@ -230,8 +230,8 @@ export class OrderFormComponent implements OnInit {
   {
      this.authService.getUserDetails().subscribe({
       next:(data:any)=>{
-        // console.log(data)
         this.orderForm.get('merchant_Id')?.setValue(data.id)
+        console.log(this.orderForm.get('merchant_Id')?.value)
       }}
     ) 
   }

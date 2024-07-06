@@ -23,6 +23,8 @@ export interface Order {
     merchantName?:string;
     representativeId?: string;
     governateId?: number;
+    governateName:string,
     cityId?: number;
+    cityName:string ;
     productOrders: ProductOrder[];
 }

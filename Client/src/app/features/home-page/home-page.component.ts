@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-main-screen',
-  templateUrl: './main-screen.component.html',
-  styleUrls: ['./main-screen.component.css']
+  selector: 'app-home-page',
+  templateUrl: './home-page.component.html',
+  styleUrl: './home-page.component.css'
 })
-export class MainScreenComponent {
+export class HomePageComponent {
+
   cards = [
     { number: 0, text: 'تم التسليم' },
     { number: 0, text: 'تم التسليم للمندوب' },

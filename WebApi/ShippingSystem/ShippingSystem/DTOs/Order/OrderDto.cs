@@ -50,6 +50,10 @@ namespace ShippingSystem.DTOs.Order
 
         public int? Governate_Id { get; set; }
 
+        public String? GovernateName { get; set; }
+
+        public String? CityName { get; set; }
+
         public int? City_Id { get; set; }
 
         public virtual ICollection<ProductOrderDto> ProductOrders { get; set; } = new List<ProductOrderDto>();

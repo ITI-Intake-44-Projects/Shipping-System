@@ -15,7 +15,7 @@ export class OrderService extends ApiService<Order> {
 
   constructor(http:HttpClient , @Inject('apiUrl') protected apiUrl:string ) 
   {
-    super(http,environment.apiUrl+'order')
+    super(http,environment.apiUrl+'Order')
   }
 
 
@@ -23,15 +23,15 @@ export class OrderService extends ApiService<Order> {
     let params = new HttpParams();
     params = params.append('pageNumber', pageNumber.toString());
     params = params.append('pageSize', pageSize.toString());
-    return this.http.get<Order[]>(this.apiUrl, { params });
+    return this.http.get<Order[]>(this.apiUrL, { params });
   }
 
   getOrderById(id: number): Observable<Order> {
-    return this.http.get<Order>(`${this.apiUrl}/${id}`);
+    return this.http.get<Order>(`${this.apiUrL}/${id}`);
   }
 
   postOrder(order: Order): Observable<Order> {
-    return this.http.post<Order>(`${this.apiUrl}/order`, order);
+    return this.http.post<Order>(`${this.apiUrL}`, order);
   }
 
   // putOrder(id: number, order: Order): Observable<void> {
