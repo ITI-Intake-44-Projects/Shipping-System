@@ -30,9 +30,9 @@ export class OrderService extends ApiService<Order> {
     return this.http.get<Order>(`${this.apiUrl}/${id}`);
   }
 
-  // postOrder(order: Order): Observable<Order> {
-  //   return this.http.post<Order>(this.apiUrl, order);
-  // }
+  postOrder(order: Order): Observable<Order> {
+    return this.http.post<Order>(`${this.apiUrl}/order`, order);
+  }
 
   // putOrder(id: number, order: Order): Observable<void> {
   //   return this.http.put<void>(`${this.apiUrl}/${id}`, order);

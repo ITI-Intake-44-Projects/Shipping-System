@@ -66,9 +66,9 @@ namespace ShippingSystem.Services
         {
             var order = mapper.Map<Order>(OrderDto);
 
-            await unit.OrderRepository.Update(order);
+             unit.OrderRepository.Update(order);
 
-            await unit.Save();
+             unit.Save();
         }
 
         public async Task<bool> RemoveOrderAsync(int id )

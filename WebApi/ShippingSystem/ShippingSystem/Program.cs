@@ -175,11 +175,14 @@ namespace ShippingSystem
 
             app.UseHttpsRedirection();
 
-            //> middleware to use the cors policy
-            app.UseCors(Policies);
 
             //> middleware to use the cors policy
             app.UseRouting();
+
+
+
+            //> middleware to use the cors policy
+            app.UseCors(Policies);
 
             //> middleware to use the authentication
             app.UseAuthentication();

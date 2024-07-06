@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using ShippingSystem.Enumerations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShippingSystem.Models
 {
     public class Representative : ApplicationUser
     {
-        //public string? FullName { get; set; }
 
         public string? Address { get; set; }
 
@@ -13,6 +13,8 @@ namespace ShippingSystem.Models
 
         public float? SalePrecentage { get; set; }
 
+        public SaleType SaleType { get; set; }
+        
         [ForeignKey("Branch")]
         public int? Branch_Id { get; set; }
 

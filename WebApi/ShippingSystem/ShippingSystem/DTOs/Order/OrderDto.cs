@@ -40,10 +40,11 @@ namespace ShippingSystem.DTOs.Order
 
         public int? Branch_Id { get; set; }
 
-
         public int? Shipping_Id { get; set; }
 
         public string? Merchant_Id { get; set; }
+
+        public string? MerchantName { get; set; }
 
         public string? Representative_Id { get; set; }
 

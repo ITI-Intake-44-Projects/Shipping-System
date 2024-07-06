@@ -1,3 +1,5 @@
+import { OrderStatus } from './../../../Models/Enums';
+import { ShippingTypeService } from './../../../services/shippingtype.service';
 import { CityService } from './../../city/city.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
@@ -9,6 +11,11 @@ import { GovernateServiceService } from '../../governate/governate-service.servi
 import { City } from '../../../Models/City';
 import { Governate } from '../../../Models/Governate';
 import { OrderType, PaymentType } from '../../../Models/Enums';
+import { BranchService } from '../../../services/branch.service';
+import { MerchantService } from '../../merchant/merchant.service';
+import { AuthService } from '../../auth/auth.service';
+import { Observable } from 'rxjs';
+import { ProductOrder } from '../../../Models/ProductOrder';
 
 @Component({
   selector: 'app-order-form',
@@ -21,24 +28,31 @@ export class OrderFormComponent implements OnInit {
   modalOpen: boolean = false;
   editFlag: boolean = false;
   orderForm: FormGroup;
+  productForm:FormGroup
   orderId: number | null = null;
-  products: any[] = [];
+  products: ProductOrder[] = [];
   selectedTab: string = 'customer';
+  editingProductIndex: number | null = null;
 
+
+  merchantId : string = ''
   orderTypes = OrderType 
   paymetTypes = PaymentType 
-
-
+  shippingTypes : any = [] ; 
+  branches : any = []
   cities : City[] = [];
   governates : Governate[] = [];
-
+  OrderStatus = OrderStatus
 
   constructor(
     private fb: FormBuilder,
     private orderService: OrderService,
     private route: ActivatedRoute,
     private cityService:CityService,
-    private governateService:GovernateServiceService
+    private governateService:GovernateServiceService,
+    private shippingService : ShippingTypeService,
+    private branchService : BranchService,
+    private authService : AuthService
   ) {
     this.orderForm = this.fb.group({
       id: [null],
@@ -65,12 +79,28 @@ export class OrderFormComponent implements OnInit {
       city_Id: [null],
       productOrders: this.fb.array([]) // Initialize the form array
     });
+
+    this.productForm = this.fb.group({
+      // id :[''],
+      name:[''],
+      quantity: [''],
+      unitPrice: [''],
+      unitWeight: ['']
+    })
   }
 
   ngOnInit() {
 
     this.selectedTab ='customer';
 
+    this.orderService.getOrders(1,10).subscribe(() => {
+      next:(data:any)=>{
+        console.log(data)
+      }
+  });
+
+    this.getMerchantId()
+  
     this.cityService.getAll().subscribe({
       next:(data:City[])=>{
           this.cities= data
@@ -83,6 +113,22 @@ export class OrderFormComponent implements OnInit {
       }
     })
 
+    this.shippingService.getShippingTypes().subscribe({
+      next:(data:any[])=>{
+        this.shippingTypes = data
+        console.log(data)
+      }
+    })
+
+    this.branchService.getBranches().subscribe({
+      next:(data:any[])=>{
+        console.log(data)
+        this.branches =data
+      }
+    })
+
+    
+
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
@@ -91,7 +137,6 @@ export class OrderFormComponent implements OnInit {
       }
     });
 
-    this.getEnumKeys(this.orderTypes)
   }
 
   loadOrder(id: number) {
@@ -105,53 +150,105 @@ export class OrderFormComponent implements OnInit {
     this.selectedTab = tab;
   }
 
-  openModal(product?: any) {
-    if (product) {
+  openModal(product?: any,productIndex?:number) {
+
+    if (product && productIndex !=null) {
       this.editFlag = true;
-      // Set form values for editing the product
+      this.editingProductIndex = productIndex
+      this.productForm.get('id')?.setValue(product.id)
+      this.productForm.get('name')?.setValue(product.name)
+      this.productForm.get('quantity')?.setValue(product.quantity)
+      this.productForm.get('unitPrice')?.setValue(product.unitPrice)
+      this.productForm.get('unitWeight')?.setValue(product.unitWeight)
     } else {
       this.editFlag = false;
-      // Reset form values for adding a new product
+      this.productForm.get('id')?.setValue('')
+      this.productForm.get('name')?.setValue('')
+      this.productForm.get('quantity')?.setValue('')
+      this.productForm.get('unitPrice')?.setValue('')
+      this.productForm.get('unitWeight')?.setValue('')
     }
     this.modalOpen = true;
   }
 
   closeModal() {
     this.modalOpen = false;
-    this.editFlag = false;
-
+    this.editFlag = false
   }
 
   addOrEditProduct() {
-    if (this.editFlag) {
-      // Update the existing product
+    if (this.editFlag && this.editingProductIndex !==null) {
+      this.products[this.editingProductIndex] = this.productForm.value     
     } else {
-      // Add a new product
+     this.products.push(this.productForm.value)
     }
     this.closeModal();
   }
 
-  deleteProduct(id: number) {
-    this.products = this.products.filter(p => p.id !== id);
+  deleteProduct(name: string) {
+    console.log(name)
+    this.products = this.products.filter(p => p.name !== name);
   }
 
   handleSubmit() {
+    
+    console.log(this.calculateOrderCost())
+    console.log(this.calculateTotalWeight())
+
+    // console.log(this.orderForm)
+    console.log(this.products)
     if (this.orderForm.valid) {
-      const orderData: Order = this.orderForm.value;
-      console.log(this.orderForm)
-      // if (this.orderId) {
-      //   this.orderService.editItem(this.orderId, orderData).subscribe(() => {
-      //     // Handle successful update
-      //   });
-      // } else {
-      //   this.orderService.addItem(orderData).subscribe(() => {
-      //     // Handle successful creation
-      //   });
-      // }
+      console.log("valid")
+      let orderData: Order = this.orderForm.value;
+      // orderData.merchantId = this.merchantId;
+      orderData.productOrders = this.products;
+      orderData.orderCost = this.calculateOrderCost()
+      orderData.totalWeight = this.calculateTotalWeight()
+      orderData.productOrders = this.products
+      orderData.orderStatus = this.OrderStatus.New
+      console.log(orderData)
+      if (this.orderId) {
+        this.orderService.editItem(this.orderId, orderData).subscribe(() => {
+          
+        });
+      } else {
+        this.orderService.postOrder(orderData).subscribe(() => {
+            next:(data:any)=>{
+              console.log(data)
+            }
+            
+        });
+      }
     }
   }
 
   getEnumKeys<T extends object>(enumType: T): (keyof T)[] {
     return Object.keys(enumType).filter(key => isNaN(Number(key as any))) as (keyof T)[];
+  }
+
+  getMerchantId() 
+  {
+     this.authService.getUserDetails().subscribe({
+      next:(data:any)=>{
+        // console.log(data)
+        this.orderForm.get('merchant_Id')?.setValue(data.id)
+      }}
+    ) 
+  }
+
+  calculateOrderCost() {
+    const totalCost = this.products.reduce((sum, product) => {
+      return sum + (product.unitPrice*product.quantity || 0); 
+    }, 0);
+    return totalCost;
+  }
+
+
+  calculateTotalWeight(){
+    const totalWeight = this.products.reduce((total,product)=>{
+      return total+(product.unitWeight*product.quantity|| 0 );
+    },0)
+
+    return totalWeight ;
   }
 }

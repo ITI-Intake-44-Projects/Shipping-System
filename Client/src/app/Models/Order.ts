@@ -20,6 +20,7 @@ export interface Order {
     branchId?: number;
     shippingId?: number;
     merchantId?: string;
+    merchantName?:string;
     representativeId?: string;
     governateId?: number;
     cityId?: number;

@@ -48,17 +48,17 @@ export class AuthService {
     return this.http.post<ResponseDTO>(`${this.apiURL}/Account/resetPassword`, data);
   }
 
-  // getUserDetails():Observable<UserDetailsDTO>{
-  //   const token = this.getToken();
-  //   const url = `${this.apiURL}Account/GetUserDetails`;
-  //   console.log(`get user details url: ${url}`);
-  //   return this.http.get<UserDetailsDTO>(url, { headers: { Authorization: `Bearer ${token}` } });
-  // }
-
-  getUserDetails(): Observable<UserDetailsDTO> {
+  getUserDetails():Observable<UserDetailsDTO>{
+    const token = this.getToken();
     const url = `${this.apiURL}Account/GetUserDetails`;
-    return this.http.get<UserDetailsDTO>(url);
+    // console.log(`get user details url: ${url}`);
+    return this.http.get<UserDetailsDTO>(url, { headers: { Authorization: `Bearer ${token}` } });
   }
+
+  // getUserDetails(): Observable<UserDetailsDTO> {
+  //   const url = `${this.apiURL}Account/GetUserDetails`;
+  //   return this.http.get<UserDetailsDTO>(url);
+  // }
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);

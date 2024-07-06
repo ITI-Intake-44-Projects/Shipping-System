@@ -35,9 +35,15 @@ namespace ShippingSystem.Repositories
 
         public async Task<bool> AddOrder(Order order)
         {
-            var totalCost =  order.OrderCost + order.ShippingType.AdditionalShippingValue ;
+            var shippingType = db.ShippingTypes.FirstOrDefault(sh => order.Shipping_Id == sh.Id);
+
+            var totalCost = order.OrderCost + shippingType.AdditionalShippingValue; 
 
             var weightOptions = db.WeightOptions.FirstOrDefault();
+
+            var merchant = db.Merchants.FirstOrDefault(m => m.Id == order.Merchant_Id);
+
+            var city = db.Cities.FirstOrDefault(c=> c.Id == order.City_Id);
 
             if(order == null || order.ProductOrders == null)
             {
@@ -59,7 +65,7 @@ namespace ShippingSystem.Repositories
                 var hasCity = order.Merchant.SpecialPrices.Any(sp=> sp.City_Id == order.City_Id);
                 if(hasCity != false)
                 {
-                    totalCost = order.Merchant.SpecialPrices.FirstOrDefault(sp => sp.City_Id == order.City_Id).TransportCost ?? 0;
+                    totalCost = merchant.SpecialPrices.FirstOrDefault(sp => sp.City_Id == order.City_Id).TransportCost ?? 0;
                     order.TotalCost = totalCost;
                     await db.Orders.AddAsync(order);
                     await db.SaveChangesAsync();
@@ -70,9 +76,9 @@ namespace ShippingSystem.Repositories
 
             if (order.orderType == OrderTypeEnum.PickUp)
             {
-                if (order.Merchant.SpecialPickupCost != null || order.Merchant.SpecialPickupCost != 0)
+                if (merchant.SpecialPickupCost != null || merchant.SpecialPickupCost != 0)
                 {
-                    totalCost += order.Merchant.SpecialPickupCost ?? 0;
+                    totalCost += merchant.SpecialPickupCost ?? 0;
                     order.TotalCost = totalCost;
 
                     await db.Orders.AddAsync(order);
@@ -81,7 +87,7 @@ namespace ShippingSystem.Repositories
                 }
                 else
                 {
-                    totalCost += order.City.PickUpCost;
+                    totalCost += city.PickUpCost;
                     order.TotalCost = totalCost;
                     await db.Orders.AddAsync(order);
                     await db.SaveChangesAsync();
@@ -90,14 +96,14 @@ namespace ShippingSystem.Repositories
             }
             else
             {
-                totalCost += order.City.NormalCost;
+                totalCost += city.NormalCost;
                 order.TotalCost = totalCost;
                 await db.Orders.AddAsync(order);
                 await db.SaveChangesAsync();
                 return true;
 
             }
-
+            return true;
         }
 
 
