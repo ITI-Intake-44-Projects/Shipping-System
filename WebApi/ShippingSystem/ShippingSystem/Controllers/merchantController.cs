@@ -42,6 +42,11 @@ namespace ShippingSystem.Controllers
                 .Take(pageSize)
                 .ToListAsync();
 
+
+            if(merchants == null)
+            {
+                return NotFound(new {message = "not merhcants found" });
+            }
             var merchantDTOs = merchants.Select(merchant => new MerchantResponseDTO
             {
                 Id = merchant.Id,
