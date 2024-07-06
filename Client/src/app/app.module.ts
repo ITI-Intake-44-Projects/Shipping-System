@@ -7,12 +7,14 @@ import { environment } from '../environments/environment';
 import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared/modules/shared/shared.module';
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
+import { NavbarComponent } from './shared/components/navbar/navbar.component';
 // import { AuthModule } from './features/auth/auth.module';
 // import { MerchantsModule } from './features/merchant/merchants.module';
 // import { ShowOrdersComponent } from './features/show-orders/show-orders.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, SidebarComponent,NavbarComponent],
   imports: [
     BrowserModule, AppRoutingModule, HttpClientModule,
     FormsModule, ReactiveFormsModule, SharedModule,
