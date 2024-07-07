@@ -13,7 +13,7 @@ import { GovernateServiceService } from '../../governate/governate-service.servi
 })
 export class CityTableComponent implements OnInit {
 
-  totalItems: number = 0; // Add this to track the total number of cities
+  totalItems: number = 0; 
   pageNumber: number = 1;
   pageSize: number = 10;
   
