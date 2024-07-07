@@ -13,6 +13,10 @@ import { response } from 'express';
 })
 export class EmployeeListComponent implements OnInit {
 
+  totalItems: number = 30; 
+  pageNumber: number = 1;
+  pageSize: number = 10;
+
   employees : Employee[]  = []
 
   p: number = 1; // current page
@@ -48,6 +52,12 @@ export class EmployeeListComponent implements OnInit {
     // })
   }
 
+  onPageChange(page: any) {
+
+    this.pageNumber = page;
+    // showd ged data from backend based on pageNumber and size
+  
+  }
   search(){
 
 
