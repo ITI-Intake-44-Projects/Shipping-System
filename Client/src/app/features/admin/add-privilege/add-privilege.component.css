@@ -89,5 +89,5 @@ input[type="checkbox"]:checked::before {
   width: 15%;
   background-color: #15467e;
   border-color: #1ca3c4;
-  margin-left: 10%;
+  margin-top: 2%;
 }

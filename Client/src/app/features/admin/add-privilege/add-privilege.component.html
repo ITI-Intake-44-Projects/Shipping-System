@@ -6,7 +6,10 @@
         <input type="text" id="groupName" class="form-control" placeholder="من فضلك ادخل اسم المجموعة"
           [ngClass]="{ 'is-invalid': groupForm.get('groupName')?.invalid && (groupForm.get('groupName')?.dirty || groupForm.get('groupName')?.touched) }"
           style="width: 25%;" formControlName="groupName" required>
+          <button type="submit" class="btn btn-primary"> {{addMode ? 'إضافة المجموعة' : 'تعديل المجموعة'}}</button>
+
         <div
+        
           *ngIf="groupForm.get('groupName')?.hasError('required') && (groupForm.get('groupName')?.dirty || groupForm.get('groupName')?.touched)"
           class="form-text text-danger">برجاء ادخال اسم المجموعة</div>
         <div
@@ -63,7 +66,6 @@
         </div>
     </div> 
     
-      <button type="submit" class="btn btn-primary"> {{addMode ? 'إضافة المجموعة' : 'تعديل المجموعة'}}</button>
     </form>
   </div>
 </div>
