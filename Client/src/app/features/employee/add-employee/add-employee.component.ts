@@ -5,6 +5,9 @@ import { EmployeeService } from '../employee.service';
 import { response } from 'express';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Employee } from '../../../Models/Employee';
+import { PrivilegeService } from '../../admin/Services/privilege.service';
+import { BranchService } from '../../../services/branch.service';
+import { PrivilegeDTO } from '../../admin/interfaces/privilege-dto';
 
 @Component({
   selector: 'app-add-employee',
@@ -23,7 +26,11 @@ export class AddEmployeeComponent implements OnInit {
   serverErrors: { [key: string]: string[] } = {};
 
 
-  constructor(private fb: FormBuilder, private employeeService: EmployeeService,private route :Router,private authService : AuthService,private activatedRoute:ActivatedRoute) {
+  branches :any = [] ;
+  priveleges! : PrivilegeDTO[] 
+
+
+  constructor(private fb: FormBuilder, private employeeService: EmployeeService,private route :Router,private authService : AuthService,private activatedRoute:ActivatedRoute,private privilegeService : PrivilegeService,private branchService : BranchService) {
     this.employeeForm = this.fb.group({
       id:['0'],
       name: ['', Validators.required],
@@ -40,6 +47,28 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.privilegeService.getPrivileges().subscribe({
+      next:(data:PrivilegeDTO[])=>{
+        this.priveleges = data 
+      }
+
+      ,
+      error:(error:any)=>{
+        console.log(error)
+      }
+    })
+
+
+    this.branchService.getBranches().subscribe({
+      next:(data:any)=>{
+        this.branches = data
+      }
+      ,
+      error:(data:any)=>{
+        console.log(data)
+      }
+    })
 
   this.activatedRoute.params.subscribe({
       next:(params:any)=>{

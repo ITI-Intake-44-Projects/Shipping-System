@@ -129,5 +129,12 @@ namespace ShippingSystem.Controllers
             var orders = await _orderService.FilterOrderByStatusAndDate(status, startDate, endDate);
             return Ok(orders);
         }
+
+        [HttpPut("ChangeStatus")]
+        public async Task<IActionResult> ChangeStatus([FromQuery]int orderId,[FromQuery]OrderStatus status)
+        {
+            await _orderService.ChangeStatus(orderId,status);
+            return Ok();
+        }
     }
 }

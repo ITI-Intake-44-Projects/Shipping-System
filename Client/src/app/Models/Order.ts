@@ -19,9 +19,9 @@ export interface Order {
     orderDate?: Date;
     branchId?: number;
     shippingId?: number;
-    merchantId?: string;
+    merchant_Id?: string;
     merchantName?:string;
-    representativeId?: string | null;
+    representative_Id?: string | null;
     governateId?: number;
     governateName:string,
     cityId?: number;

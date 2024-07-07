@@ -14,7 +14,7 @@
         <select  class="form-select" aria-label="Default select example" placeholder="المحافظة" (change)='filterByGovernate($event)'  >
           <option selected [value]="0" >المحافظة</option>
           <option *ngFor="let gover of governates" [value]="gover.id"  >{{gover.name}}</option>
-                  </select>
+          </select>
             </div>
            
         </div>

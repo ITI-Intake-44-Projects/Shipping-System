@@ -1,4 +1,4 @@
-import { OrderStatus } from './../../../Models/Enums';
+import { OrderStatus, PaymentType ,OrderType} from './../../../Models/Enums';
 import { ShippingTypeService } from './../../../services/shippingtype.service';
 import { CityService } from './../../city/city.service';
 import { Component, OnInit } from '@angular/core';
@@ -10,7 +10,6 @@ import { Order } from '../../../Models/Order';
 import { GovernateServiceService } from '../../governate/governate-service.service';
 import { City } from '../../../Models/City';
 import { Governate } from '../../../Models/Governate';
-import { OrderType, PaymentType } from '../../../Models/Enums';
 import { BranchService } from '../../../services/branch.service';
 import { MerchantService } from '../../merchant/merchant.service';
 import { AuthService } from '../../auth/auth.service';
@@ -44,6 +43,7 @@ export class OrderFormComponent implements OnInit {
   governates : Governate[] = [];
   OrderStatus = OrderStatus
 
+  // paymentType !: number  
   constructor(
     private fb: FormBuilder,
     private orderService: OrderService,
@@ -66,8 +66,8 @@ export class OrderFormComponent implements OnInit {
       totalWeight: [null],
       notes: [''],
       orderStatus: [null],
-      orderType: [null],
-      paymentType: [null],
+      orderType: [],
+      paymentType:[PaymentType],
       totalCost: [null],
       shippingCost: [null],
       orderDate: [null],
@@ -93,6 +93,8 @@ export class OrderFormComponent implements OnInit {
 
     this.selectedTab ='customer';
 
+    console.log(this.getEnumKeys(this.orderTypes))
+    console.log(this.orderTypes.Normal)
     this.orderService.getOrders(1,10).subscribe( {
       next:(data:any)=>{
         console.log(data)
@@ -142,6 +144,11 @@ export class OrderFormComponent implements OnInit {
   loadOrder(id: number) {
     this.orderService.getOrderById(id).subscribe((order: Order) => {
       this.orderForm.patchValue(order);
+      // this.paymetTypes = order.paymentType
+      console.log(this.orderTypes)
+      // this.orderForm.get('orderType')?.setValue()
+      // this.orderForm.get('paymentType')?.setValue(this.paymetTypes[order.paymentType])
+      // this.orderForm.get('orderType')?.setValue(order.orderType)
       this.products = order.productOrders || [];
     });
   }
@@ -206,14 +213,22 @@ export class OrderFormComponent implements OnInit {
       orderData.totalWeight = this.calculateTotalWeight()
       orderData.productOrders = this.products
       orderData.orderStatus = this.OrderStatus.New
-      orderData.id= 0
-      orderData.representativeId=null
+      orderData.representative_Id=null
       console.log(orderData)
+      console.log(this.products)
       if (this.orderId) {
-        this.orderService.editItem(this.orderId, orderData).subscribe(() => {
-        });
+        orderData.id = this.orderId
+        console.log(orderData)
+        this.orderService.editItem(this.orderId, orderData).subscribe( {
+          next:(data:any)=>{
+            console.log(data)
+          },
+          error:(data:any)=>{
+            console.log(data)
+        }
+      });
       } else {
-
+        orderData.id= 0
         this.orderService.addItem(orderData).subscribe({
             next:(data:any)=>{
               console.log(data)
@@ -257,5 +272,11 @@ export class OrderFormComponent implements OnInit {
     },0)
 
     return totalWeight ;
+  }
+
+  
+ mapNumericToEnumString<T extends object>(enumType: T, value: number): string | undefined {
+  const keys = Object.keys(enumType).filter(key => isNaN(Number(key)));
+  return (enumType as any)[keys[value]];
   }
 }

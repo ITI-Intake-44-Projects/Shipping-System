@@ -45,15 +45,15 @@ export class OrderService extends ApiService<Order> {
   getOrdersByCustomerName(name: string): Observable<Order[]> {
     let params = new HttpParams();
     params = params.append('name', name);
-    return this.http.get<Order[]>(`${this.apiUrl}/customerName`, { params });
+    return this.http.get<Order[]>(`${this.apiUrL}/customerName`, { params });
   }
 
   getMerchantOrders(merchantId: string): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.apiUrl}/merchantOrders/${merchantId}`);
+    return this.http.get<Order[]>(`${this.apiUrL}/merchantOrders/${merchantId}`);
   }
 
   getRepresentativeOrders(representativeId: string): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.apiUrl}/representativeOrders/${representativeId}`);
+    return this.http.get<Order[]>(`${this.apiUrL}/representativeOrders/${representativeId}`);
   }
 
   
@@ -62,13 +62,13 @@ export class OrderService extends ApiService<Order> {
     let params = new HttpParams();
     params = params.append('orderId', orderId.toString());
     params = params.append('representativeId', representativeId);
-    return this.http.put<void>(`${this.apiUrl}/assignRepresentative`, {}, { params });
+    return this.http.put<void>(`${this.apiUrL}/assignRepresentative`, {}, { params });
   }
 
   filterOrderByStatus(status: OrderStatus): Observable<Order[]> {
     let params = new HttpParams();
     params = params.append('status', status);
-    return this.http.get<Order[]>(`${this.apiUrl}/filterByStatus`, { params });
+    return this.http.get<Order[]>(`${this.apiUrL}/filterByStatus`, { params });
   }
 
   filterOrderByStatusAndDate(status: OrderStatus, startDate: Date, endDate: Date): Observable<Order[]> {
@@ -76,7 +76,16 @@ export class OrderService extends ApiService<Order> {
     params = params.append('status', status);
     params = params.append('startDate', startDate.toISOString());
     params = params.append('endDate', endDate.toISOString());
-    return this.http.get<Order[]>(`${this.apiUrl}/filterByStatusAndDate`, { params });
+    return this.http.get<Order[]>(`${this.apiUrL}/filterByStatusAndDate`, { params });
+  }
+
+  changeStatus(orderId:number,status:OrderStatus):Observable<any>{
+
+    let params = new HttpParams();
+    params = params.append('orderId', orderId.toString());
+    params = params.append('status', status.toString());
+
+    return this.http.put<any>(`${this.apiUrL}/ChangeStatus`, null,{ params });
   }
 
 

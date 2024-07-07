@@ -88,7 +88,7 @@
       <div class="form-group row">
         <div class="col-sm-9">
           <select id="branch" class="form-select" formControlName="branch" name="branch">
-            <option ></option>
+            <option *ngFor="let branch of branches" >{{branch.name}}</option>
           </select>
           <ng-container *ngIf="employeeForm.get('branch')?.touched || submitted">
             <div  *ngIf="employeeForm.get('branch')?.hasError('required') " class="form-text text-danger fs-6" dir="rtl">
@@ -101,7 +101,7 @@
       <div class="form-group row">
         <div class="col-sm-9">
           <select id="authorizations" class="form-select"  formControlName="role" name="role" >
-            <option ></option>
+            <option *ngFor="let privelege of priveleges">{{privelege.name}}</option>
           </select>
           <ng-container *ngIf="employeeForm.get('role')?.touched || submitted">
             <div  *ngIf="employeeForm.get('role')?.hasError('required') " class="form-text text-danger fs-6" dir="rtl">

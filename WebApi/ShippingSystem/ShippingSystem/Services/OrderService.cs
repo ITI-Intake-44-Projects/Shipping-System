@@ -126,5 +126,14 @@ namespace ShippingSystem.Services
                 return mapper.Map<IEnumerable<OrderDto>>(orders);
         }
 
+         public async Task ChangeStatus(int orderId, OrderStatus status)
+         {
+            var order = unit.OrderRepository.GetById(orderId).Result;
+
+            order.OrderStatus = status;
+
+            await unit.OrderRepository.Update(order);
+            await unit.Save();
+         }
     }
 }
