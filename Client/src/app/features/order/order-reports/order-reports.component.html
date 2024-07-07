@@ -25,7 +25,7 @@
     <button mat-raised-button color="primary" (click)="filterOrders()">بحث</button>
   </div>
 
-  <table mat-table [dataSource]="orders" class="mat-elevation-z8">
+  <table mat-table  class="mat-elevation-z8">
 
     <ng-container matColumnDef="index">
       <th mat-header-cell *matHeaderCellDef>#</th>
@@ -91,7 +91,5 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-  <mat-paginator [length]="totalOrders" [pageSize]="itemsPerPage" [pageIndex]="currentPage - 1"
-    (page)="onPageChange($event)">
-  </mat-paginator>
+
 </div>
