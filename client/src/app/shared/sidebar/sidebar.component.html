@@ -1,6 +1,6 @@
 <div class="sidebar" dir="rtl">
   <div class="sidebar-header">
-    <img src="../../assets/pioneersLogo.jpeg"  alt="Logo" class="sidebar-logo" width="120" >
+    <img src="../../../assets/logo.logo.png"  alt="Logo" class="sidebar-logo" width="120" >
   </div>
 
   <ul class="nav flex-column">
@@ -10,15 +10,22 @@
     <li class="nav-item">
       <a class="nav-link" routerLink="auth"> الصلاحيات</a>
     </li>
+   
 
+  <li class="nav-item">
+      <a class="nav-link" routerLink="shippingtype"> انواع الشحن</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="employee/edit/:id"> تعديل موظف</a>
+    </li> 
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         المستخدمين
       </a>
       <ul  aria-labelledby="navbarDropdown" style="text-align:start;">
-        <ul ><a class="dropdown-item" routerLink="employee"> الموظفين</a></ul>
+        <ul ><a class="dropdown-item" routerLink="employee/all"> الموظفين</a></ul>
         <ul ><a class="dropdown-item" routerLink="merchants"> التاجر </a></ul>
-        <ul ><a class="dropdown-item" routerLink="/weight"> الوزن </a></ul>
+        <ul ><a class="dropdown-item" routerLink="representative"> المندوب </a></ul>
       </ul>
     </li>
 
@@ -32,7 +39,7 @@
       <a class="nav-link" routerLink="/link4"> المناطق</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLink="admin/myGroups"> الفروع</a>
+      <a class="nav-link" routerLink="branch"> الفروع</a>
     </li>
 
     <li class="nav-item">

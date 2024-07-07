@@ -1,7 +1,7 @@
 <div class="container py-5 mx-auto">
   <div class="row">
     <div class="py-3">
-      <button class="btn btn-secondary" (click)="openModal()">اضافة نوع شحن</button>
+      <button class="btn btn-primary"style="background-color: #15467e;" (click)="openModal()">اضافة نوع شحن</button>
     </div>
 
     <div class="d-flex justify-content-between align-items-center">
@@ -23,31 +23,20 @@
     </div>
 
     <table class="table my-5">
-      <thead>
+      <thead class="table-primary">
         <tr class="table-header">
-          <th scope="col" class="text-center">الاعدادات</th>
-          <th scope="col" class="text-center">الحالة</th>
-          <th scope="col" class="text-center">قيمة الشحن الاضافية</th>
-          <th scope="col" class="text-center">الاسم</th>
           <th scope="col" class="text-center">#</th>
+          <th scope="col" class="text-center">الاسم</th>
+          <th scope="col" class="text-center">قيمة الشحن الاضافية</th>
+          <th scope="col" class="text-center">الحالة</th>
+          <th scope="col" class="text-center">الاعدادات</th>
+
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let type of paginatedBranches; let i = index">
-          <td scope="row" class="text-center">
-            <div class="d-flex justify-content-center">
-              <i
-                class="bi bi-trash3-fill text-danger me-2 fs-4 hand-pointer"
-                (click)="deleteType(type)"
-              >
-              </i>
-              <i
-                class="mx-1 fs-5 text-info bi bi-pencil-square fs-4 hand-pointer"
-                (click)="editType(type)"
-              >
-              </i>
-            </div>
-          </td>
+          <td class="text-center">{{ type.name }}</td>
+          <td class="text-center">{{ type.additionalShippingValue }}</td>
           <td class="text-center">
             <div class="form-check form-switch d-flex justify-content-center">
               <input
@@ -65,8 +54,20 @@
               </label>
             </div>
           </td>
-          <td class="text-center">{{ type.additionalShippingValue }}</td>
-          <td class="text-center">{{ type.name }}</td>
+          <td scope="row" class="text-center">
+            <div class="d-flex justify-content-center">
+              <i
+                class="bi bi-trash3-fill text-danger me-2 fs-4 hand-pointer"
+                (click)="deleteType(type)"
+              >
+              </i>
+              <i
+                class="mx-1 fs-5 text-info bi bi-pencil-square fs-4 hand-pointer"
+                (click)="editType(type)"
+              >
+              </i>
+            </div>
+          </td>
           <td class="text-center">
             {{ (currentPage - 1) * itemsPerPage + i + 1 }}
           </td>

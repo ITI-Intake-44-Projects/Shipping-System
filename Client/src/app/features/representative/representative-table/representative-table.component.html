@@ -1,7 +1,7 @@
 <div class="container py-5 mx-auto">
   <div class="row">
     <div class="py-3">
-      <button class="btn btn-secondary" (click)="openModal()">
+      <button class="btn btn-primary"style="background-color: #15467e;" (click)="openModal()">
         اضافة مندوب
       </button>
     </div>
@@ -25,24 +25,61 @@
     </div>
 
     <table class="table my-5">
-      <thead>
+      <thead class="table-primary">
         <tr class="table-header">
-          <th scope="col" class="text-center">الاعدادات</th>
-          <th scope="col" class="text-center">الحالة</th>
-          <th scope="col" class="text-center">نسبة الشركة من الطلب</th>
-          <th scope="col" class="text-center">نوع الخصم</th>
-          <th scope="col" class="text-center">المحافظات</th>
-          <th scope="col" class="text-center">الفرع</th>
-          <th scope="col" class="text-center">رقم الهاتف</th>
-          <th scope="col" class="text-center">البريد</th>
-          <th scope="col" class="text-center">الاسم</th>
           <th scope="col" class="text-center">#</th>
+          <th scope="col" class="text-center">الاسم</th>
+          <th scope="col" class="text-center">البريد</th>
+          <th scope="col" class="text-center">رقم الهاتف</th>
+          <th scope="col" class="text-center">الفرع</th>
+          <th scope="col" class="text-center">المحافظات</th>
+          <th scope="col" class="text-center">نوع الخصم</th>
+          <th scope="col" class="text-center">نسبة الشركة من الطلب</th>
+          <th scope="col" class="text-center">الحالة</th>
+          <th scope="col" class="text-center">الاعدادات</th>
         </tr>
       </thead>
       <tbody>
         <tr
           *ngFor="let representative of paginatedRepresentatives; let i = index"
         >
+        <td class="text-center">{{ representative.fullName }}</td>
+        <td class="text-center">{{ representative.email }}</td>
+        <td class="text-center">{{ representative.phoneNumber }}</td>
+        <td class="text-center">{{ representative.branchName }}</td>
+        <td class="text-center">
+          {{ getGovernorateNames(representative.governorates) }}
+        </td>
+        <td class="text-center">
+          <ng-container *ngIf="representative.salePrecentage === 1">
+            {{ getDiscountTypeValue(1) }}
+          </ng-container>
+          <ng-container *ngIf="representative.salePrecentage === 2">
+            {{ getDiscountTypeValue(2) }}
+          </ng-container>
+        </td>
+        <td class="text-center">
+          {{ representative.companyOrderPrecentage }}%
+        </td>
+        <td class="text-center">
+          <div class="form-check form-switch d-flex justify-content-center">
+            <input
+              class="form-check-input fs-5"
+              type="checkbox"
+              role="switch"
+              id="flexSwitchCheckDefault"
+              [checked]="!representative.lockoutEnabled"
+            />
+            <label class="form-check-label ms-2">
+              <ng-container
+                *ngIf="!representative.lockoutEnabled; else lockedState"
+              >
+                نشط
+              </ng-container>
+              <ng-template #lockedState> غير نشط </ng-template>
+            </label>
+          </div>
+        </td>
           <td scope="row" class="text-center">
             <div class="d-flex justify-content-center">
               <i
@@ -57,45 +94,6 @@
               </i>
             </div>
           </td>
-          <td class="text-center">
-            <div class="form-check form-switch d-flex justify-content-center">
-              <input
-                class="form-check-input fs-5"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-                [checked]="!representative.lockoutEnabled"
-              />
-              <label class="form-check-label ms-2">
-                <ng-container
-                  *ngIf="!representative.lockoutEnabled; else lockedState"
-                >
-                  نشط
-                </ng-container>
-                <ng-template #lockedState> غير نشط </ng-template>
-              </label>
-            </div>
-          </td>
-
-          <td class="text-center">
-            {{ representative.companyOrderPrecentage }}%
-          </td>
-          <td class="text-center">
-            <ng-container *ngIf="representative.salePrecentage === 1">
-              {{ getDiscountTypeValue(1) }}
-            </ng-container>
-            <ng-container *ngIf="representative.salePrecentage === 2">
-              {{ getDiscountTypeValue(2) }}
-            </ng-container>
-          </td>
-
-          <td class="text-center">
-            {{ getGovernorateNames(representative.governorates) }}
-          </td>
-          <td class="text-center">{{ representative.branchName }}</td>
-          <td class="text-center">{{ representative.phoneNumber }}</td>
-          <td class="text-center">{{ representative.email }}</td>
-          <td class="text-center">{{ representative.fullName }}</td>
           <td class="text-center">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
         </tr>
       </tbody>

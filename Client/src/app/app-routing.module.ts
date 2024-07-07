@@ -13,6 +13,22 @@ const routes: Routes = [
   { path: 'village-cost', loadChildren: () => import('./features/village-cost/village-cost.module').then(m=>m.VillageCostModule)},
   { path: 'auth', loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule)},
   { path: 'admin', loadChildren: () => import('./features/admin/admin.module').then(m => m.AdminModule)},
+  {
+    path: 'representative',
+    loadChildren: () =>
+      import('./features/representative/representative.module').then((m) => m.RepresentativeModule),
+  },
+  {
+    path: 'branch',
+    loadChildren: () =>
+      import('./features/branch/branch.module').then((m) => m.BranchModule),
+  },
+  {
+    path: 'shippingtype',
+    loadChildren: () =>
+      import('./features/shippingtype/shippingtype.module').then((m) => m.ShippingTypeModule),
+  }
+
   // , canActivate: [authGuard]
 ];
 

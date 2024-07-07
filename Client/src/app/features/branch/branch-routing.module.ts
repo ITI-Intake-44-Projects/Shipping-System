@@ -4,6 +4,7 @@ import { BranchTableComponent } from './branch-table/branch-table.component';
 
 const routes: Routes = [
   {path:'',component:BranchTableComponent}
+  
 ];
 
 @NgModule({
