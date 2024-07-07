@@ -17,7 +17,7 @@ namespace ShippingSystem.Repositories
 
         Task<IEnumerable<Order>> FilterByStatusAndDate(OrderStatus status, DateTime startDate, DateTime endDate);
 
-        Task<bool> AddOrder(Order order);
+        bool AddOrder(Order order);
 
     }
 }

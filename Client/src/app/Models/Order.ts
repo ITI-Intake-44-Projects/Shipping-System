@@ -21,7 +21,7 @@ export interface Order {
     shippingId?: number;
     merchantId?: string;
     merchantName?:string;
-    representativeId?: string;
+    representativeId?: string | null;
     governateId?: number;
     governateName:string,
     cityId?: number;

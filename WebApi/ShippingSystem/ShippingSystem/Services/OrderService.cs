@@ -53,13 +53,12 @@ namespace ShippingSystem.Services
         }
 
 
-        public async Task<bool> PostOrderAsync(OrderDto OrderDto)
+        public  bool PostOrderAsync(OrderDto OrderDto)
         {
             var Order = mapper.Map<Order>(OrderDto);
-
-           return  await unit.OrderRepository.AddOrder(Order);
+            var result  =  unit.OrderRepository.AddOrder(Order);
+            return result;
             
-
         }
 
         public async Task PutOrderAsync(OrderDto OrderDto)

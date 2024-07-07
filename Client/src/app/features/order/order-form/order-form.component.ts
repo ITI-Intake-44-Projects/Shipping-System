@@ -207,17 +207,24 @@ export class OrderFormComponent implements OnInit {
       orderData.productOrders = this.products
       orderData.orderStatus = this.OrderStatus.New
       orderData.id= 0
+      orderData.representativeId=null
       console.log(orderData)
       if (this.orderId) {
         this.orderService.editItem(this.orderId, orderData).subscribe(() => {
-          
         });
       } else {
-        this.orderService.postOrder(orderData).subscribe({
+
+        this.orderService.addItem(orderData).subscribe({
             next:(data:any)=>{
+              console.log(data)
+            },
+            error:(data:any)=>{
               console.log(data)
             }
         });
+
+
+        console.log(this.orderForm.value)
       }
     }
   }

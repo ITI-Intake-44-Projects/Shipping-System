@@ -36,7 +36,7 @@ namespace ShippingSystem.DTOs.Order
 
         public int? ShippingCost { get; set; }
 
-        public DateTime? OrderDate { get; set; }
+        public DateTime? OrderDate { get; set; } = DateTime.Now;
 
         public int? Branch_Id { get; set; }
 

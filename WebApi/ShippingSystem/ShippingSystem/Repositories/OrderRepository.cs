@@ -33,7 +33,7 @@ namespace ShippingSystem.Repositories
             return await db.Orders.Where(r=> r.Representative_Id == id).ToListAsync();
         }
 
-        public async Task<bool> AddOrder(Order order)
+        public bool AddOrder(Order order)
         {
             var shippingType = db.ShippingTypes.FirstOrDefault(sh => order.Shipping_Id == sh.Id);
 
@@ -60,16 +60,15 @@ namespace ShippingSystem.Repositories
                 totalCost += (order.TotalWeight - weightOptions.MaximumWeight) * weightOptions.AdditionalKgPrice;
             }
 
-            if (order.Merchant.SpecialPrices != null)
+            if (merchant.SpecialPrices != null)
             {
-                var hasCity = order.Merchant.SpecialPrices.Any(sp=> sp.City_Id == order.City_Id);
+                var hasCity = merchant.SpecialPrices.Any(sp=> sp.City_Id == order.City_Id);
                 if(hasCity != false)
                 {
                     totalCost = merchant.SpecialPrices.FirstOrDefault(sp => sp.City_Id == order.City_Id).TransportCost ?? 0;
                     order.TotalCost = totalCost;
-                    await db.Orders.AddAsync(order);
-                    await db.SaveChangesAsync();
-                    return true;
+                    //db.Orders.Add(order);
+                     //db.SaveChangesAsync();
 
                 }
             }
@@ -81,28 +80,30 @@ namespace ShippingSystem.Repositories
                     totalCost += merchant.SpecialPickupCost ?? 0;
                     order.TotalCost = totalCost;
 
-                    await db.Orders.AddAsync(order);
-                    await db.SaveChangesAsync();
-                    return true;
+                     //db.Orders.Add(order);
+                     //db.SaveChanges();
+                   
                 }
                 else
                 {
                     totalCost += city.PickUpCost;
                     order.TotalCost = totalCost;
-                    await db.Orders.AddAsync(order);
-                    await db.SaveChangesAsync();
-                    return true;
+                    //db.Orders.Add(order);
+                    //db.SaveChanges();
+                    
                 }
             }
             else
             {
                 totalCost += city.NormalCost;
                 order.TotalCost = totalCost;
-                await db.Orders.AddAsync(order);
-                await db.SaveChangesAsync();
-                return true;
+                //db.Orders.Add(order);
+                //db.SaveChanges();
+               // return true;
 
             }
+            db.Orders.Add(order);
+            db.SaveChanges();
             return true;
         }
 

@@ -63,15 +63,16 @@ namespace ShippingSystem.Controllers
 
         // POST: api/Order
         [HttpPost]
-        public async Task<ActionResult<OrderDto>> PostOrder(OrderDto orderDto)
+        public async Task<IActionResult> PostOrder(OrderDto orderDto)
         {
-            var result = await _orderService.PostOrderAsync(orderDto);
+            var result = _orderService.PostOrderAsync(orderDto);
             if (!result)
             {
                 return BadRequest("Order could not be created.");
             }
 
-            return CreatedAtAction(nameof(GetOrder), new { id = orderDto.Id }, orderDto);
+            //return CreatedAtAction(nameof(GetOrder), new { id = orderDto.Id }, orderDto);
+            return Ok(new {message = "order added succesfully"});
         }
 
         // PUT: api/Order/5

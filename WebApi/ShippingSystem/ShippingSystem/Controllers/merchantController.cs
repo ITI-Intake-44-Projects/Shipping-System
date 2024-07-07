@@ -42,6 +42,7 @@ namespace ShippingSystem.Controllers
                 .Take(pageSize)
                 .ToListAsync();
 
+
             var merchantDTOs = merchants.Select(merchant => new MerchantResponseDTO
             {
                 Id = merchant.Id,
