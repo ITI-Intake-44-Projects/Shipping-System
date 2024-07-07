@@ -12,6 +12,12 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
 // import { AuthModule } from './features/auth/auth.module';
 // import { MerchantsModule } from './features/merchant/merchants.module';
 // import { ShowOrdersComponent } from './features/show-orders/show-orders.component';
+// import { MatFormFieldModule } from '@angular/material/form-field';
+// import { MatInputModule } from '@angular/material/input';
+// import { MatIconModule } from '@angular/material/icon';
+// import { MatButtonModule } from '@angular/material/button';
+// import { MatTableModule } from '@angular/material/table';
+// import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [AppComponent, SidebarComponent,NavbarComponent],
