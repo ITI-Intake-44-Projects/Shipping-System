@@ -9,6 +9,7 @@
 
 .form-group {
   margin-bottom: 15px;
+  direction: rtl   !important; 
 }
 
 .btn-primary {
@@ -34,12 +35,12 @@ input.ng-invalid.ng-touched {
 }
 
 .col-sm-3 {
-  flex: 0 0 25%; /* Adjusted width for labels */
-  max-width: 25%;
+  /* flex: 0 0 25%; */
+  /* max-width: 5%; */
 }
 
 .col-sm-9 {
-  flex: 0 0 75%; /* Adjusted width for input fields */
-  max-width: 75%;
+  /* flex: 0 0 75%;
+  max-width: 75%; */
 }
 h2{text-align: right;}
