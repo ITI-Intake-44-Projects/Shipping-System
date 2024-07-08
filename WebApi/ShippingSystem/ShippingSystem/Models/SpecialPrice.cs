@@ -8,9 +8,15 @@ namespace ShippingSystem.Models
 
         public int? TransportCost { get; set;}
 
-        public string? Governate {  get; set;}
+        [ForeignKey("Governate")]
+        public int? Governate_Id { get; set; }
 
-        public string? City { get; set; }
+        public virtual Governate Governate { get; set; }
+
+        [ForeignKey("City")]
+        public int? City_Id { get; set; }
+
+        public virtual City? City { get; set; }
 
 
         [ForeignKey("Merchant")]

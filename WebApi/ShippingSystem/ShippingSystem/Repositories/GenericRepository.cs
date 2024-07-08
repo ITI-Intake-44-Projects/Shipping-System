@@ -80,5 +80,17 @@ namespace ShippingSystem.Repositories
         {
             return await db.SaveChangesAsync();
         }
+
+        public async Task<T> GetById(string id)
+        {
+            return await db.Set<T>().FindAsync(id);
+        }
+
+        public async Task Delete(string id)
+        { 
+            var obj = await db.Set<T>().FindAsync(id);
+
+            db.Set<T>().Remove(obj);
+        }
     }
 }

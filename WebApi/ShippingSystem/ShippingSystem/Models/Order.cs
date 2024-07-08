@@ -16,9 +16,9 @@ namespace ShippingSystem.Models
 
         public string? CustomerEmail { get; set; }
 
-        public string? Governate { get; set; }
+        //public string? Governate { get; set; }
 
-        public string? City { get; set; }
+        //public string? City { get; set; }
 
         public string? VillageOrStreet { get; set; }
 
@@ -30,9 +30,9 @@ namespace ShippingSystem.Models
 
         public string? Notes {  get; set; }
 
-        public string? MerchantMobile {  get; set; }
+        //public string? MerchantMobile {  get; set; }
 
-        public string? MerchantAddress { get; set; }
+        //public string? MerchantAddress { get; set; }
 
         public OrderStatus? OrderStatus { get; set; }
 
@@ -47,6 +47,8 @@ namespace ShippingSystem.Models
 
         public virtual OrderType? OrderType { get; set; }
 
+        public OrderTypeEnum orderType { get; set; }
+
         [ForeignKey("Branch")]
         public int? Branch_Id { get; set; }
 
@@ -57,11 +59,35 @@ namespace ShippingSystem.Models
 
         public virtual PaymentType? PaymentType { get; set; }
 
+        public PaymentTypeEnum paymentType {  get; set; }
+
+
 
         [ForeignKey("ShippingType")]
         public int? Shipping_Id { get; set; }
 
         public virtual ShippingType? ShippingType { get; set; }
+
+        [ForeignKey("Merchant")]
+        public string? Merchant_Id {  get; set; }
+
+        public virtual Merchant Merchant { get; set; }
+
+
+        [ForeignKey("Representative")]
+        public string? Representative_Id { get; set; }
+
+        public virtual Representative Representative { get; set; }
+
+        [ForeignKey("Governate")]
+        public int? Governate_Id { get; set; }
+
+        public virtual Governate Governate {  get; set; }
+
+        [ForeignKey("City")]
+        public int? City_Id {  get; set; }
+
+        public virtual City City {  get; set; }
 
 
         public virtual ICollection<ProductOrder> ProductOrders { get; set; } = new List<ProductOrder>();
