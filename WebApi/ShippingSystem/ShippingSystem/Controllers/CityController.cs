@@ -25,7 +25,6 @@ namespace ShippingSystem.Controllers
             {
                 return NotFound(new { message = "there are no cities" });
             }
-
             return Ok(cities);
         }
 

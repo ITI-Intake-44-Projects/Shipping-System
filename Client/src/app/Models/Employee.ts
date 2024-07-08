@@ -2,7 +2,7 @@ export interface Employee {
     id:string
     fullName : String
     userName : String | null
-    email : String 
+    email : String
     phone : String
     password : String
     branchId : number | null
@@ -10,5 +10,4 @@ export interface Employee {
     roles : string[] | null
     status : boolean
     isDeleted : boolean
-
 }

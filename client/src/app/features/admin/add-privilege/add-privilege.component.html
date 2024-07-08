@@ -8,12 +8,17 @@
           style="width: 25%;" formControlName="groupName" required>
         <div
           *ngIf="groupForm.get('groupName')?.hasError('required') && (groupForm.get('groupName')?.dirty || groupForm.get('groupName')?.touched)"
-          class="form-text text-danger">برجاء ادخال اسم المجموعة</div>
+          class="form-text text-danger">برجاء ادخال اسم المجموعة
+        </div>
         <div
           *ngIf="groupForm.get('groupName')?.hasError('groupExists') && (groupForm.get('groupName')?.dirty || groupForm.get('groupName')?.touched)"
-          class="form-text text-danger">هذه المجموعة موجودة بالفعل</div>
+          class="form-text text-danger">هذه المجموعة موجودة بالفعل
+        </div>
+        <!-- <div *ngIf="groupForm.get('groupName')?.errors?.['groupExists']" class="form-text text-danger">
+          هذه المجموعة موجودة بالفعل
+        </div> -->
       </div>
-<!-- 
+
       <table class="table mt-3 rounded" dir="rtl">
         <thead class="table-dark table-hover table-responsive text-center">
           <tr>
@@ -29,41 +34,20 @@
           <tr *ngFor="let privilege of privilegesFormArray.controls; let i = index" [formGroupName]="i">
             <td class="py-4 fs-6 fw-medium">{{ i + 1 }}</td>
             <td class="py-4 fs-6 fw-bold">{{ privileges[i].name }}</td>
-            <td class="py-4"><input type="checkbox" formControlName="Add" class="form-check-input"></td>
-            <td class="py-4"><input type="checkbox" formControlName="Delete" class="form-check-input"></td>
-            <td class="py-4"><input type="checkbox" formControlName="Update" class="form-check-input"></td>
-            <td class="py-4"><input type="checkbox" formControlName="View" class="form-check-input"></td>
+            <td class="py-4"><input type="checkbox" formControlName="Add" [checked]="privilege.get('Add')?.value"></td>
+            <td class="py-4"><input type="checkbox" formControlName="Delete" [checked]="privilege.get('Delete')?.value">
+            </td>
+            <td class="py-4"><input type="checkbox" formControlName="Update" [checked]="privilege.get('Update')?.value">
+            </td>
+            <td class="py-4"><input type="checkbox" formControlName="View" [checked]="privilege.get('View')?.value">
+            </td>
           </tr>
         </tbody>
-      </table> -->
-       <div class="row justify-content-center my-3">
-        <div class="col-12">
-            <table class="table mt-3 rounded" dir="rtl">
-                <thead class="table-primary text-center">
-                    <tr>
-                        <th class="text-left">#</th>
-                        <th class="text-left">اسم الصلاحية</th>
-                        <th class="text-left">إضافة</th>
-                        <th class="text-left">حذف</th>
-                        <th class="text-left">تعديل</th>
-                        <th class="text-left">عرض</th>
-                    </tr>
-                </thead>
-                <tbody formArrayName="privileges" class="text-center">
-                    <tr *ngFor="let privilege of privilegesFormArray.controls; let i = index" [formGroupName]="i">
-                        <td class="py-4 fs-6 fw-medium">{{ i + 1 }}</td>
-                        <td class="py-4 fs-6 fw-bold">{{ privileges[i].name }}</td>
-                        <td class="py-4"><input type="checkbox" formControlName="Add" class="form-check-input"></td>
-                        <td class="py-4"><input type="checkbox" formControlName="Delete" class="form-check-input"></td>
-                        <td class="py-4"><input type="checkbox" formControlName="Update" class="form-check-input"></td>
-                        <td class="py-4"><input type="checkbox" formControlName="View" class="form-check-input"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div> 
-    
-      <button type="submit" class="btn btn-primary"> {{addMode ? 'إضافة المجموعة' : 'تعديل المجموعة'}}</button>
+      </table>
+
+      <button type="submit" class="btn btn-primary">
+        {{ addMode ? 'إضافة المجموعة' : 'تعديل المجموعة' }}
+      </button>
     </form>
   </div>
 </div>

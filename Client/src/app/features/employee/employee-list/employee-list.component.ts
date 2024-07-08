@@ -13,7 +13,7 @@ import { response } from 'express';
 })
 export class EmployeeListComponent implements OnInit {
 
-  totalItems: number = 30; 
+  totalItems: number = 30;
   pageNumber: number = 1;
   pageSize: number = 10;
 
@@ -21,7 +21,7 @@ export class EmployeeListComponent implements OnInit {
 
   p: number = 1; // current page
 
-  userId : string = '' 
+  userId : string = ''
 
   employeeName : string =''
 
@@ -35,7 +35,7 @@ export class EmployeeListComponent implements OnInit {
 
     this.employeeService.getAll().subscribe({
       next:(data:Employee[] )=>{
-        console.log(data)
+        console.log(`emps data ${JSON.stringify(data)}`)
         this.employees= data
       },
       error:(error)=>{
@@ -56,7 +56,7 @@ export class EmployeeListComponent implements OnInit {
 
     this.pageNumber = page;
     // showd ged data from backend based on pageNumber and size
-  
+
   }
   search(){
 

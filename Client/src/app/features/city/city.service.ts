@@ -9,13 +9,14 @@ import { environment } from '../../../environments/environment';
 })
 export class CityService extends ApiService<City>{
 
-  constructor(http:HttpClient , @Inject('apiUrl') protected apiUrl:string ) 
+  constructor(http:HttpClient , @Inject('apiUrl') protected apiUrl:string )
   {
-    super(http,environment.apiUrl+'City')
+    super(http,environment.apiUrl+'City');
+    console.log(`api is: ${apiUrl}`);
   }
 
   searchByName(name : string):Observable<City>{
-    
+
     return this.http.get<City>(`${this.apiUrL}/${name}`)
   }
 
@@ -25,7 +26,7 @@ export class CityService extends ApiService<City>{
 
 
   getCities(page: number, size: number): Observable<City[]> {
-    
+    console.log('Iam a city');
     let params = new HttpParams()
       .set('pageNumber', page.toString())
       .set('pageSize', size.toString());

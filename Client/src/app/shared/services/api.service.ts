@@ -11,8 +11,8 @@ export class ApiService<T> {
 
   protected apiUrL : string;
 
-  
-  constructor(protected http: HttpClient, @Inject('apiUrl') protected _apiUrl:string) 
+
+  constructor(protected http: HttpClient, @Inject('apiUrl') protected _apiUrl:string)
   {
       this.apiUrL = _apiUrl
 
@@ -31,7 +31,7 @@ export class ApiService<T> {
   }
 
   editItem(itemId: number|string, item: any): Observable<T> {
-    return this.http.put<T>(`${this.apiUrL}/${itemId}`, item) 
+    return this.http.put<T>(`${this.apiUrL}/${itemId}`, item)
   }
 
   deleteItem(itemId: number |string): Observable<void> {

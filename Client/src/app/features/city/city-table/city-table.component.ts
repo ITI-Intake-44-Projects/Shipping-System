@@ -13,13 +13,13 @@ import { GovernateServiceService } from '../../governate/governate-service.servi
 })
 export class CityTableComponent implements OnInit {
 
-  totalItems: number = 0; 
+  totalItems: number = 0;
   pageNumber: number = 1;
   pageSize: number = 10;
-  
+
   modalOpen : boolean = false
 
-  cities : City[] | null = null 
+  cities : City[] | null = null
 
   governates?: Governate[]
 
@@ -40,12 +40,12 @@ export class CityTableComponent implements OnInit {
     this.governateService.getAll().subscribe({
       next:(data:Governate[])=>{
 
-        this.governates = data 
+        this.governates = data
       }
 
     })
 
-   
+
     this.cityForm = this.formBuilder.group({
       id:[0],
       name : ['',Validators.required],
@@ -124,11 +124,11 @@ export class CityTableComponent implements OnInit {
     console.log(this.cityForm)
     if (this.cityForm.invalid){
       console.log("invalid")
-      return 
+      return
     }
 
     city = this.cityForm.value
-  
+
     console.log(city)
 
     this.cityService.addItem(city).subscribe({
@@ -172,11 +172,15 @@ export class CityTableComponent implements OnInit {
     })
   }
    loadCities() {
-  
+
     this.cityService.getCities(this.pageNumber, this.pageSize).subscribe({
       next:(data:City[])=>{
-        this.cities = data 
+        this.cities = data;
+        console.log(`data is ${JSON.stringify(data)}`);
         this.totalItems = 30;
+      },
+      error: (error)=>{
+        console.log('error happened while getting all cities');
       }
     })
   }
@@ -189,7 +193,7 @@ export class CityTableComponent implements OnInit {
 
     const target = event.target as HTMLSelectElement;
     const selectedValue = target.value;
-    
+
     if(parseInt(selectedValue) == 0){
       this.cityService.getAll().subscribe({
         next:(data:City[])=>{
@@ -210,15 +214,15 @@ export class CityTableComponent implements OnInit {
 
   openModal() {
     this.modalOpen = true;
-    
-   
-    
+
+
+
   }
 
   closeModal() {
     this.modalOpen = false;
   }
-  
+
 }
 
 
