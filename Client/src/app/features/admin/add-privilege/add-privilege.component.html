@@ -13,7 +13,10 @@
         <div
           *ngIf="groupForm.get('groupName')?.hasError('groupExists') && (groupForm.get('groupName')?.dirty || groupForm.get('groupName')?.touched)"
           class="form-text text-danger">هذه المجموعة موجودة بالفعل
-      </div>
+        </div>
+        <!-- <div *ngIf="groupForm.get('groupName')?.errors?.['groupExists']" class="form-text text-danger">
+          هذه المجموعة موجودة بالفعل
+        </div> -->
       </div>
 
       <table class="table mt-3 rounded" dir="rtl">
@@ -40,8 +43,8 @@
             </td>
           </tr>
         </tbody>
-            </table>
-    
+      </table>
+
       <button type="submit" class="btn btn-primary">
         {{ addMode ? 'إضافة المجموعة' : 'تعديل المجموعة' }}
       </button>
