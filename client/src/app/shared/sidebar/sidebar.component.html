@@ -1,0 +1,86 @@
+<div class="sidebar" dir="rtl">
+  <div class="sidebar-header">
+    <img src="../../../assets/logo.logo.png" alt="Logo" class="sidebar-logo" width="120">
+  </div>
+
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link" routerLink="">
+        <i class="fas fa-home"></i> الرئيسية
+      </a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-link" routerLink="admin/addGroup">
+        <i class="fas fa-shield-alt"></i> الصلاحيات
+      </a>
+    </li>
+  
+    <li class="nav-item">
+      <a class="nav-link toggle" id="navbarDropdown" role="button">
+        <i class="fas fa-users"></i> المستخدمين
+      </a>
+      <ul class="sublist user-sublist" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" routerLink="employee/all"> الموظفين</a></li>
+        <li><a class="dropdown-item" routerLink="merchants">التجار </a></li>
+        <li><a class="dropdown-item" routerLink="representative"> المناديب </a></li>
+      </ul>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-link toggle" id="navbarDropdown" role="button">
+        <i class="fas fa-map-marked-alt"></i> المناطق
+      </a>
+      <ul class="sublist user-sublist" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" routerLink="governate"> المحافظات</a></li>
+        <li><a class="dropdown-item" routerLink="city">المدن </a></li>
+      </ul>
+    </li>
+    
+
+    <li class="nav-item">
+      <a class="nav-link" routerLink="branch">
+        <i class="fas fa-code-branch"></i> الفروع
+      </a>
+    </li>
+    
+       <li class="nav-item">
+      <a class="nav-link toggle" id="navbarDropdown" role="button">
+        <i class="fas fa-cog"></i> الاعدادات
+      </a>
+      <ul class="sublist user-sublist" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" routerLink="weight"> اعدادات الوزن</a></li>
+        <li><a class="dropdown-item" routerLink="village-cost"> التوصيل لقريه </a></li>
+        <li><a class="dropdown-item" routerLink="shippingtype">  انواع الشحن </a></li>
+      </ul>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link toggle" id="navbarDropdown" role="button">
+        <i class="fas fa-shopping-cart"></i> عرض الطلبات
+      </a>
+      <ul class="sublist user-sublist" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" routerLink="order/add"> جديد </a></li>
+        <li><a class="dropdown-item" routerLink="village-cost">  قيد الانتظار </a></li>
+        <li><a class="dropdown-item" routerLink="shippingtype">   تم التسليم للمندوب   </a></li>
+        <li><a class="dropdown-item" routerLink="shippingtype">     لا يمكن الوصول   </a></li>
+        <li><a class="dropdown-item" routerLink="shippingtype">   تم  التأجيل   </a></li>
+        <li><a class="dropdown-item" routerLink="shippingtype">   تم التسليم جزئيا   </a></li>
+        <li><a class="dropdown-item" routerLink="shippingtype">     الالغاء من قبل المستلم   </a></li>
+        <li><a class="dropdown-item" routerLink="shippingtype">   الرفض مع الدفع   </a></li>
+      </ul>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-link" routerLink="">
+        <i class="fas fa-file-alt"></i> تقارير الطلبات
+      </a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-link" routerLink="order/add">
+        <i class="fas fa-plus-circle"></i> طلب جديد
+      </a>
+    </li>
+    
+  </ul>
+</div>

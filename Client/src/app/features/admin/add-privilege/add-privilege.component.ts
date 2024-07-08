@@ -56,26 +56,26 @@ export class AddPrivilegeComponent implements OnInit {
               next: (data: PrivilegeDTO[]) => {
                 this.privileges = data;
                 this.setPrivileges(data, this.userPrivileges);
-              },
-              error: (error) => {
+          },
+          error: (error) => {
                 console.error('Failed to fetch privileges from server in edit mode', error.message);
-              }
-            });
+          }
+        });
           },
           error: (error) => {
             console.error('Failed to fetch groupDTO data from server in edit mode', error.message);
-          }
-        });
+      }
+    });
       } else {
-        this.privilegeService.getPrivileges().subscribe({
-          next: (data: PrivilegeDTO[]) => {
-            this.privileges = data;
+    this.privilegeService.getPrivileges().subscribe({
+      next: (data: PrivilegeDTO[]) => {
+        this.privileges = data;
             this.setPrivileges(data, []);
-          },
-          error: (error) => {
+      },
+      error: (error) => {
             console.error('Failed to fetch privileges from server in add mode', error.message);
-          }
-        });
+      }
+    });
       }
     });
 
@@ -84,8 +84,8 @@ export class AddPrivilegeComponent implements OnInit {
       next: (groupName: string) => {
         if (groupName && !this.addMode && groupName === this.groupNameInEditMode){
           groupNameControl.setErrors(null);
-        }
-      }
+            }
+          }
     });
   }
 
@@ -93,7 +93,7 @@ export class AddPrivilegeComponent implements OnInit {
     const privilegeFGs: FormGroup[] = privileges.map(privilege => {
       const curUserPrivilege = userPrivileges.find(gp => gp.privelege_Id === privilege.id);
       return this.fb.group({
-        Privelege_Id: [privilege.id],
+      Privelege_Id: [privilege.id],
         Add: [curUserPrivilege ? curUserPrivilege.add : false],
         Update: [curUserPrivilege ? curUserPrivilege.update : false],
         View: [curUserPrivilege ? curUserPrivilege.view : false],
@@ -126,46 +126,46 @@ export class AddPrivilegeComponent implements OnInit {
       this.groupService.updateGroup(this.groupId, newGroup).subscribe({
         next: () => this.handleSuccess('تم تحديث المجموعة بنجاح!'),
         error: (error) => this.handleError('فشل تحديث المجموعة!', error)
-      });
+          });
     } else {
       this.groupService.createGroup(newGroup).subscribe({
         next: () => this.handleSuccess('تم إنشاء المجموعة بنجاح!'),
         error: (error) => this.handleError('فشل إنشاء المجموعة!', error)
-      });
+          });
     }
   }
 
   private handleFormErrors() {
     const snackBarRef = this.snackBar.open('من فضلك قم بإدخال اسم المجموعة', 'إغلاق', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-      direction: 'rtl'
-    });
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            direction: 'rtl'
+          });
     snackBarRef.onAction().subscribe(() => snackBarRef.dismiss());
-  }
+        }
 
   private handleSuccess(message: string) {
-    this.router.navigate(['/admin/myGroups']);
+          this.router.navigate(['/admin/myGroups']);
     const snackBarRef = this.snackBar.open(message, 'إغلاق', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-      direction: 'rtl'
-    });
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            direction: 'rtl'
+          });
     snackBarRef.onAction().subscribe(() => snackBarRef.dismiss());
   }
 
   private handleError(message: string, error: any) {
     console.error(message, error);
     const snackBarRef = this.snackBar.open(`حدث خطأ أثناء ${message}`, 'إغلاق', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-      direction: 'rtl'
-    });
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            direction: 'rtl'
+          });
     snackBarRef.onAction().subscribe(() => snackBarRef.dismiss());
-  }
+    }
 
   get privilegesFormArray() {
     return this.groupForm.get('privileges') as FormArray;
@@ -176,11 +176,11 @@ export class AddPrivilegeComponent implements OnInit {
 
     if (groupName === this.groupNameInEditMode) {
       return of(null);
-    } else {
+            } else {
       return this.groupService.getGroupByName(groupName).pipe(
         map(exists => exists ? { groupExists: true } : null),
         catchError(() => of(null))
       );
-    }
+      }
   }
 }
