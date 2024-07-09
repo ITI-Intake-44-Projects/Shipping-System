@@ -4,15 +4,29 @@
     </div>
     <nav class="navbar">
         <ul class="nav-links">
-            <li><a routerLink="/">Home</a></li>
-            <li><a routerLink="/about">About</a></li>
-            <li><a routerLink="/services">Services</a></li>
-            <li><a routerLink="/contact">Contact</a></li>
+            <li><a class="text-decoration-none text-white" routerLink="/">Home</a></li>
+            <!-- <li><a class="text-decoration-none text-white" [routerLink]="['city']">City</a></li> -->
+            <!-- <li><a class="text-decoration-none text-white" [routerLink]="['governate']">Governate</a></li> -->
+            <li><a class="text-decoration-none text-white" [routerLink]="['branch']">Branches</a></li>
+            <li><a class="text-decoration-none text-white" [routerLink]="['merchants']">Merchant</a></li>
+            <li><a class="text-decoration-none text-white" [routerLink]="['representative']">Representative</a></li>
+            <li><a class="text-decoration-none text-white" [routerLink]="['employee/all']">All Employees</a></li>
+            <li><a class="text-decoration-none text-white" [routerLink]="['employee/add']">Add Employee</a></li>
+            <li><a class="text-decoration-none text-white" [routerLink]="['weight']">Wieght</a></li>
+            <li><a class="text-decoration-none text-white" [routerLink]="['village-cost']">village-cost</a></li>
+            <li><a class="text-decoration-none text-white" [routerLink]="['shippingtype']">shipping</a></li>
+            <li><a class="text-decoration-none text-white" [routerLink]="['admin/myGroups']">Groups</a></li>
+            <li><a class="text-decoration-none text-white" [routerLink]="['admin/addGroup']">Add Group</a></li>
+            <li><a class="text-decoration-none text-white" [routerLink]="['order/all']">Orders </a></li>
+            <li><a class="text-decoration-none text-white" [routerLink]="['order/add']">Add Order</a></li>
+            <!-- <li><a class="text-decoration-none text-white" [routerLink]="['shippingtype']">shipping</a></li> -->
+
+            <!-- <li><a [routerLink]="['city']">City</a></li>
             <li><a routerLink="/admin">Admin</a></li>
             <li><a routerLink="/cart">Cart</a></li>
             <li><a routerLink="/profile">Profile</a></li>
             <li><a routerLink="/orders">Orders</a></li>
-            <li><a routerLink="/ordersHistory">Orders History</a></li>
+            <li><a routerLink="/ordersHistory">Orders History</a></li> -->
         </ul>
     </nav>
     <div class="user-menu">

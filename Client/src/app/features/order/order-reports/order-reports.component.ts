@@ -12,32 +12,22 @@ import { PageEvent } from '@angular/material/paginator';
 
 export class OrderReportsComponent implements OnInit {
   orders: Order[] = [];
-  selectedStatus: OrderStatus = OrderStatus.New; // def choice
+  selectedStatus!: OrderStatus  // def choice
   startDate: Date = new Date();
   endDate: Date = new Date();
-  displayedColumns: string[] = ['index', 'id', 'orderStatus', 'merchantId', 'customerName', 'customerPhone1', 'governateId', 'cityId', 'orderCost', 'totalCost', 'shippingCost', 'orderDate'];
+  // displayedColumns: string[] = ['index', 'id', 'orderStatus', 'merchantId', 'customerName', 'customerPhone1', 'governateId', 'cityId', 'orderCost', 'totalCost', 'shippingCost', 'orderDate'];
   totalOrders: number = 0;
   itemsPerPage: number = 10;
   currentPage: number = 1;
+  orderStatus= OrderStatus 
 
-  statuses: OrderStatus[] = [
-    OrderStatus.New,
-    OrderStatus.Pending,
-    OrderStatus.DeliveredToRepresentitive,
-    OrderStatus.DeliveredToCustomer,
-    OrderStatus.UnReachable,
-    OrderStatus.Postponed,
-    OrderStatus.DeliveredPartially,
-    OrderStatus.CustomerCanceled,
-    OrderStatus.RejectedWithPaying,
-    OrderStatus.RejectedWithPartialPaying,
-    OrderStatus.RejectedFromEmployee
-  ];
 
   constructor(private orderService: OrderService) {}
 
   ngOnInit(): void {
+
     this.getOrders();
+    
   }
 
   getOrders(): void {
@@ -48,14 +38,35 @@ export class OrderReportsComponent implements OnInit {
   }
 
   filterOrders(): void {
-    this.orderService.filterOrderByStatusAndDate(this.selectedStatus, this.startDate, this.endDate).subscribe((data) => {
-      this.orders = data;
-    });
+    console.log(this.selectedStatus)
+    if(this.selectedStatus == undefined){
+      this.getOrders();
+    }
+    else{
+      this.orderService.filterOrderByStatusAndDate(this.selectedStatus, this.startDate, this.endDate).subscribe((data) => {
+        this.orders = data;
+        console.log(data)
+      });
+    }
   }
 
   onPageChange(event: PageEvent): void {
     this.currentPage = event.pageIndex + 1;
     this.itemsPerPage = event.pageSize;
     this.getOrders();
+  }
+
+
+  getEnumKeys<T extends object>(enumType: T): (keyof T)[] {
+    return Object.keys(enumType).filter(key => isNaN(Number(key as any))) as (keyof T)[];
+  }
+
+  getEnumKey<T extends object>(enumType: T,key:any): any {
+    for (const status in OrderStatus) {
+      if (OrderStatus.hasOwnProperty(status)) {
+        const value = OrderStatus[status as keyof typeof OrderStatus];
+        return value
+      }
+    }
   }
 }

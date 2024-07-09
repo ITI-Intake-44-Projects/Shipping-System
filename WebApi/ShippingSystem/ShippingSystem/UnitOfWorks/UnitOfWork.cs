@@ -15,7 +15,9 @@ namespace ShippingSystem.UnitOfWorks
 
         IOrderRepository orderRepository;
 
-       
+        IProductOrderRepository productOrderRepository; 
+
+
         private IEmployeeRepository employeeRepository;
 
         public UnitOfWork(ShippingContext dbContext )
@@ -75,6 +77,19 @@ namespace ShippingSystem.UnitOfWorks
                 }
                 return orderRepository;
             
+            }
+        }
+
+        public IProductOrderRepository ProductOrderRepository
+        {
+            get
+            {
+                if(productOrderRepository == null)
+                {
+                    productOrderRepository = new ProductOrderRepository(dbContext);
+                }
+
+                return productOrderRepository;
             }
         }
 

@@ -59,6 +59,7 @@ export class AllOrdersComponent implements OnInit{
 
     this.orderService.deleteItem(id).subscribe({
       next:(data:any)=>{
+        this.orders = data
         console.log(data)
       }
     })

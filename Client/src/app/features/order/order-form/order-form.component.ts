@@ -4,7 +4,7 @@ import { CityService } from './../../city/city.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
 import { OrderService } from '../order.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { NgModule } from '@angular/core';
 import { Order } from '../../../Models/Order';
 import { GovernateServiceService } from '../../governate/governate-service.service';
@@ -48,6 +48,7 @@ export class OrderFormComponent implements OnInit {
     private fb: FormBuilder,
     private orderService: OrderService,
     private route: ActivatedRoute,
+    private router :Router,
     private cityService:CityService,
     private governateService:GovernateServiceService,
     private shippingService : ShippingTypeService,
@@ -136,6 +137,7 @@ export class OrderFormComponent implements OnInit {
       if (id) {
         this.orderId = +id;
         this.loadOrder(this.orderId);
+        this.editFlag = true ;
       }
     });
 
@@ -145,8 +147,8 @@ export class OrderFormComponent implements OnInit {
     this.orderService.getOrderById(id).subscribe((order: Order) => {
       this.orderForm.patchValue(order);
       // this.paymetTypes = order.paymentType
-      console.log(this.orderTypes)
-      // this.orderForm.get('orderType')?.setValue()
+      console.log(order.orderType)
+      this.orderForm.get('orderType')?.setValue(order.orderType)
       // this.orderForm.get('paymentType')?.setValue(this.paymetTypes[order.paymentType])
       // this.orderForm.get('orderType')?.setValue(order.orderType)
       this.products = order.productOrders || [];
@@ -193,8 +195,8 @@ export class OrderFormComponent implements OnInit {
   }
 
   deleteProduct(name: string) {
-    console.log(name)
     this.products = this.products.filter(p => p.name !== name);
+    console.log(this.products)
   }
 
   handleSubmit() {
@@ -207,13 +209,10 @@ export class OrderFormComponent implements OnInit {
     if (this.orderForm.valid) {
       console.log("valid")
       let orderData: Order = this.orderForm.value;
-      // orderData.merchantId = this.merchantId;
       orderData.productOrders = this.products;
       orderData.orderCost = this.calculateOrderCost()
       orderData.totalWeight = this.calculateTotalWeight()
-      orderData.productOrders = this.products
-      orderData.orderStatus = this.OrderStatus.New
-      orderData.representative_Id=null
+      
       console.log(orderData)
       console.log(this.products)
       if (this.orderId) {
@@ -222,6 +221,7 @@ export class OrderFormComponent implements OnInit {
         this.orderService.editItem(this.orderId, orderData).subscribe( {
           next:(data:any)=>{
             console.log(data)
+            this.router.navigate(['order/all'])
           },
           error:(data:any)=>{
             console.log(data)
@@ -229,17 +229,18 @@ export class OrderFormComponent implements OnInit {
       });
       } else {
         orderData.id= 0
+        orderData.orderStatus = this.OrderStatus.New
+        orderData.representative_Id=null
         this.orderService.addItem(orderData).subscribe({
             next:(data:any)=>{
               console.log(data)
+              this.router.navigate(['order/all'])
+
             },
             error:(data:any)=>{
               console.log(data)
             }
         });
-
-
-        console.log(this.orderForm.value)
       }
     }
   }
@@ -253,7 +254,7 @@ export class OrderFormComponent implements OnInit {
      this.authService.getUserDetails().subscribe({
       next:(data:any)=>{
         this.orderForm.get('merchant_Id')?.setValue(data.id)
-        console.log(this.orderForm.get('merchant_Id')?.value)
+        console.log("merchant",this.orderForm.get('merchant_Id')?.value)
       }}
     ) 
   }
@@ -275,8 +276,7 @@ export class OrderFormComponent implements OnInit {
   }
 
   
- mapNumericToEnumString<T extends object>(enumType: T, value: number): string | undefined {
-  const keys = Object.keys(enumType).filter(key => isNaN(Number(key)));
-  return (enumType as any)[keys[value]];
-  }
+
+
+
 }

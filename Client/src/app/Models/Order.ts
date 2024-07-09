@@ -8,15 +8,15 @@ export interface Order {
     customerEmail?: string;
     villageOrStreet?: string;
     villageDeliver?: boolean;
-    orderCost?: number;
+    orderCost: number;
     totalWeight?: number;
     notes?: string;
     orderStatus?: OrderStatus;
     orderType: OrderType;
     paymentType: PaymentType;
-    totalCost?: number;
+    totalCost: number;
     shippingCost?: number;
-    orderDate?: Date;
+    orderDate: Date ;
     branchId?: number;
     shippingId?: number;
     merchant_Id?: string;

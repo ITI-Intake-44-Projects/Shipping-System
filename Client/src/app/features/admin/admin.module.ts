@@ -19,13 +19,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     CommonModule, FormsModule, ReactiveFormsModule,
     MatTableModule, MatPaginatorModule, MatButtonModule,
     MatInputModule, MatIconModule, MatFormFieldModule,
-    AdminRoutingModule,
-    RouterModule.forChild([
-      { path: 'addGroup', component: AddPrivilegeComponent },
-       { path: 'editGroup/:id', component: AddPrivilegeComponent },
-      { path: 'myGroups', component: ListGroupComponent }
-    ]),
+    AdminRoutingModule
   ]
 })
 
 export class AdminModule { }
+
+
+// [
+//   { path: 'addGroup', component: AddPrivilegeComponent },
+//    { path: 'editGroup/:id', component: AddPrivilegeComponent },
+//   { path: 'myGroups', component: ListGroupComponent }
+// ]

@@ -13,9 +13,6 @@ import { MerchantFormComponent } from './merchant-form/merchant-form.component';
     MerchantListComponent,
     MerchantModalComponent,
     MerchantFormComponent,
-    
-    
-    
   ],
   imports: [
     CommonModule,

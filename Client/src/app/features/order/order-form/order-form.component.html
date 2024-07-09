@@ -97,6 +97,8 @@
                     <div class="input-group mb-3">
                         <select class="form-select w-100" formControlName="orderType">
                             <option *ngFor="let key of getEnumKeys(orderTypes)" [value]="key" selected>{{ orderTypes[key] }}</option>
+                            <!-- <option  [value]="orderTypes.Normal" >استلام من الفرع</option>
+                            <option  [value]="orderTypes.PickUp" >استلام من التاجر</option> -->
                         </select>
                     </div>
                   </div>

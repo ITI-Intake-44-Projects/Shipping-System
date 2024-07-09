@@ -17,7 +17,7 @@ namespace ShippingSystem.Repositories
 
         Task<IEnumerable<Order>> FilterByStatusAndDate(OrderStatus status, DateTime startDate, DateTime endDate);
 
-        bool AddOrder(Order order);
+        Task<Order> CalculateTotalCost(Order order);
 
     }
 }

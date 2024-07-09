@@ -33,11 +33,11 @@ namespace ShippingSystem.Repositories
             return await db.Orders.Where(r=> r.Representative_Id == id).ToListAsync();
         }
 
-        public bool AddOrder(Order order)
+        public async Task<Order> CalculateTotalCost(Order order)
         {
             var shippingType = db.ShippingTypes.FirstOrDefault(sh => order.Shipping_Id == sh.Id);
 
-            var totalCost = order.OrderCost + shippingType.AdditionalShippingValue; 
+            order.TotalCost = order.OrderCost + shippingType.AdditionalShippingValue; 
 
             var weightOptions = db.WeightOptions.FirstOrDefault();
 
@@ -47,17 +47,17 @@ namespace ShippingSystem.Repositories
 
             if(order == null || order.ProductOrders == null)
             {
-                return false ;
+                return null ;
             }
 
             if (order.VillageDeliver == true)
             {
-                totalCost += db.VillageCosts.FirstOrDefault().Price ?? 0;
+                order.TotalCost += db.VillageCosts.FirstOrDefault().Price ?? 0;
             }
 
             if (order.TotalWeight > weightOptions.MaximumWeight)
             {
-                totalCost += (order.TotalWeight - weightOptions.MaximumWeight) * weightOptions.AdditionalKgPrice;
+                order.TotalCost += (order.TotalWeight - weightOptions.MaximumWeight) * weightOptions.AdditionalKgPrice;
             }
 
             if (merchant.SpecialPrices != null)
@@ -65,11 +65,8 @@ namespace ShippingSystem.Repositories
                 var hasCity = merchant.SpecialPrices.Any(sp=> sp.City_Id == order.City_Id);
                 if(hasCity != false)
                 {
-                    totalCost = merchant.SpecialPrices.FirstOrDefault(sp => sp.City_Id == order.City_Id).TransportCost ?? 0;
-                    order.TotalCost = totalCost;
-                    //db.Orders.Add(order);
-                     //db.SaveChangesAsync();
-
+                    order.TotalCost += merchant.SpecialPrices.FirstOrDefault(sp => sp.City_Id == order.City_Id).TransportCost ?? 0;
+                    return  order;
                 }
             }
 
@@ -77,34 +74,21 @@ namespace ShippingSystem.Repositories
             {
                 if (merchant.SpecialPickupCost != null || merchant.SpecialPickupCost != 0)
                 {
-                    totalCost += merchant.SpecialPickupCost ?? 0;
-                    order.TotalCost = totalCost;
-
-                     //db.Orders.Add(order);
-                     //db.SaveChanges();
-                   
+                    order.TotalCost += merchant.SpecialPickupCost ?? 0;
+                    
+                    return order;
                 }
                 else
                 {
-                    totalCost += city.PickUpCost;
-                    order.TotalCost = totalCost;
-                    //db.Orders.Add(order);
-                    //db.SaveChanges();
-                    
+                    order.TotalCost += city.PickUpCost;
+                    return order;
                 }
             }
             else
             {
-                totalCost += city.NormalCost;
-                order.TotalCost = totalCost;
-                //db.Orders.Add(order);
-                //db.SaveChanges();
-               // return true;
-
+                order.TotalCost += city.NormalCost;
             }
-            db.Orders.Add(order);
-            db.SaveChanges();
-            return true;
+            return order;
         }
 
 

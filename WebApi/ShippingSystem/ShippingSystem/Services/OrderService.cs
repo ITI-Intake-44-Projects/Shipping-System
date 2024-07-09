@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using NuGet.Protocol;
 using ShippingSystem.DTOs.Order;
 using ShippingSystem.Enumerations;
 using ShippingSystem.Models;
@@ -53,21 +54,34 @@ namespace ShippingSystem.Services
         }
 
 
-        public  bool PostOrderAsync(OrderDto OrderDto)
+        public  async Task<bool> PostOrderAsync(OrderDto OrderDto)
         {
             var Order = mapper.Map<Order>(OrderDto);
-            var result  =  unit.OrderRepository.AddOrder(Order);
-            return result;
-            
+            var result = await unit.OrderRepository.CalculateTotalCost(Order);
+            result.OrderDate = DateTime.Now;
+            if(result != null)
+            {
+                await unit.OrderRepository.Add(result);
+                await unit.OrderRepository.Save();
+                return true;
+            }
+            return false;
         }
 
-        public async Task PutOrderAsync(OrderDto OrderDto)
+        public async Task<bool> PutOrderAsync(OrderDto OrderDto)
         {
-            var order = mapper.Map<Order>(OrderDto);
-
-             unit.OrderRepository.Update(order);
-
-             unit.Save();
+            var order = await unit.OrderRepository.GetById(OrderDto.Id);
+            unit.ProductOrderRepository.DeleteProductOrder(OrderDto.Id);
+            mapper.Map(OrderDto,order);
+            order  = await unit.OrderRepository.CalculateTotalCost(order);
+            order.OrderDate = DateTime.Now;
+            if (order != null)
+            {
+                await unit.OrderRepository.Update(order);
+                await unit.OrderRepository.Save();
+                return true;
+            }
+            return false;
         }
 
         public async Task<bool> RemoveOrderAsync(int id )

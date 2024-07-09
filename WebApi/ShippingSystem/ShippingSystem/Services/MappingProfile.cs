@@ -65,7 +65,9 @@ namespace ShippingSystem.Services
             CreateMap<Order, OrderDto>()
              .ForMember(dest => dest.MerchantName, opt => opt.MapFrom(src => src.Merchant.FullName))
              .ForMember(dest => dest.GovernateName, opt => opt.MapFrom(src => src.Governate.Name))
-             .ForMember(dest => dest.CityName, opt => opt.MapFrom(src => src.City.Name));
+             .ForMember(dest => dest.CityName, opt => opt.MapFrom(src => src.City.Name))
+            .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => src.OrderDate.Value)); 
+
 
             CreateMap<OrderDto, Order>();
             

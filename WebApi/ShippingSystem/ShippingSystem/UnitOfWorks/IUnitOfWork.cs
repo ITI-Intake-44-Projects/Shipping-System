@@ -12,12 +12,14 @@ namespace ShippingSystem.UnitOfWorks
 
         IEmployeeRepository EmployeeRepository {get;}
 
-        Task<int> Save();
+        IProductOrderRepository ProductOrderRepository { get;}
 
         public GroupRepository GroupRepository { get; }
 
         public PrivilegeRepository PrivilegeRepository { get; }
 
         public GroupPrivilegeRepository GroupPrivilegeRepository { get; }
+
+        Task<int> Save();
     }
 }

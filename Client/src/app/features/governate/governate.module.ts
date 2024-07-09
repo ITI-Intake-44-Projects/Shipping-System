@@ -20,8 +20,5 @@ import { PaginationComponent } from '../../shared/components/pagination/paginati
     FormsModule,
     SharedModule
   ],
-  exports:[
-
-  ]
 })
 export class GovernateModule { }
